@@ -1,25 +1,30 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import User, Listing
 from .form import ListingForm
 
 
 def home(request):
-    newest_listings = Listing.objects.order_by("-pub_date")[:5]
-    output = ", ".join([listing.title for _ in newest_listings])
-    return HttpResponse("Welcome to the shop's homepage!" + output)
+    cheapest_listings = Listing.objects.order_by("-price")[:5]
+    output = ", ".join([listing.title for listing in cheapest_listings])
+    return HttpResponse("Welcome to the shop's homepage!<br>" + output)
 
-def browse(request):
+def new_listing(request):
     if request.method == 'POST':
         form = ListingForm(request.POST, request.FILES)
 
         if form.is_valid():
             listing = form.save()
-            return render(request, "browse.html", {"form": form, "uploaded_photo_url": listing.photo.url})
+            # return render(request, "browse.html", {"form": form, "uploaded_photo_url": listing.photo.url})
+            return redirect("/shop/browse")
     else:
         form = ListingForm()
-    return render(request, "browse.html", {"form": form})
+    return render(request, "new_listing.html", {"form": form})
+
+def browse(request):
+    all_listings = Listing.objects.all()
+    return render(request, "browse.html", {"listings": all_listings})
 
 def profile(request, user_id):
     response = "You're looking at user profile #%s"

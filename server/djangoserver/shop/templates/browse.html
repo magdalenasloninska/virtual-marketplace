@@ -2,18 +2,41 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Gallery</title>
+        <title>Browse</title>
+
+        <style>
+            .grid-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+                padding: 20px;
+            }
+            .grid-item {
+                border: 1px solid #ccc;
+                padding: 10px;
+                text-align: center;
+            }
+            .grid-item img {
+                max-width: 100%;
+                height: auto;
+            }
+            img {
+                padding-top: 10px;
+            }
+        </style>
     </head>
     <body>
-        <form method = "post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Upload</button>
-        </form>
+        <h3>Here you can browse all listings!</h3>
 
-        {% if uploaded_photo_url %}
-            <h2>Uploaded Image:</h2>
-            <img src="{{ uploaded_photo_url }}" alt="Uploaded photo">
-        {% endif %}
+        <div class="grid-container">
+            {% for listing in listings %}
+                <div class="grid-item">
+                    <a href="{% url 'details' listing.pk %}">
+                        <img src="{{ listing.photo.url }}" alt="Item photo" width="400" padding:>
+                        <p>{{ listing.title }}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     </body>
 </html>
