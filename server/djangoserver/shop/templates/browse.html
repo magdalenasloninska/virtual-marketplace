@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Gallery</title>
+    </head>
+    <body>
+        <form method = "post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload</button>
+        </form>
+
+        {% if uploaded_photo_url %}
+            <h2>Uploaded Image:</h2>
+            <img src="{{ uploaded_photo_url }}" alt="Uploaded photo">
+        {% endif %}
+    </body>
+</html>

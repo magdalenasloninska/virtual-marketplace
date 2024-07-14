@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 
 
@@ -9,11 +10,11 @@ class User(models.Model):
         return self.username
 
 class Listing(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
-    pub_date = models.DateTimeField("date published")
+    # pub_date = models.DateTimeField("date published", default=datetime.now())
     photo = models.ImageField(upload_to="uploads/listings/")
-    price = models.IntegerField()
+    price = models.IntegerField(default=13)
 
     def __str__(self):
         return self.title

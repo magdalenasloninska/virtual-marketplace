@@ -1,3 +1,4 @@
 venv/
 **/__pycache__/
-djangoserver/djangoserver/db.sqlite3/
+**/*.sqlite3
+**/media/

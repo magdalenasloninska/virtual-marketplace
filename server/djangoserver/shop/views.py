@@ -1,8 +1,25 @@
 from django.http import HttpResponse
+from django.shortcuts import render
+
+from .models import User, Listing
+from .form import ListingForm
 
 
 def home(request):
-    return HttpResponse("Welcome to the shop's homepage!")
+    newest_listings = Listing.objects.order_by("-pub_date")[:5]
+    output = ", ".join([listing.title for _ in newest_listings])
+    return HttpResponse("Welcome to the shop's homepage!" + output)
+
+def browse(request):
+    if request.method == 'POST':
+        form = ListingForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            listing = form.save()
+            return render(request, "browse.html", {"form": form, "uploaded_photo_url": listing.photo.url})
+    else:
+        form = ListingForm()
+    return render(request, "browse.html", {"form": form})
 
 def profile(request, user_id):
     response = "You're looking at user profile #%s"
