@@ -1,8 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from rest_framework import generics
 
 from .models import User, Listing
 from .form import ListingForm
+from .serializers import ListingSerializer
 
 
 def home(request):
@@ -21,6 +23,10 @@ def new_listing(request):
     else:
         form = ListingForm()
     return render(request, "new_listing.html", {"form": form})
+
+class ListingList(generics.ListAPIView):
+    queryset = Listing.objects.all()
+    serializer_class = ListingSerializer
 
 def browse(request):
     all_listings = Listing.objects.all()
