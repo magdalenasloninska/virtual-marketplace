@@ -134,4 +134,5 @@ MEDIA_ROOT=os.path.join(BASE_DIR, "media/")
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vue.js development port
+    "http://localhost:3000",  # Vuetify.js default port
 ]
