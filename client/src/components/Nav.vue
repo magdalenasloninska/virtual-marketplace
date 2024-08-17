@@ -7,7 +7,7 @@
                 </v-tab>
             </router-link>
             
-            <router-link to="/browse" class="nav-link">
+            <router-link to="/listings/browse" class="nav-link">
                 <v-tab>
                     Apparel
                 </v-tab>

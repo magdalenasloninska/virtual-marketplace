@@ -36,6 +36,9 @@ def profile(request, user_id):
     response = "You're looking at user profile #%s"
     return HttpResponse(response % user_id)
 
+class ListingDetailsView(generics.RetrieveAPIView):
+    model = Listing
+
 def details(request, listing_id):
     response = "Here are the details of listing #%s"
     return HttpResponse(response % listing_id)

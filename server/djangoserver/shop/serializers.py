@@ -6,4 +6,4 @@ from .models import Listing
 class ListingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Listing
-        fields = ['title', 'photo']
+        fields = ['id', 'title', 'photo', 'price']

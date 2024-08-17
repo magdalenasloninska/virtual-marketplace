@@ -14,19 +14,19 @@
             </v-carousel-item>
             <v-carousel-item>
               <v-img
-                src="../assets/dress2.jpeg"
+                src="@/assets/dress2.jpeg"
                 class="carousel-image"
               ></v-img>
             </v-carousel-item>
             <v-carousel-item>
               <v-img
-                src="../assets/dress3.jpeg"
+                src="@/assets/dress3.jpeg"
                 class="carousel-image"
               ></v-img>
             </v-carousel-item>
             <v-carousel-item>
               <v-img
-                src="../assets/museum.jpeg"
+                src="@/assets/museum.jpeg"
                 class="carousel-image"
               ></v-img>
             </v-carousel-item>
@@ -84,7 +84,7 @@
 </style>
 
 <script>
-  import Nav from './Nav.vue'
+  import Nav from '@/components/Nav.vue'
 
   export default {
     data() {
