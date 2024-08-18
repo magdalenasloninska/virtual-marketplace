@@ -47,14 +47,12 @@
         name: 'Listings',
         data() {
             return {
-            listings: [],
+                listings: [],
             };
         },
         mounted() {
-            console.log('Getting the data in a second!')
             axios.get('http://localhost:8000/shop/api/listings/browse')
             .then(response => {
-                console.log(response.data);
                 this.listings = response.data;
             })
             .catch(error => {

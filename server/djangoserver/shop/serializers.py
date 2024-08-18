@@ -7,3 +7,8 @@ class ListingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Listing
         fields = ['id', 'title', 'photo', 'price']
+
+    def get_photo(self, obj):
+        request = self.context.get('request')
+        photo_url = obj.photo.url
+        return request.build_absolute_uri(photo_url)

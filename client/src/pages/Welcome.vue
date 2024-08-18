@@ -6,21 +6,30 @@
             <v-col cols="12">
                 <h1>Welcome to the most stylish corner of the internet!</h1>
                 <v-spacer class="pa-4"></v-spacer>
-                <v-btn
-                    class="welcome_page_btn typewriter pa-4"
-                    block
-                    size="x-large"
-                >
-                    I'm buying
-                </v-btn>
+                
+                <router-link to="/listings/browse" class="nav-link">
+                    <v-btn
+                        class="welcome_page_btn typewriter pa-4"
+                        block
+                        size="x-large"
+                        color="rgb(199, 189, 231)"
+                    >
+                        I'm buying
+                    </v-btn>
+                </router-link>
+                    
                 <v-spacer class="pa-4"></v-spacer>
-                <v-btn
-                    class="welcome_page_btn handwritten pa-4"
-                    block
-                    size="x-large"
-                >
-                    I'm selling
-                </v-btn>
+
+                <router-link to="/listings/new" class="nav-link">
+                    <v-btn
+                        class="welcome_page_btn handwritten pa-4"
+                        block
+                        size="x-large"
+                        color="rgb(81, 69, 118)"
+                    >
+                        I'm selling
+                    </v-btn>   
+                </router-link>
             </v-col>
         </v-row>
     </v-container>
@@ -28,9 +37,12 @@
 
 <style>
     .welcome_page_btn {
-        
         font-size: 32px;
         text-transform: none;
+    }
+
+    .nav-link {
+        text-decoration: none;
     }
 
     .typewriter {

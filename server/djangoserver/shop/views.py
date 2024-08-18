@@ -37,7 +37,8 @@ def profile(request, user_id):
     return HttpResponse(response % user_id)
 
 class ListingDetailsView(generics.RetrieveAPIView):
-    model = Listing
+    queryset = Listing.objects.all()
+    serializer_class = ListingSerializer
 
 def details(request, listing_id):
     response = "Here are the details of listing #%s"

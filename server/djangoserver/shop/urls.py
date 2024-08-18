@@ -10,5 +10,5 @@ urlpatterns = [
     path("users/<int:user_id>/", views.profile, name="profile"),
     path("listings/<int:listing_id>/", views.details, name="details"),
     path("api/listings/browse", ListingList.as_view(), name="api_listings_browse"),
-    path("api/listings/<int:listing_id>", ListingDetailsView.as_view(), name="api_listings_details"),
+    path("api/listings/<int:pk>", ListingDetailsView.as_view(), name="api_listings_details"),
 ]

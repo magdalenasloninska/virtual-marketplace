@@ -37,6 +37,12 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
+
+            <router-link to="/listings/new" class="nav-link">
+                <v-tab>
+                    <v-icon>mdi-plus</v-icon>
+                </v-tab>
+            </router-link>
         </v-tabs>
     </v-app-bar>
 </template>
