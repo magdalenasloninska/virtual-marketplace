@@ -14,7 +14,7 @@
             </router-link>
 
             <v-tab>Shoes</v-tab>
-            <v-tab>Home</v-tab>
+            <v-tab>Home & lifestyle</v-tab>
             <v-tab>Vintage</v-tab>
 
             <v-menu

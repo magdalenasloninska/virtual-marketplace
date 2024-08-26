@@ -18,11 +18,20 @@ def new_listing(request):
 
         if form.is_valid():
             listing = form.save()
-            # return render(request, "browse.html", {"form": form, "uploaded_photo_url": listing.photo.url})
             return redirect("/shop/browse")
     else:
         form = ListingForm()
     return render(request, "new_listing.html", {"form": form})
+
+def publish_listing(request):
+    if request.method == 'POST':
+        form = request.data
+        title = form.get('title')
+        price = format.get('price')
+
+        new_listing = Listing.objects.create(title=title, price=price)
+        
+        
 
 class ListingList(generics.ListAPIView):
     queryset = Listing.objects.all()

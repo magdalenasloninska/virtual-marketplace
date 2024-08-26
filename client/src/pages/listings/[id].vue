@@ -3,7 +3,7 @@
 
   <v-container class="pt-10">
     <v-row justify="center">
-      <v-col cols="12" md="6">
+      <v-col cols="6" xl="4">
         <v-responsive>
           <v-carousel height="600" width="600" hide-delimiters progress>
             <v-carousel-item>
@@ -34,7 +34,7 @@
         </v-responsive>
       </v-col>
 
-      <v-col cols="12" md="6">
+      <v-col cols="6" xl="4">
         <v-card>
           <v-btn
             :icon="isHearted ? 'mdi-heart' : 'mdi-heart-outline'"

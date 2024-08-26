@@ -3,7 +3,7 @@
 
     <v-container class="pt-10">
         <v-row justify="center">
-            <v-col cols="12">
+            <v-col cols="12" xl="8">
                 <h1>Welcome to the most stylish corner of the internet!</h1>
                 <v-spacer class="pa-4"></v-spacer>
                 

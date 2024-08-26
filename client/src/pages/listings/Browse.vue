@@ -3,7 +3,7 @@
 
     <v-container class="pt-10">
         <v-row justify="center">
-            <v-col cols="12">
+            <v-col cols="12" xl="8">
                 <h3>Here you can browse all listings!</h3>
 
                 <v-container fluid>
