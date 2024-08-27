@@ -1,5 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 
 from .models import User, Listing
@@ -23,15 +24,19 @@ def new_listing(request):
         form = ListingForm()
     return render(request, "new_listing.html", {"form": form})
 
+@csrf_exempt
 def publish_listing(request):
     if request.method == 'POST':
-        form = request.data
-        title = form.get('title')
-        price = format.get('price')
+        form = ListingForm(request.POST, request.FILES)
+        print(form)
 
-        new_listing = Listing.objects.create(title=title, price=price)
+        if form.is_valid():
+            listing = form.save()
+            return JsonResponse({'message': f'New listing {listing.id} published successfully!'})
+        else:
+            print(form.errors)
         
-        
+    return JsonResponse({'message': 'OOPS!'})
 
 class ListingList(generics.ListAPIView):
     queryset = Listing.objects.all()

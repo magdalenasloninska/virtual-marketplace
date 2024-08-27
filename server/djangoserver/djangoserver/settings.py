@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-&0gx@-3(pjowe*y=omf^#_j$*n#%hz-x=kz^k(^e@3ca^jus&t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1'
+]
 
 
 # Application definition
@@ -131,6 +134,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT=os.path.join(BASE_DIR, "media/")
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000"
+]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vue.js development port

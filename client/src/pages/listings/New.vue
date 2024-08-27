@@ -24,7 +24,7 @@
 
                     <v-file-input
                         label="Photo"
-                        multiple
+                        v-model="photo"
                     ></v-file-input>
 
                     <v-textarea
@@ -96,19 +96,22 @@
         data() {
             return {
                 title: '',
+                photo: null,
                 price: 0
             }
         },
         methods: {
             async publishListing() {
-                console.log(`Publishing listing: ${this.title}, ${this.price}`);
+                let formData = new FormData()
+                formData.append('title', this.title)
+                formData.append('photo', this.photo)
+                formData.append('price', this.price)
 
-                let result = await axios.post("http://localhost:3000/listings/new/data", {
-                    title: this.title,
-                    price: this.price
+                let _ = await axios.post("http://localhost:8000/shop/api/listings/new/data", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 });
-
-                console.log(result);
             }
         }
     }
