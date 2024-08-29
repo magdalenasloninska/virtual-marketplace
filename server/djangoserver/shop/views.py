@@ -24,6 +24,10 @@ def new_listing(request):
         form = ListingForm()
     return render(request, "new_listing.html", {"form": form})
 
+def get_all_item_categories(request):
+    categories = [{'text': key, 'value': value} for key, value in Listing.Category.choices]
+    return JsonResponse({"categories": categories})
+
 @csrf_exempt
 def publish_listing(request):
     if request.method == 'POST':

@@ -11,5 +11,6 @@ urlpatterns = [
     path("listings/<int:listing_id>/", views.details, name="details"),
     path("api/listings/browse", ListingList.as_view(), name="api_listings_browse"),
     path("api/listings/<int:pk>", ListingDetailsView.as_view(), name="api_listings_details"),
+    path("api/listings/categories", views.get_all_item_categories, name="get_all_item_categories"),
     path("api/listings/new/data", views.publish_listing, name="publish_listing"),
 ]

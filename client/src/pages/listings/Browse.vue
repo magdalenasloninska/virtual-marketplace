@@ -40,6 +40,23 @@
     </v-container>
 </template>
 
+<style>
+    .grid-item {
+        text-align: center;
+        transition: transform 0.3s;
+    }
+
+    .grid-item:hover {
+        transform: scale(1.05);
+    }
+
+    .square-thumbnail {
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+</style>
+
 <script>
     import axios from 'axios';
 
@@ -66,20 +83,3 @@
         },
     };
 </script>
-
-<style>
-    .grid-item {
-        text-align: center;
-        transition: transform 0.3s;
-    }
-
-    .grid-item:hover {
-        transform: scale(1.05);
-    }
-
-    .square-thumbnail {
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
-</style>

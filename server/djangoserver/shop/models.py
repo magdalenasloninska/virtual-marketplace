@@ -10,9 +10,21 @@ class User(models.Model):
         return self.username
 
 class Listing(models.Model):
+
+    class Category(models.TextChoices):
+        APPAREL = "Apparel"
+        SHOES = "Shoes"
+        HOME = "Home & lifestyle"
+        OTHER = "Other"
+
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     # pub_date = models.DateTimeField("date published", default=datetime.now())
+    category = models.CharField(
+        max_length=20,
+        choices=Category,
+        default=Category.OTHER
+    )
     photo = models.ImageField(upload_to="uploads/listings/")
     price = models.IntegerField(default=13)
 

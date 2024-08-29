@@ -12,3 +12,6 @@ class ListingSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         photo_url = obj.photo.url
         return request.build_absolute_uri(photo_url)
+    
+    def get_all_item_categories(self):
+        return Listing.Category.choices

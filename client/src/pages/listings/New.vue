@@ -16,10 +16,10 @@
 
                     <v-select
                         label="Category"
-                        :items="['Clothing',
-                                 'Shoes',
-                                 'Home & lifestyle',
-                                 'Vintage']"
+                        :items=categories
+                        item-title="text"
+                        item-value="value"
+                        v-model="selectedCategory"
                     ></v-select>
 
                     <v-file-input
@@ -95,17 +95,31 @@
     export default {
         data() {
             return {
+                categories: [],
                 title: '',
+                selectedCategory: null,
                 photo: null,
                 price: 0
             }
         },
+        created() {
+            this.fetchAllItemCategories()
+        },
         methods: {
+            fetchAllItemCategories() {
+                axios.get('http://localhost:8000/shop/api/listings/categories')
+                .then(response => {
+                    this.categories = response.data.categories;
+                })
+                .catch(error => {
+                    console.error('Error fetching item categories:', error);
+                });
+            },
             async publishListing() {
-                let formData = new FormData()
-                formData.append('title', this.title)
-                formData.append('photo', this.photo)
-                formData.append('price', this.price)
+                let formData = new FormData();
+                formData.append('title', this.title);
+                formData.append('photo', this.photo);
+                formData.append('price', this.price);
 
                 let _ = await axios.post("http://localhost:8000/shop/api/listings/new/data", formData, {
                     headers: {
