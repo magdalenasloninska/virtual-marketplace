@@ -1,20 +1,12 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-
-class User(models.Model):
-    username = models.CharField(max_length=40)
-    profile_picture = models.ImageField(upload_to="uploads/users/")
-
-    def __str__(self):
-        return self.username
 
 class Listing(models.Model):
 
     class Category(models.TextChoices):
         APPAREL = "APPAREL", _("Apparel")
-        SHOES = "SHOES", _("Shoes")
         HOME = "HOME", _("Home & lifestyle")
         OTHER = "OTHER", _("Other")
 
