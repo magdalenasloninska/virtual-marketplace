@@ -52,6 +52,53 @@
                 </v-tab>
             </router-link>
         </v-tabs>
+
+        <v-spacer></v-spacer>
+
+        <v-menu>
+            <template v-slot:activator="{ props }">
+                <v-btn
+                    v-bind="props"
+                    icon
+                    class="mr-4"
+                >
+                    <v-avatar
+                        color="white"
+                        icon="mdi-account"
+                    ></v-avatar>
+                </v-btn>
+            </template>
+            <v-card>
+                <v-card-text>
+                    <div class="mx-auto text-center">
+                        <h3>Bella Baxter</h3>
+
+                        <v-spacer class="pa-2"></v-spacer>
+
+                        <router-link to="/users/register">
+                            <v-btn
+                                color="white"
+                                rounded
+                            >
+                                Register
+                            </v-btn>
+                        </router-link>
+                        
+                        <v-spacer class="pa-2"></v-spacer>
+
+                        <router-link to="/users/login">
+                            <v-btn
+                                color="white"
+                                rounded
+                            >
+                                Login
+                            </v-btn>
+                        </router-link>
+                    </div>
+                </v-card-text>
+            </v-card>
+        </v-menu>
+
     </v-app-bar>
 </template>
 
