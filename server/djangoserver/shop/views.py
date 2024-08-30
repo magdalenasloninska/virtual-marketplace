@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 
@@ -29,17 +29,12 @@ class ListingList(generics.ListAPIView):
     queryset = Listing.objects.all()
     serializer_class = ListingSerializer
 
-class ListingListApparel(generics.ListAPIView):
-    queryset = Listing.objects.filter(category=Listing.Category.APPAREL)
+class ListingListCategory(generics.ListAPIView):
     serializer_class = ListingSerializer
 
-class ListingListHome(generics.ListAPIView):
-    queryset = Listing.objects.filter(category=Listing.Category.HOME)
-    serializer_class = ListingSerializer
-
-class ListingListOther(generics.ListAPIView):
-    queryset = Listing.objects.filter(category=Listing.Category.OTHER)
-    serializer_class = ListingSerializer
+    def get_queryset(self):
+        category = self.kwargs['category'].upper()
+        return Listing.objects.filter(category=category)
 
 class ListingDetailsView(generics.RetrieveAPIView):
     queryset = Listing.objects.all()

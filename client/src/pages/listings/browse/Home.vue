@@ -20,7 +20,7 @@
                                 <v-img
                                     :src="listing.photo"
                                     class="align-end"
-                                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                    gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
                                     aspect-ratio="1"
                                     cover
                                     >
