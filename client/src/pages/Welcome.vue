@@ -7,7 +7,7 @@
                 <h1>Welcome to the most stylish corner of the internet!</h1>
                 <v-spacer class="pa-4"></v-spacer>
                 
-                <router-link to="/listings/browse" class="nav-link">
+                <router-link to="/listings/browse/all" class="nav-link">
                     <v-btn
                         class="welcome_page_btn typewriter pa-4"
                         block

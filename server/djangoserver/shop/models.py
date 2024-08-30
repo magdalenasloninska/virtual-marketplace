@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class User(models.Model):
@@ -12,10 +13,10 @@ class User(models.Model):
 class Listing(models.Model):
 
     class Category(models.TextChoices):
-        APPAREL = "Apparel"
-        SHOES = "Shoes"
-        HOME = "Home & lifestyle"
-        OTHER = "Other"
+        APPAREL = "APPAREL", _("Apparel")
+        SHOES = "SHOES", _("Shoes")
+        HOME = "HOME", _("Home & lifestyle")
+        OTHER = "OTHER", _("Other")
 
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)

@@ -6,7 +6,7 @@ from .models import Listing
 class ListingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Listing
-        fields = ['id', 'title', 'photo', 'price']
+        fields = ['id', 'title', 'category', 'photo', 'price']
 
     def get_photo(self, obj):
         request = self.context.get('request')

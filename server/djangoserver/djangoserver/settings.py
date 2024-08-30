@@ -140,6 +140,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",  # Django development port
     "http://localhost:5173",  # Vue.js development port
     "http://localhost:3000",  # Vuetify.js default port
 ]

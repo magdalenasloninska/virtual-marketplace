@@ -7,15 +7,23 @@
                 </v-tab>
             </router-link>
             
-            <router-link to="/listings/browse" class="nav-link">
+            <router-link to="/listings/browse/apparel" class="nav-link">
                 <v-tab>
                     Apparel
                 </v-tab>
             </router-link>
 
-            <v-tab>Shoes</v-tab>
-            <v-tab>Home & lifestyle</v-tab>
-            <v-tab>Vintage</v-tab>
+            <router-link to="/listings/browse/home" class="nav-link">
+                <v-tab>
+                    Home & lifestyle
+                </v-tab>
+            </router-link>
+
+            <router-link to="/listings/browse/other" class="nav-link">
+                <v-tab>
+                    Other
+                </v-tab>
+            </router-link>
 
             <v-menu
                 open-on-hover

@@ -25,7 +25,7 @@ def new_listing(request):
     return render(request, "new_listing.html", {"form": form})
 
 def get_all_item_categories(request):
-    categories = [{'text': key, 'value': value} for key, value in Listing.Category.choices]
+    categories = [{'text': value, 'value': key} for key, value in Listing.Category.choices]
     return JsonResponse({"categories": categories})
 
 @csrf_exempt
@@ -44,6 +44,18 @@ def publish_listing(request):
 
 class ListingList(generics.ListAPIView):
     queryset = Listing.objects.all()
+    serializer_class = ListingSerializer
+
+class ListingListApparel(generics.ListAPIView):
+    queryset = Listing.objects.filter(category=Listing.Category.APPAREL)
+    serializer_class = ListingSerializer
+
+class ListingListHome(generics.ListAPIView):
+    queryset = Listing.objects.filter(category=Listing.Category.HOME)
+    serializer_class = ListingSerializer
+
+class ListingListOther(generics.ListAPIView):
+    queryset = Listing.objects.filter(category=Listing.Category.OTHER)
     serializer_class = ListingSerializer
 
 def browse(request):

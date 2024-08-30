@@ -118,6 +118,7 @@
             async publishListing() {
                 let formData = new FormData();
                 formData.append('title', this.title);
+                formData.append('category', this.selectedCategory);
                 formData.append('photo', this.photo);
                 formData.append('price', this.price);
 
