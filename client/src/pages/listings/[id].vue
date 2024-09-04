@@ -39,7 +39,7 @@
           <v-btn
             :icon="isHearted ? 'mdi-heart' : 'mdi-heart-outline'"
             @click="toggleHeart"
-            class="pa-4"
+            class="ml-4 mt-4"
           ></v-btn>
           <v-card-title>
             <h1>{{ listingDetails.title }}</h1>

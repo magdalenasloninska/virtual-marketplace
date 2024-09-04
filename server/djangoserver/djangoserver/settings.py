@@ -144,3 +144,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vue.js development port
     "http://localhost:3000",  # Vuetify.js default port
 ]
+
+# User authentication config
+
+AUTH_USER_MODEL = 'shop.CustomUser'

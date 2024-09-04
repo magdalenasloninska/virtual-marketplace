@@ -83,13 +83,6 @@
 </style>
 
 <script>
-    const items = [
-        "Apparel",
-        "Shoes",
-        "Home & lifestyle",
-        "Vintage"
-    ]
-
     import axios from 'axios';
 
     export default {
