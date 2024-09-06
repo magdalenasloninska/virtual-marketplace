@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Listing
+from .models import Listing, CustomUser
 
 
 class ListingSerializer(serializers.ModelSerializer):
@@ -15,3 +15,13 @@ class ListingSerializer(serializers.ModelSerializer):
     
     def get_all_item_categories(self):
         return Listing.Category.choices
+    
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'date_joined', 'about', 'profile_picture']
+
+    def get_profile_picture(self, obj):
+        request = self.context.get('request')
+        profile_picture_url = obj.profile_picture.url
+        return request.build_absolute_uri(profile_picture_url)

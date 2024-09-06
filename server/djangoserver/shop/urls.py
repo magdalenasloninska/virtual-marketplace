@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from .views import ListingList, ListingListCategory, ListingDetailsView
+from .views import ListingList, ListingListCategory, ListingDetailsView, UserDetailsView
 
 urlpatterns = [
     path("api/listings/browse", ListingList.as_view(), name="api_listings_browse"),
@@ -9,4 +9,5 @@ urlpatterns = [
     path("api/listings/<int:pk>", ListingDetailsView.as_view(), name="api_listings_details"),
     path("api/listings/categories", views.get_all_item_categories, name="get_all_item_categories"),
     path("api/listings/new/data", views.publish_listing, name="publish_listing"),
+    path("api/users/<int:pk>", UserDetailsView.as_view()),
 ]
