@@ -68,22 +68,11 @@
                     ></v-avatar>
                 </v-btn>
             </template>
-            <v-card>
+            <v-card max-width="250">
                 <v-card-text>
                     <div class="mx-auto text-center">
-                        <h3>Bella Baxter</h3>
+                        <h3>You're not currently logged in, wanna fix that?</h3>
 
-                        <v-spacer class="pa-2"></v-spacer>
-
-                        <router-link to="/users/register">
-                            <v-btn
-                                color="white"
-                                rounded
-                            >
-                                Register
-                            </v-btn>
-                        </router-link>
-                        
                         <v-spacer class="pa-2"></v-spacer>
 
                         <router-link to="/users/login">
@@ -92,6 +81,18 @@
                                 rounded
                             >
                                 Login
+                            </v-btn>
+                        </router-link>
+
+                        <v-spacer class="pa-2"></v-spacer>
+
+                        <router-link to="/users/register">
+                            <v-btn
+                                color="white"
+                                variant="outlined"
+                                rounded
+                            >
+                                Register
                             </v-btn>
                         </router-link>
                     </div>

@@ -13,14 +13,21 @@
                         label="Email address"
                         required
                         type="email"
+                        prepend-icon="mdi-at"
                         v-model="email"
                     ></v-text-field>
 
                     <v-text-field
                         label="Username"
                         required
+                        prepend-icon="mdi-format-letter-case"
                         v-model="username"
                     ></v-text-field>
+
+                    <v-file-input
+                        label="Profile picture"
+                        v-model="profile_picture"
+                    ></v-file-input>
 
                     <v-text-field
                         label="Password"
@@ -61,6 +68,7 @@
             return {
                 email: '',
                 username: '',
+                profile_picture: null,
                 password1: '',
                 password2: ''
             }

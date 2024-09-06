@@ -3,14 +3,12 @@
   
     <v-container class="pt-10">
       <v-row justify="center">
-        <v-col cols="4" xl="3">
-          <v-responsive>
-            <v-avatar size="300">
-              <v-img
-                :src="userDetails.profile_picture"
-              ></v-img>
-            </v-avatar>
-          </v-responsive>
+        <v-col cols="4" xl="3" class="d-flex justify-center">
+          <v-avatar size="300">
+            <v-img
+              :src="userDetails.profile_picture"
+            ></v-img>
+          </v-avatar>
         </v-col>
   
         <v-col cols="8" xl="5">
@@ -18,6 +16,14 @@
             <v-card-title>
               <h1>{{ userDetails.username }}</h1>
             </v-card-title>
+            <v-card-subtitle>
+              <v-icon>mdi-star</v-icon>
+              <v-icon>mdi-star</v-icon>
+              <v-icon>mdi-star</v-icon>
+              <v-icon>mdi-star-half-full</v-icon>
+              <v-icon>mdi-star-outline</v-icon>
+            </v-card-subtitle>
+            <v-spacer class="mb-4"></v-spacer>
             <v-card-subtitle>
               <h2>Joined {{ dateJoined }}</h2>
             </v-card-subtitle>
@@ -31,7 +37,40 @@
       <v-spacer class="my-8"></v-spacer>
       <v-row>
         <v-col>
-          <h3>Here you can view all of {{ userDetails.username }}'s listings!</h3>
+          <div class="d-flex justify-space-between">
+            <h3>
+              Here you can view {{ userDetails.username }}'s featured listings!
+            </h3>
+            <v-btn
+              append-icon="mdi-arrow-right-bold"
+            >
+              View all
+            </v-btn>
+          </div>
+          
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col :cols=4>
+          <v-img
+            src="@/assets/architecture.jpeg"
+            aspect-ratio="1"
+            cover
+          ></v-img>
+        </v-col>
+        <v-col :cols=4>
+          <v-img
+            src="@/assets/dress.jpeg"
+            aspect-ratio="1"
+            cover
+          ></v-img>
+        </v-col>
+        <v-col :cols=4>
+          <v-img
+            src="@/assets/museum.jpeg"
+            aspect-ratio="1"
+            cover
+          ></v-img>
         </v-col>
       </v-row>
     </v-container>
