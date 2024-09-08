@@ -10,17 +10,16 @@
                 
                 <form>
                     <v-text-field
-                        label="Email address"
+                        label="Username"
                         required
-                        type="email"
-                        v-model="email"
+                        v-model="username"
                     ></v-text-field>
 
                     <v-text-field
                         label="Password"
                         required
                         type="password"
-                        v-model="password1"
+                        v-model="password"
                     ></v-text-field>
 
                     <v-spacer class="pa-4"></v-spacer>
@@ -28,6 +27,7 @@
                     <v-btn
                         class="me-4"
                         color="rgb(199, 189, 231)"
+                        v-on:click="loginUser()"
                     >
                         Login
                     </v-btn>
@@ -46,9 +46,21 @@
     export default {
         data() {
             return {
-                email: '',
                 username: '',
-                password1: ''
+                password: ''
+            }
+        },
+        methods: {
+            async loginUser() {
+                let formData = new FormData();
+                formData.append('username', this.username);
+                formData.append('password', this.password);
+
+                let _ = await axios.post("http://localhost:8000/shop/api/users/login/data", formData, {
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                });
             }
         }
     }

@@ -147,4 +147,14 @@ CORS_ALLOWED_ORIGINS = [
 
 # User authentication config
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+]
+
 AUTH_USER_MODEL = 'shop.CustomUser'

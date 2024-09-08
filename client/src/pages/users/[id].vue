@@ -62,7 +62,7 @@
             <v-expand-transition>
               <div
                 v-if="isHovering"
-                class="d-flex featured text-h3"
+                class="d-flex featured-transition text-h3 handwritten"
               >
                 Featured #1
               </div>
@@ -81,9 +81,20 @@
             <v-expand-transition>
               <div
                 v-if="isHovering"
-                class="d-flex featured text-h3"
+                class="d-flex featured-transition"
               >
-                Featured #2
+                <v-col>
+                  <v-row class="justify-center text-h3 handwritten">
+                    <p
+                      class="wrap-text text-center"
+                    >
+                      Tie dye dress
+                    </p>
+                  </v-row>
+                  <v-row class="justify-center text-h5">
+                    <p>90 €</p>
+                  </v-row>
+                </v-col>
               </div>
             </v-expand-transition>
           </v-img>
@@ -100,7 +111,7 @@
             <v-expand-transition>
               <div
                 v-if="isHovering"
-                class="d-flex featured text-h3"
+                class="d-flex featured-transition text-h3 handwritten"
               >
                 Featured #3
               </div>
@@ -114,13 +125,22 @@
 </template>
 
 <style scoped>
-  .featured {
+  .featured-transition {
     opacity: .85;
     align-items: center;
     justify-content: center;
     background-color: rgb(81, 69, 118);
     height: 100%;
+  }
+
+  .handwritten {
     font-family: 'Homemade Apple', cursive;
+  }
+
+  .wrap-text {
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
   }
 </style>
 

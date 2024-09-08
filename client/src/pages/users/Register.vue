@@ -24,6 +24,15 @@
                         v-model="username"
                     ></v-text-field>
 
+                    <v-textarea
+                        label="About"
+                        variant="filled"
+                        auto-grow
+                        prepend-icon="mdi-text-box-edit"
+                        rows="3"
+                        v-model="about"
+                    ></v-textarea>
+
                     <v-file-input
                         label="Profile picture"
                         v-model="profile_picture"
@@ -48,6 +57,7 @@
                     <v-btn
                         class="me-4"
                         color="rgb(199, 189, 231)"
+                        v-on:click="registerUser()"
                     >
                         Sign up
                     </v-btn>
@@ -68,9 +78,26 @@
             return {
                 email: '',
                 username: '',
+                about: '',
                 profile_picture: null,
                 password1: '',
                 password2: ''
+            }
+        },
+        methods: {
+            async registerUser() {
+                let formData = new FormData();
+                formData.append('email', this.email);
+                formData.append('username', this.username);
+                formData.append('about', this.about);
+                formData.append('profile_picture', this.profile_picture);
+                formData.append('password', this.password1);
+
+                let _ = await axios.post("http://localhost:8000/shop/api/users/register/data", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
             }
         }
     }

@@ -11,4 +11,4 @@ class ListingForm(forms.ModelForm):
 class CustomUserForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ('username', 'date_joined', 'about', 'profile_picture')
+        fields = ('email', 'username', 'about', 'profile_picture', 'password')

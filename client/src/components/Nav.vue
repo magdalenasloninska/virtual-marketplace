@@ -63,6 +63,14 @@
                     class="mr-4"
                 >
                     <v-avatar
+                        v-if="user !== null"
+                    >
+                        <v-img
+                            :src="user.profile_picture"
+                        ></v-img>
+                    </v-avatar>
+                    <v-avatar
+                        v-else
                         color="white"
                         icon="mdi-account"
                     ></v-avatar>
@@ -70,7 +78,11 @@
             </template>
             <v-card max-width="250">
                 <v-card-text>
-                    <div class="mx-auto text-center">
+                    <div class="mx-auto text-center" v-if="user">
+                        <h3>{{ user.username }}</h3>
+                    </div>
+
+                    <div class="mx-auto text-center" v-else>
                         <h3>You're not currently logged in, wanna fix that?</h3>
 
                         <v-spacer class="pa-2"></v-spacer>
@@ -108,3 +120,31 @@
         color: white;
     }
 </style>
+
+<script>
+    import axios from 'axios';
+
+    export default {
+        data() {
+            return {
+                user: null
+            };
+        },
+        mounted() {
+            this.getCurrentUser();
+        },
+        methods: {
+            getCurrentUser() {
+                axios.get('http://localhost:8000/shop/api/users/current-user')
+                    .then(response => {
+                        if ('username' in response) {
+                            this.user = response.data;
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Error fetching current user: ${error}`);
+                    });
+            }
+        }
+    }
+</script>

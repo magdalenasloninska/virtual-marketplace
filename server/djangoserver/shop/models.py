@@ -6,21 +6,24 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 
 class CustomUserManager(BaseUserManager):
     
-    def create_user(self, email, username, password, **other_fields):
+    def create_user(self, email, username, date_joined, about, profile_picture, password, **other_fields):
         
         if not email:
             raise ValueError(_('Email address is required!'))
 
         user = self.model(email=email,
                           username=username,
-                          date_joined=date.today(),
+                          date_joined=date_joined,
+                          about=about,
+                          profile_picture=profile_picture,
                           **other_fields)
         
+        print('The password is ' + password)
         user.set_password(password)
         user.save()
         return user
     
-    def create_superuser(self, email, username, password, **other_fields):
+    def create_superuser(self, email, username, date_joined, about, profile_picture, password, **other_fields):
         
         other_fields.setdefault('is_staff', True)
         other_fields.setdefault('is_superuser', True)
@@ -28,20 +31,24 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email=email,
                                 username=username,
+                                date_joined=date_joined,
+                                about=about,
+                                profile_picture=profile_picture,
                                 password=password,
                                 **other_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('Email address'), unique=True)
     username = models.CharField(max_length=120, unique=True)
-    date_joined = models.DateField()
-    about = models.TextField(max_length=400)
+    date_joined = models.DateField(auto_now_add=True)
+    about = models.TextField(max_length=400, default='Hi!')
     profile_picture = models.ImageField(upload_to='uploads/users', default='uploads/users/default_profile_pic.JPEG')
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    # USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     objects = CustomUserManager()
 
