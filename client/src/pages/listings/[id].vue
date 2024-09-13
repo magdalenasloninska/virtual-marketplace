@@ -36,6 +36,17 @@
 
       <v-col cols="6" xl="4">
         <v-card>
+          <v-card-title>
+            <h3>About the seller</h3>
+          </v-card-title>
+          <v-avatar>
+            <v-img
+              :src="listingDetails.user.profile_picture"
+            ></v-img>
+          </v-avatar>
+        </v-card>
+        <v-spacer class="my-8"></v-spacer>
+        <v-card>
           <v-btn
             :icon="isHearted ? 'mdi-heart' : 'mdi-heart-outline'"
             @click="toggleHeart"

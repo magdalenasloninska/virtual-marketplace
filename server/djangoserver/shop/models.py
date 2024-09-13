@@ -62,7 +62,7 @@ class Listing(models.Model):
         HOME = "HOME", _("Home & lifestyle")
         OTHER = "OTHER", _("Other")
 
-    # user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     # pub_date = models.DateTimeField("date published", default=datetime.now())
     category = models.CharField(
@@ -78,3 +78,13 @@ class Listing(models.Model):
 
     def is_new(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+class Chat(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+
+class Message(models.Model):
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    content = models.TextField(max_length=400)
+    time_sent = models.DateTimeField(auto_now_add=True)
+    # time_seen = models.DateTimeField()
