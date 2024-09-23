@@ -36,17 +36,6 @@
 
       <v-col cols="6" xl="4">
         <v-card>
-          <v-card-title>
-            <h3>About the seller</h3>
-          </v-card-title>
-          <v-avatar>
-            <v-img
-              :src="listingDetails.user.profile_picture"
-            ></v-img>
-          </v-avatar>
-        </v-card>
-        <v-spacer class="my-8"></v-spacer>
-        <v-card>
           <v-btn
             :icon="isHearted ? 'mdi-heart' : 'mdi-heart-outline'"
             @click="toggleHeart"
@@ -64,6 +53,37 @@
             <p>Suspendisse potenti. Duis vehicula orci nec dolor fermentum, ut feugiat turpis congue.</p>
           </v-card-text>
         </v-card>
+        <v-spacer class="my-4"></v-spacer>
+        <v-card
+          @click="goToUserDetails(userDetails.id)"
+        >
+          <v-card-subtitle class="mt-4">
+            <h2>About the seller</h2>
+          </v-card-subtitle>
+          <v-card-text>
+            <v-row justify="center">
+              <v-col cols="2" class="d-flex justify-center align-center">
+                <v-avatar size="70">
+                  <v-img
+                    :src="userDetails.profile_picture"
+                  ></v-img>
+                </v-avatar>
+                
+              </v-col>
+              <v-col>
+                <h1>{{ userDetails.username }}</h1>
+                <div>
+                  <v-icon>mdi-star</v-icon>
+                  <v-icon>mdi-star</v-icon>
+                  <v-icon>mdi-star</v-icon>
+                  <v-icon>mdi-star-half-full</v-icon>
+                  <v-icon>mdi-star-outline</v-icon>
+                </div>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
         <v-spacer class="my-8"></v-spacer>
         <v-btn block color="rgb(199, 189, 231)" rounded class="pa-4">Buy now</v-btn>
         <v-spacer class="my-4"></v-spacer>
@@ -103,17 +123,19 @@
     data() {
       return {
         listingDetails: [],
+        userDetails: [],
         isHearted: false
       };
     },
     created() {
-      this.fetchListingDetails(this.$route.params.id)
+      this.fetchListingDetails(this.$route.params.id);
     },
     methods: {
       fetchListingDetails(listingId) {
         axios.get(`http://localhost:8000/shop/api/listings/${listingId}`)
             .then(response => {
                 this.listingDetails = response.data;
+                this.userDetails = this.listingDetails.user;
             })
             .catch(error => {
                 console.error('Error fetching listing details:', error);
@@ -121,6 +143,9 @@
       },
       toggleHeart() {
         this.isHearted = !this.isHearted;
+      },
+      goToUserDetails(userId) {
+        this.$router.push(`/users/${userId}`);
       }
     }
   };
