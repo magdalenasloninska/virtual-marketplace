@@ -12,7 +12,7 @@
                             v-for="listing in listings"
                             :key="listing.title"
                             :cols=4
-                            >
+                        >
                             <v-card
                                 class="grid-item"
                                 @click="goToListingDetails(listing.id)"
@@ -64,7 +64,7 @@
         name: 'Listings',
         data() {
             return {
-                listings: [],
+                listings: []
             };
         },
         mounted() {
@@ -79,7 +79,7 @@
         methods: {
             goToListingDetails(listingId) {
                 this.$router.push(`/listings/${listingId}`);
-            },
+            }
         },
     };
 </script>

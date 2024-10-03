@@ -51,9 +51,23 @@
                     <v-icon>mdi-plus</v-icon>
                 </v-tab>
             </router-link>
+
         </v-tabs>
 
         <v-spacer></v-spacer>
+
+        <v-text-field
+            class="d-flex justify-end"
+            density="compact"
+            placeholder="Search"
+            prepend-inner-icon="mdi-magnify"
+            size="30"
+            theme="light"
+            variant="outlined"
+            rounded
+            @keyup.enter="performSearch(searchVal)"
+            v-model="searchVal"
+        ></v-text-field>
 
         <v-menu>
             <template v-slot:activator="{ props }">
@@ -127,7 +141,8 @@
     export default {
         data() {
             return {
-                user: null
+                user: null,
+                searchVal: ''
             };
         },
         mounted() {
@@ -144,6 +159,10 @@
                     .catch(error => {
                         console.error(`Error fetching current user: ${error}`);
                     });
+            },
+            performSearch(phrase) {
+                console.log(`Searching for... ${phrase}`);
+                this.$router.push(`/search/${phrase}`);
             }
         }
     }

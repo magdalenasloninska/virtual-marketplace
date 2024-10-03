@@ -79,6 +79,21 @@ class Listing(models.Model):
     def is_new(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
+class Transaction(models.Model):
+
+    class TransactionStatus(models.TextChoices):
+        INITIATED = "INITIATED"
+        AWAITING_PAYMENT = "AWAITING_PAYMENT"
+        CONFIRMED = "CONFIRMED"
+        CANCELLED = "CANCELLED"
+
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    status = models.CharField(
+        max_length=20,
+        choices=TransactionStatus,
+        default=TransactionStatus.INITIATED
+    )
+
 class Chat(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
 

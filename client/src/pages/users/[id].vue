@@ -147,8 +147,6 @@
 <script>
   import axios from 'axios';
 
-  import Nav from '@/components/Nav.vue'
-
   export default {
     data() {
       return {
