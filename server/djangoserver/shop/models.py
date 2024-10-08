@@ -64,7 +64,7 @@ class Listing(models.Model):
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
-    # pub_date = models.DateTimeField("date published", default=datetime.now())
+    pub_date = models.DateTimeField(auto_now_add=True)
     category = models.CharField(
         max_length=20,
         choices=Category,

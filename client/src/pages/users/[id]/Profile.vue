@@ -41,11 +41,13 @@
           <h3>
             Here you can view {{ userDetails.username }}'s featured listings!
           </h3>
-          <v-btn
-            append-icon="mdi-arrow-right-bold"
-          >
-            View all
-          </v-btn>
+          <router-link :to="`/users/${userId}/listings`">
+              <v-btn
+                append-icon="mdi-arrow-right-bold"
+              >
+                View all
+              </v-btn>
+          </router-link>
         </div>
         
       </v-col>
@@ -150,12 +152,13 @@
   export default {
     data() {
       return {
+        userId: this.$route.params.id,
         userDetails: [],
-        dateJoined: null
+        dateJoined: null,
       };
     },
     created() {
-      this.fetchUserDetails(this.$route.params.id)
+      this.fetchUserDetails(this.userId)
     },
     methods: {
       fetchUserDetails(userId) {

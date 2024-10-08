@@ -85,9 +85,28 @@
         </v-card>
 
         <v-spacer class="my-8"></v-spacer>
-        <v-btn block color="rgb(199, 189, 231)" rounded class="pa-4">Buy now</v-btn>
+
+        <v-btn
+          block
+          color="rgb(199, 189, 231)"
+          rounded
+          class="pa-4"
+          @click="createOrder()"
+        >
+          Buy now
+        </v-btn>
+
         <v-spacer class="my-4"></v-spacer>
-        <v-btn block variant="outlined" color="rgb(199, 189, 231)" rounded class="pa-4">Ask a question</v-btn>
+
+        <v-btn
+          block
+          variant="outlined"
+          color="rgb(199, 189, 231)"
+          rounded
+          class="pa-4"
+        >
+          Ask a question
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -145,7 +164,10 @@
         this.isHearted = !this.isHearted;
       },
       goToUserDetails(userId) {
-        this.$router.push(`/users/${userId}`);
+        this.$router.push(`/users/${userId}/profile`);
+      },
+      createOrder() {
+        this.$router.push(`/order/create`);
       }
     }
   };

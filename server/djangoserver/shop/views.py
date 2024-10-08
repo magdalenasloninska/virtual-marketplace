@@ -34,6 +34,13 @@ class ListingListCategory(generics.ListAPIView):
     def get_queryset(self):
         category = self.kwargs['category'].upper()
         return Listing.objects.filter(category=category)
+    
+class ListingListOfUser(generics.ListAPIView):
+    serializer_class = ListingSerializer
+
+    def get_queryset(self):
+        user_id = int(self.kwargs['pk'])
+        return Listing.objects.filter(user=user_id)
 
 class ListingDetailsView(generics.RetrieveAPIView):
     queryset = Listing.objects.all()

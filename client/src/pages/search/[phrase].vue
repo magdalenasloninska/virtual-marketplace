@@ -9,19 +9,30 @@
                 <v-spacer class="pa-4"></v-spacer>
                 
                 <v-container fluid>
-                    <v-row>
+                    <v-row
+                        v-if="results.length > 0"
+                    >
                         <v-col
                             v-for="result in results"
                             :key="result.id"
                             :cols=12
                         >
                             <v-card
+                                class="result_card"
+                                append-icon="mdi-arrow-right"
                                 @click="goToListingDetails(result.id)"
                             >
-                                <v-card-title class="text-white">
+                                <v-card-title>
                                     {{ result.title }}
                                 </v-card-title>
                             </v-card>
+                        </v-col>
+                    </v-row>
+                    <v-row
+                        v-else
+                    >
+                        <v-col>
+                            <v-icon mdi-weather-windy></v-icon>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -31,6 +42,10 @@
 </template>
 
 <style>
+    .result_card {
+        background-color: cornflowerblue;
+        font-family: 'Courier New', Courier, monospace;
+    }
 </style>
 
 <script>
@@ -64,7 +79,7 @@
         methods: {
             performSearch(phrase) {
                 for (const listing of this.listings) {
-                    if (listing.title.includes(phrase)) {
+                    if (listing.title.toLowerCase().includes(phrase.toLowerCase())) {
                         this.results.push(listing);
                     }
                 }

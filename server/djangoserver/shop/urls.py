@@ -1,7 +1,12 @@
 from django.urls import path
 
 from . import views, auth
-from .views import ListingList, ListingListCategory, ListingDetailsView, UserDetailsView
+from .views import \
+    ListingList, \
+    ListingListCategory, \
+    ListingListOfUser, \
+    ListingDetailsView, \
+    UserDetailsView
 
 urlpatterns = [
     path("api/listings/browse", ListingList.as_view(), name="api_listings_browse"),
@@ -13,4 +18,5 @@ urlpatterns = [
     path("api/users/login/data", auth.login_custom_user),
     path("api/users/current-user", auth.get_current_user, name='current_user'),
     path("api/users/<int:pk>", UserDetailsView.as_view()),
+    path("api/users/<int:pk>/listings", ListingListOfUser.as_view()),
 ]
