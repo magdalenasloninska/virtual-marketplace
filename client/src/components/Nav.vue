@@ -6,45 +6,47 @@
                     <v-icon>mdi-home</v-icon>
                 </v-tab>
             </router-link>
-            
-            <router-link to="/listings/browse/apparel" class="nav-link">
-                <v-tab>
-                    Apparel
-                </v-tab>
-            </router-link>
-
-            <router-link to="/listings/browse/home" class="nav-link">
-                <v-tab>
-                    Home & lifestyle
-                </v-tab>
-            </router-link>
-
-            <router-link to="/listings/browse/other" class="nav-link">
-                <v-tab>
-                    Other
-                </v-tab>
-            </router-link>
 
             <v-menu
                 open-on-hover
             >
                 <template v-slot:activator="{ props }">
                     <v-tab
-                        color="primary"
                         v-bind="props"
+                        class="nav-link"
                     >
-                        Dropdown menu
+                        Browse by category
                     </v-tab>
                 </template>
 
                 <v-list>
                     <v-list-item>
-                        <v-list-item-title>Casual</v-list-item-title>
-                        <v-list-item-title>Special occasion</v-list-item-title>
-                        <v-list-item-title>Athletic</v-list-item-title>
+                        <router-link to="/listings/browse/apparel" class="nav-link">
+                            <v-list-item-title class="pa-2">
+                                Apparel
+                            </v-list-item-title>
+                        </router-link>
+
+                        <router-link to="/listings/browse/home" class="nav-link">
+                            <v-list-item-title class="pa-2">
+                                Home & lifestyle
+                            </v-list-item-title>
+                        </router-link>
+
+                        <router-link to="/listings/browse/other" class="nav-link">
+                            <v-list-item-title class="pa-2">
+                                Other
+                            </v-list-item-title>
+                        </router-link>
                     </v-list-item>
                 </v-list>
             </v-menu>
+
+            <router-link to="/listings/requests/intro" class="nav-link">
+                <v-tab>
+                    Browse by requests
+                </v-tab>
+            </router-link>
 
             <router-link to="/listings/new" class="nav-link">
                 <v-tab>
@@ -132,6 +134,7 @@
 <style>
     .nav-link {
         color: white;
+        text-decoration: none;
     }
 </style>
 

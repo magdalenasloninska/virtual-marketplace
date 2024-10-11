@@ -23,7 +23,7 @@
                                     gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
                                     aspect-ratio="1"
                                     cover
-                                    >
+                                >
                                     <v-card-title class="text-white">
                                         {{listing.title}}
                                     </v-card-title>

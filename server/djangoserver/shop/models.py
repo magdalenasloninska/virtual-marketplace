@@ -18,7 +18,6 @@ class CustomUserManager(BaseUserManager):
                           profile_picture=profile_picture,
                           **other_fields)
         
-        print('The password is ' + password)
         user.set_password(password)
         user.save()
         return user
@@ -46,7 +45,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
-    # USERNAME_FIELD = 'email'
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
 
@@ -78,6 +76,11 @@ class Listing(models.Model):
 
     def is_new(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+class LookingFor(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    description = models.TextField(max_length=1000)
+    listings = models.ManyToManyField(Listing)
 
 class Transaction(models.Model):
 

@@ -7,6 +7,29 @@
                 <h3>Here you can add a new listing!</h3>
                 <v-spacer class="pa-4"></v-spacer>
                 
+                <div>
+                    <v-alert
+                        v-if="successAlert"
+                        close-label="Close Alert"
+                        color="rgb(215, 235, 186)"
+                        type="success"
+                        closable
+                        class="mb-8"
+                    >
+                        The listing has been published successfuly!
+                    </v-alert>
+                    
+                    <v-alert
+                        v-if="errorAlert"
+                        color="rgb(216, 30, 91)"
+                        type="error"
+                        closable
+                        class="mb-8"
+                    >
+                        The listing couldn't be published, fix errors and try again!
+                    </v-alert>
+                </div>
+
                 <form>
                     <v-text-field
                         label="Title"
@@ -49,7 +72,7 @@
                     <v-btn
                         class="me-4"
                         color="rgb(199, 189, 231)"
-                        v-on:click="publishListing()"
+                        v-on:click="publishListing"
                     >
                         Publish
                     </v-btn>
@@ -92,7 +115,9 @@
                 title: '',
                 selectedCategory: null,
                 photo: null,
-                price: 0
+                price: 0,
+                successAlert: false,
+                errorAlert: false
             }
         },
         created() {
@@ -119,6 +144,13 @@
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
+                })
+                .then(_ => {
+                    this.successAlert = true;
+                })
+                .catch(error => {
+                    console.error('Error publishing new listing:', error);
+                    this.errorAlert = true;
                 });
             }
         }
