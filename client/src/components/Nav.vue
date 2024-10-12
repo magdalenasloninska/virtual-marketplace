@@ -96,6 +96,17 @@
                 <v-card-text>
                     <div class="mx-auto text-center" v-if="user">
                         <h3>{{ user.username }}</h3>
+
+                        <v-spacer class="pa-2"></v-spacer>
+
+                        <router-link :to="`/users/${user.id}/profile`">
+                            <v-btn
+                                color="white"
+                                rounded
+                            >
+                                My profile
+                            </v-btn>
+                        </router-link>
                     </div>
 
                     <div class="mx-auto text-center" v-else>
@@ -154,14 +165,14 @@
         methods: {
             getCurrentUser() {
                 axios.get('http://localhost:8000/shop/api/users/current-user')
-                    .then(response => {
-                        if ('username' in response) {
-                            this.user = response.data;
-                        }
-                    })
-                    .catch(error => {
-                        console.error(`Error fetching current user: ${error}`);
-                    });
+                .then(response => {
+                    if ('username' in response.data) {
+                        this.user = response.data;
+                    }
+                })
+                .catch(error => {
+                    console.error(`Error fetching current user: ${error}`);
+                });
             },
             performSearch(phrase) {
                 console.log(`Searching for... ${phrase}`);

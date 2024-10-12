@@ -14,7 +14,13 @@
       <v-col cols="8" xl="5">
         <v-card>
           <v-card-title>
-            <h1>{{ userDetails.username }}</h1>
+            <h1>{{ userDetails.username }}
+              <v-btn
+                v-if="isCurrentProfile"
+                icon="mdi-account-edit"
+                class="ml-2"
+              ></v-btn>
+            </h1>
           </v-card-title>
           <v-card-subtitle>
             <v-icon>mdi-star</v-icon>
@@ -152,24 +158,39 @@
   export default {
     data() {
       return {
+        currentUser: null,
+        isCurrentProfile: false,
         userId: this.$route.params.id,
         userDetails: [],
         dateJoined: null,
       };
     },
     created() {
-      this.fetchUserDetails(this.userId)
+      this.getCurrentUser();
     },
     methods: {
       fetchUserDetails(userId) {
-        axios.get(`http://localhost:8000/shop/api/users/${userId}`)
+          axios.get(`http://localhost:8000/shop/api/users/${userId}`)
             .then(response => {
                 this.userDetails = response.data;
-                let options = { year: 'numeric', month: 'long' }
-                this.dateJoined = new Date(this.userDetails.date_joined).toLocaleDateString('en-US', options)
+                let options = { year: 'numeric', month: 'long' };
+                this.dateJoined = new Date(this.userDetails.date_joined).toLocaleDateString('en-US', options);
+                this.isCurrentProfile = (this.userDetails.username == this.currentUser.username);
             })
             .catch(error => {
                 console.error('Error fetching user details:', error);
+            });
+      },
+      getCurrentUser() {
+          axios.get('http://localhost:8000/shop/api/users/current-user')
+            .then(response => {
+                if (response.data.username) {
+                    this.currentUser = response.data;
+                    this.fetchUserDetails(this.userId);
+                }
+            })
+            .catch(error => {
+                console.error(`Error fetching current user: ${error}`);
             });
       }
     }

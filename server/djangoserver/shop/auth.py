@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import AnonymousUser
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .form import CustomUserForm
 from .models import CustomUser
@@ -17,7 +20,7 @@ def sign_up(request):
 
         if form.is_valid():
             user = form.save()
-            return JsonResponse({'message': f'New user {user.id} has been registered successfully!'})
+            return JsonResponse({'message': f'New user {user.id} has been registered successfully!',})
         else:
             print(form.errors)
 
@@ -38,7 +41,12 @@ def login_custom_user(request):
             
             if user is not None:
                 login(request, user)
-                return JsonResponse({'message': f'Successfully logged in {username}'})
+                refresh = RefreshToken.for_user(user)
+                return JsonResponse({
+                    'message': f'Successfully logged in {username}',
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                })
             else:
                 # TODO: implement some kind of notification system
                 pass
@@ -47,14 +55,16 @@ def login_custom_user(request):
 
     return JsonResponse({'message': f'OOPS! Error occured while logging in.'})
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_current_user(request):
     user = request.user
-    test_value = request.session.get('test')
 
     if not isinstance(user, AnonymousUser):
         return JsonResponse({
+            'id': user.id,
             'username': user.username,
-            'profile_picture': user.profile_picture.url
+            'profile_picture': request.build_absolute_uri(user.profile_picture.url)
         })
     else:
         return JsonResponse({

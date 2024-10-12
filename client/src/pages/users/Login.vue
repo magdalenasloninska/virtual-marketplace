@@ -27,7 +27,7 @@
                     <v-btn
                         class="me-4"
                         color="rgb(199, 189, 231)"
-                        v-on:click="loginUser()"
+                        v-on:click.prevent="loginUser()"
                     >
                         Login
                     </v-btn>
@@ -56,10 +56,15 @@
                 formData.append('username', this.username);
                 formData.append('password', this.password);
 
-                let _ = await axios.post("http://localhost:8000/shop/api/users/login/data", formData, {
-                    headers: {
-                        'X-CSRFToken': getCookie('csrftoken')
-                    }
+                let _ = await axios.post("http://localhost:8000/shop/api/users/login/data", formData)
+                .then(response => {
+                    localStorage.setItem('access_token', response.data.access);
+                    localStorage.setItem('refresh_token', response.data.refresh);
+
+                    this.$router.push('/welcome');
+                })
+                .catch(error => {
+                    console.error('Login error:', error);
                 });
             }
         }

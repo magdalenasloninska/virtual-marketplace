@@ -116,12 +116,14 @@
                 selectedCategory: null,
                 photo: null,
                 price: 0,
+                currentUserId: null,
                 successAlert: false,
                 errorAlert: false
             }
         },
         created() {
-            this.fetchAllItemCategories()
+            this.fetchAllItemCategories();
+            this.getCurrentUser();
         },
         methods: {
             fetchAllItemCategories() {
@@ -139,6 +141,7 @@
                 formData.append('category', this.selectedCategory);
                 formData.append('photo', this.photo);
                 formData.append('price', this.price);
+                formData.append('id', this.currentUserId);
 
                 let _ = await axios.post("http://localhost:8000/shop/api/listings/new/data", formData, {
                     headers: {
@@ -147,11 +150,24 @@
                 })
                 .then(_ => {
                     this.successAlert = true;
+                    this.errorAlert = false;
                 })
                 .catch(error => {
                     console.error('Error publishing new listing:', error);
+                    this.successAlert = false;
                     this.errorAlert = true;
                 });
+            },
+            getCurrentUser() {
+                axios.get('http://localhost:8000/shop/api/users/current-user')
+                    .then(response => {
+                        if (response.data.username) {
+                            this.currentUserId = response.data.id;
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Error fetching current user: ${error}`);
+                    });
             }
         }
     }

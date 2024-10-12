@@ -17,7 +17,11 @@ def publish_listing(request):
         form = ListingForm(request.POST, request.FILES)
 
         if form.is_valid():
-            listing = form.save()
+            listing = form.save(commit=False)
+            user_id = int(form.data.get('id'))
+            user = CustomUser.objects.get(id=user_id)
+            listing.user = user
+            listing.save()
             return JsonResponse({'message': f'New listing {listing.id} published successfully!'})
         else:
             print(form.errors)
