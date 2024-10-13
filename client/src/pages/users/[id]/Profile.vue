@@ -19,6 +19,8 @@
                 v-if="isCurrentProfile"
                 icon="mdi-account-edit"
                 class="ml-2"
+                variant="outlined"
+                style="color: lightgrey;"
               ></v-btn>
             </h1>
           </v-card-title>
@@ -41,93 +43,232 @@
     </v-row>
 
     <v-spacer class="my-8"></v-spacer>
-    <v-row>
-      <v-col>
-        <div class="d-flex justify-space-between">
-          <h3>
-            Here you can view {{ userDetails.username }}'s featured listings!
-          </h3>
-          <router-link :to="`/users/${userId}/listings`">
-              <v-btn
-                append-icon="mdi-arrow-right-bold"
-              >
-                View all
-              </v-btn>
-          </router-link>
-        </div>
-        
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col :cols=4>
-        <v-hover v-slot="{ isHovering, props }">
-          <v-img
-            src="@/assets/architecture.jpeg"
-            aspect-ratio="1"
-            cover
-            v-bind="props"
+
+    <v-container v-if="isCurrentProfile">
+      <v-row>
+        <v-col>
+          <v-card
+            height="120"
+            class="d-flex align-center justify-space-between mb-4"
+            @click="this.$router.push(`/users/${userDetails.id}/listings`)"
+            variant="outlined"
+            style="color: lightgrey;"
+            
           >
-            <v-expand-transition>
-              <div
-                v-if="isHovering"
-                class="d-flex featured-transition text-h3 handwritten"
-              >
-                Featured #1
-              </div>
-            </v-expand-transition>
-          </v-img>
-        </v-hover>
-      </v-col>
-      <v-col :cols=4>
-        <v-hover v-slot="{ isHovering, props }">
-          <v-img
-            src="@/assets/dress.jpeg"
-            aspect-ratio="1"
-            cover
-            v-bind="props"
+            <v-card-title>Go to your published listings</v-card-title>
+
+            <v-icon class="ml-2">mdi-arrow-right-bold</v-icon>
+
+            <v-spacer></v-spacer>
+
+            <div class="d-flex align-center justify-center">
+              <v-img
+                src="@/assets/museum.jpeg"
+                cover
+                width="80"
+                height="80"
+                aspect-ratio="1"
+                class="mr-2"
+              ></v-img>
+
+              <v-img
+                src="@/assets/dress.jpeg"
+                cover
+                width="80"
+                height="80"
+                aspect-ratio="1"
+                class="mr-2"
+              ></v-img>
+
+              <v-img
+                src="@/assets/architecture.jpeg"
+                cover
+                width="80"
+                height="80"
+                aspect-ratio="1"
+                class="mr-4"
+              ></v-img>
+            </div>
+          </v-card>
+
+          <v-card
+            height="120"
+            class="d-flex align-center justify-space-between mb-4"
+            @click=""
+            variant="outlined"
+            style="color: lightgrey;"
           >
-            <v-expand-transition>
-              <div
-                v-if="isHovering"
-                class="d-flex featured-transition"
-              >
-                <v-col>
-                  <v-row class="justify-center text-h3 handwritten">
-                    <p
-                      class="wrap-text text-center"
-                    >
-                      Tie dye dress
-                    </p>
-                  </v-row>
-                  <v-row class="justify-center text-h5">
-                    <p>90 €</p>
-                  </v-row>
-                </v-col>
-              </div>
-            </v-expand-transition>
-          </v-img>
-        </v-hover>
-      </v-col>
-      <v-col :cols=4>
-        <v-hover v-slot="{ isHovering, props }">
-          <v-img
-            src="@/assets/museum.jpeg"
-            aspect-ratio="1"
-            cover
-            v-bind="props"
+            <v-card-title>Go to your drafts</v-card-title>
+
+            <v-icon class="ml-2">mdi-arrow-right-bold</v-icon>
+
+            <v-spacer></v-spacer>
+
+            <div class="d-flex align-center justify-center">
+              <v-img
+                src="@/assets/dress.jpeg"
+                cover
+                width="80"
+                height="80"
+                aspect-ratio="1"
+                class="mr-2"
+              ></v-img>
+
+              <v-img
+                src="@/assets/architecture.jpeg"
+                cover
+                width="80"
+                height="80"
+                aspect-ratio="1"
+                class="mr-2"
+              ></v-img>
+
+              <v-img
+                src="@/assets/museum.jpeg"
+                cover
+                width="80"
+                height="80"
+                aspect-ratio="1"
+                class="mr-4"
+              ></v-img>
+            </div>
+          </v-card>
+
+          <v-card
+            height="120"
+            class="d-flex align-center justify-space-between"
+            @click=""
+            variant="outlined"
+            style="color: lightgrey;"
           >
-            <v-expand-transition>
-              <div
-                v-if="isHovering"
-                class="d-flex featured-transition text-h3 handwritten"
-              >
-                Featured #3
-              </div>
-            </v-expand-transition>
-          </v-img>
-        </v-hover>
-      </v-col>
-    </v-row>
+            <v-card-title>Go to your wishlist</v-card-title>
+
+            <v-icon class="ml-2">mdi-arrow-right-bold</v-icon>
+
+            <v-spacer></v-spacer>
+
+            <div class="d-flex align-center justify-center">
+              <v-img
+                src="@/assets/architecture.jpeg"
+                cover
+                width="80"
+                height="80"
+                aspect-ratio="1"
+                class="mr-2"
+              ></v-img>
+
+              <v-img
+                src="@/assets/museum.jpeg"
+                cover
+                width="80"
+                height="80"
+                aspect-ratio="1"
+                class="mr-2"
+              ></v-img>
+
+              <v-img
+                src="@/assets/dress.jpeg"
+                cover
+                width="80"
+                height="80"
+                aspect-ratio="1"
+                class="mr-4"
+              ></v-img>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-container v-else>
+      <v-row>
+        <v-col>
+          <div class="d-flex justify-space-between">
+            <h3>
+              Here you can view {{ userDetails.username }}'s featured listings!
+            </h3>
+            <router-link :to="`/users/${userId}/listings`">
+                <v-btn
+                  append-icon="mdi-arrow-right-bold"
+                >
+                  View all
+                </v-btn>
+            </router-link>
+          </div>
+          
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col :cols=4>
+          <v-hover v-slot="{ isHovering, props }">
+            <v-img
+              src="@/assets/architecture.jpeg"
+              aspect-ratio="1"
+              cover
+              v-bind="props"
+            >
+              <v-expand-transition>
+                <div
+                  v-if="isHovering"
+                  class="d-flex featured-transition text-h3 handwritten"
+                >
+                  Featured #1
+                </div>
+              </v-expand-transition>
+            </v-img>
+          </v-hover>
+        </v-col>
+        <v-col :cols=4>
+          <v-hover v-slot="{ isHovering, props }">
+            <v-img
+              src="@/assets/dress.jpeg"
+              aspect-ratio="1"
+              cover
+              v-bind="props"
+            >
+              <v-expand-transition>
+                <div
+                  v-if="isHovering"
+                  class="d-flex featured-transition"
+                >
+                  <v-col>
+                    <v-row class="justify-center text-h3 handwritten">
+                      <p
+                        class="wrap-text text-center"
+                      >
+                        Tie dye dress
+                      </p>
+                    </v-row>
+                    <v-row class="justify-center text-h5">
+                      <p>90 €</p>
+                    </v-row>
+                  </v-col>
+                </div>
+              </v-expand-transition>
+            </v-img>
+          </v-hover>
+        </v-col>
+        <v-col :cols=4>
+          <v-hover v-slot="{ isHovering, props }">
+            <v-img
+              src="@/assets/museum.jpeg"
+              aspect-ratio="1"
+              cover
+              v-bind="props"
+            >
+              <v-expand-transition>
+                <div
+                  v-if="isHovering"
+                  class="d-flex featured-transition text-h3 handwritten"
+                >
+                  Featured #3
+                </div>
+              </v-expand-transition>
+            </v-img>
+          </v-hover>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-container>
 
 </template>

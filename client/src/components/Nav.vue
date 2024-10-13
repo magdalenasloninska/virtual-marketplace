@@ -107,6 +107,17 @@
                                 My profile
                             </v-btn>
                         </router-link>
+
+                        <v-spacer class="pa-2"></v-spacer>
+
+                        <router-link :to="`/users/${user.id}/profile`">
+                            <v-btn
+                                color="white"
+                                rounded
+                            >
+                                Logout
+                            </v-btn>
+                        </router-link>
                     </div>
 
                     <div class="mx-auto text-center" v-else>
