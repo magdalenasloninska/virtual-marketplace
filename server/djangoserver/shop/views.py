@@ -32,16 +32,20 @@ def publish_listing(request):
     return JsonResponse({'message': 'OOPS!'})
 
 class ListingList(generics.ListAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
     queryset = Listing.objects.all()
     serializer_class = ListingSerializer
 
 class ListingListCategory(generics.ListAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
     serializer_class = ListingSerializer
 
     def get_queryset(self):
         category = self.kwargs['category'].upper()
         return Listing.objects.filter(category=category)
-    
+
 class ListingListOfUser(generics.ListAPIView):
     serializer_class = ListingSerializer
 
@@ -50,9 +54,13 @@ class ListingListOfUser(generics.ListAPIView):
         return Listing.objects.filter(user=user_id)
 
 class ListingDetailsView(generics.RetrieveAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
     queryset = Listing.objects.all()
     serializer_class = ListingSerializer
 
 class UserDetailsView(generics.RetrieveAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer

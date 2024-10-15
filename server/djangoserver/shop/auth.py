@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import AnonymousUser
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -62,11 +62,12 @@ def get_current_user(request):
 
     if not isinstance(user, AnonymousUser):
         return JsonResponse({
+            'active_login': True,
             'id': user.id,
             'username': user.username,
             'profile_picture': request.build_absolute_uri(user.profile_picture.url)
         })
     else:
         return JsonResponse({
-            'message': 'No user is currently logged in!',
+            'active_login': False
         })

@@ -42,7 +42,15 @@
             class="ml-4 mt-4"
           ></v-btn>
           <v-card-title>
-            <h1>{{ listingDetails.title }}</h1>
+            <h1>{{ listingDetails.title }}
+              <v-btn
+                v-if="isCurrentUser"
+                icon="mdi-account-edit"
+                class="ml-2"
+                variant="outlined"
+                style="color: lightgrey;"
+              ></v-btn>
+            </h1>
           </v-card-title>
           <v-card-subtitle>
             <h2>{{ listingDetails.price }} €</h2>
@@ -55,7 +63,7 @@
         </v-card>
         <v-spacer class="my-4"></v-spacer>
         <v-card
-          @click="goToUserDetails(userDetails.id)"
+          @click="goToseller(seller.id)"
         >
           <v-card-subtitle class="mt-4">
             <h2>About the seller</h2>
@@ -65,13 +73,13 @@
               <v-col cols="2" class="d-flex justify-center align-center">
                 <v-avatar size="70">
                   <v-img
-                    :src="userDetails.profile_picture"
+                    :src="seller.profile_picture"
                   ></v-img>
                 </v-avatar>
                 
               </v-col>
               <v-col>
-                <h1>{{ userDetails.username }}</h1>
+                <h1>{{ seller.username }}</h1>
                 <div>
                   <v-icon>mdi-star</v-icon>
                   <v-icon>mdi-star</v-icon>
@@ -141,20 +149,30 @@
   export default {
     data() {
       return {
+        currentUser: null,
+        isCurrentUser: false,
+        listingId: null,
         listingDetails: [],
-        userDetails: [],
+        seller: [],
         isHearted: false
       };
     },
     created() {
-      this.fetchListingDetails(this.$route.params.id);
+      this.listingId = this.$route.params.id;
+      this.getCurrentUser();
     },
     methods: {
       fetchListingDetails(listingId) {
         axios.get(`http://localhost:8000/shop/api/listings/${listingId}`)
             .then(response => {
                 this.listingDetails = response.data;
-                this.userDetails = this.listingDetails.user;
+                this.seller = this.listingDetails.user;
+
+                if (this.currentUser.active_login) {
+                  this.isCurrentUser = (this.seller.username == this.currentUser.username);
+                }
+            
+                console.log(`Current user? ${this.isCurrentUser}`)
             })
             .catch(error => {
                 console.error('Error fetching listing details:', error);
@@ -163,14 +181,23 @@
       toggleHeart() {
         this.isHearted = !this.isHearted;
       },
-      goToUserDetails(userId) {
+      goToseller(userId) {
         this.$router.push(`/users/${userId}/profile`);
       },
       createOrder() {
         this.$router.push(`/order/create`);
+      },
+      getCurrentUser() {
+          axios.get('http://localhost:8000/shop/api/users/current-user')
+            .then(response => {
+                this.currentUser = response.data;
+                this.fetchListingDetails(this.listingId);
+            })
+            .catch(error => {
+                console.error(`Error fetching current user: ${error}`);
+            });
       }
     }
   };
-
 
 </script>
