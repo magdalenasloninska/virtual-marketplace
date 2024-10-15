@@ -308,6 +308,7 @@
     },
     created() {
       this.getCurrentUser();
+      this.fetchUserDetails(this.userId);
     },
     methods: {
       fetchUserDetails(userId) {
@@ -327,7 +328,6 @@
             .then(response => {
                 if (response.data.username) {
                     this.currentUser = response.data;
-                    this.fetchUserDetails(this.userId);
                 }
             })
             .catch(error => {

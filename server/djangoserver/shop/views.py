@@ -47,6 +47,8 @@ class ListingListCategory(generics.ListAPIView):
         return Listing.objects.filter(category=category)
 
 class ListingListOfUser(generics.ListAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
     serializer_class = ListingSerializer
 
     def get_queryset(self):

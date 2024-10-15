@@ -36,29 +36,28 @@
 
       <v-col cols="6" xl="4">
         <v-card>
-          <v-btn
-            :icon="isHearted ? 'mdi-heart' : 'mdi-heart-outline'"
-            @click="toggleHeart"
-            class="ml-4 mt-4"
-          ></v-btn>
-          <v-card-title>
-            <h1>{{ listingDetails.title }}
-              <v-btn
-                v-if="isCurrentUser"
-                icon="mdi-account-edit"
-                class="ml-2"
-                variant="outlined"
-                style="color: lightgrey;"
-              ></v-btn>
-            </h1>
+          <v-container>
+            <v-btn
+              v-if="isCurrentUser"
+              icon="mdi-pencil"
+              variant="outlined"
+              style="color: lightgrey;"
+            ></v-btn> 
+            <v-btn
+              v-else
+              :icon="isHearted ? 'mdi-heart' : 'mdi-heart-outline'"
+              @click="toggleHeart"
+            ></v-btn>
+          </v-container>
+          
+          <v-card-title class="text-wrap">
+            <h1>{{ listingDetails.title }}</h1>
           </v-card-title>
           <v-card-subtitle>
             <h2>{{ listingDetails.price }} €</h2>
           </v-card-subtitle>
           <v-card-text>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non urna orci. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non urna orci. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non urna orci. Nulla facilisi.</p>
-            <br>
-            <p>Suspendisse potenti. Duis vehicula orci nec dolor fermentum, ut feugiat turpis congue.</p>
+            {{ listingDetails.description }}
           </v-card-text>
         </v-card>
         <v-spacer class="my-4"></v-spacer>
@@ -94,27 +93,32 @@
 
         <v-spacer class="my-8"></v-spacer>
 
-        <v-btn
-          block
-          color="rgb(199, 189, 231)"
-          rounded
-          class="pa-4"
-          @click="createOrder()"
+        <v-container
+          v-if="!isCurrentUser"
+          class="pa-0"
         >
-          Buy now
-        </v-btn>
+          <v-btn
+            block
+            color="rgb(199, 189, 231)"
+            rounded
+            class="pa-4"
+            @click="createOrder()"
+          >
+            Buy now
+          </v-btn>
 
-        <v-spacer class="my-4"></v-spacer>
+          <v-spacer class="my-4"></v-spacer>
 
-        <v-btn
-          block
-          variant="outlined"
-          color="rgb(199, 189, 231)"
-          rounded
-          class="pa-4"
-        >
-          Ask a question
-        </v-btn>
+          <v-btn
+            block
+            variant="outlined"
+            color="rgb(199, 189, 231)"
+            rounded
+            class="pa-4"
+          >
+            Ask a question
+          </v-btn>
+        </v-container>
       </v-col>
     </v-row>
   </v-container>
@@ -151,15 +155,15 @@
       return {
         currentUser: null,
         isCurrentUser: false,
-        listingId: null,
+        listingId: this.$route.params.id,
         listingDetails: [],
         seller: [],
         isHearted: false
       };
     },
     created() {
-      this.listingId = this.$route.params.id;
       this.getCurrentUser();
+      this.fetchListingDetails(this.listingId);
     },
     methods: {
       fetchListingDetails(listingId) {
@@ -171,8 +175,6 @@
                 if (this.currentUser.active_login) {
                   this.isCurrentUser = (this.seller.username == this.currentUser.username);
                 }
-            
-                console.log(`Current user? ${this.isCurrentUser}`)
             })
             .catch(error => {
                 console.error('Error fetching listing details:', error);
@@ -191,7 +193,6 @@
           axios.get('http://localhost:8000/shop/api/users/current-user')
             .then(response => {
                 this.currentUser = response.data;
-                this.fetchListingDetails(this.listingId);
             })
             .catch(error => {
                 console.error(`Error fetching current user: ${error}`);

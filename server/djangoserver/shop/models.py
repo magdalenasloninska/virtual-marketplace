@@ -69,6 +69,7 @@ class Listing(models.Model):
         default=Category.OTHER
     )
     photo = models.ImageField(upload_to="uploads/listings/")
+    description = models.TextField(max_length=1000)
     price = models.IntegerField(default=13)
 
     def __str__(self):
@@ -76,6 +77,11 @@ class Listing(models.Model):
 
     def is_new(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    title = models.TextField(max_length=120)
+    content = models.ManyToManyField(Listing)
 
 class LookingFor(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

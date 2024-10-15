@@ -6,7 +6,11 @@ from .models import Listing, CustomUser
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'date_joined', 'about', 'profile_picture']
+        fields = ['id',
+                  'username',
+                  'date_joined',
+                  'about',
+                  'profile_picture']
 
     def get_profile_picture(self, obj):
         request = self.context.get('request')
@@ -18,7 +22,13 @@ class ListingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Listing
-        fields = ['id', 'user', 'title', 'category', 'photo', 'price']
+        fields = ['id',
+                  'user',
+                  'title',
+                  'category',
+                  'photo',
+                  'description',
+                  'price']
 
     def get_photo(self, obj):
         request = self.context.get('request')

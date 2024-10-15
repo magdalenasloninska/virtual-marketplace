@@ -56,6 +56,7 @@
                         auto-grow
                         prepend-icon="mdi-text-box-edit"
                         rows="3"
+                        v-model="description"
                     ></v-textarea>
 
                     <v-text-field
@@ -113,6 +114,7 @@
             return {
                 categories: [],
                 title: '',
+                description: '',
                 selectedCategory: null,
                 photo: null,
                 price: 0,
@@ -140,6 +142,7 @@
                 formData.append('title', this.title);
                 formData.append('category', this.selectedCategory);
                 formData.append('photo', this.photo);
+                formData.append('description', this.description);
                 formData.append('price', this.price);
                 formData.append('id', this.currentUserId);
 

@@ -32,7 +32,11 @@
                         v-else
                     >
                         <v-col>
-                            <v-icon mdi-weather-windy></v-icon>
+                            <v-icon
+                                size="x-large"
+                            >
+                                mdi-weather-windy
+                            </v-icon>
                         </v-col>
                     </v-row>
                 </v-container>
