@@ -5,9 +5,9 @@ from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from .models import Listing, CustomUser
-from .form import ListingForm
-from .serializers import ListingSerializer, CustomUserSerializer
+from .models import Listing, CustomUser, Request
+from .form import ListingForm, RequestForm
+from .serializers import ListingSerializer, CustomUserSerializer, RequestSerializer
 
 
 def get_all_item_categories(request):
@@ -66,3 +66,21 @@ class UserDetailsView(generics.RetrieveAPIView):
     permission_classes = (AllowAny,)
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+
+@csrf_exempt
+def publish_request(request):
+    if request.method == 'POST':
+        form = RequestForm(request.POST)
+
+        if form.is_valid():
+            request = form.save(commit=False)
+            user_id = int(form.data.get('id'))
+            user = CustomUser.objects.get(id=user_id)
+            request.user = user
+            request.listings = []
+            request.save()
+            return JsonResponse({'message': f'New request {request.id} published successfully!'})
+        else:
+            print(form.errors)
+        
+    return JsonResponse({'message': 'OOPS!'})

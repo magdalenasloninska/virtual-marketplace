@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Listing, CustomUser
+from .models import Listing, CustomUser, Request
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -37,3 +37,14 @@ class ListingSerializer(serializers.ModelSerializer):
     
     def get_all_item_categories(self):
         return Listing.Category.choices
+
+class RequestSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer()
+    listings = ListingSerializer()
+
+    class Meta:
+        model = Request
+        fields = ['id',
+                  'user',
+                  'title'
+                  'listings']

@@ -17,8 +17,7 @@
                         >
                             <v-card
                                 class="request_card"
-                                ratio="1/1"
-                                @click="goToRequestDetails()"
+                                @click="goToRequestDetails(1)"
                             >
                                 <v-card-title>
                                     {{ request.title }}
@@ -74,8 +73,8 @@
             goToListingDetails(listingId) {
                 this.$router.push(`/listings/${listingId}`);
             },
-            goToRequestDetails() {
-
+            goToRequestDetails(requestId) {
+                this.$router.push(`/listings/requests/${requestId}`)
             }
         }
     }

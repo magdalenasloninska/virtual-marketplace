@@ -20,6 +20,7 @@ urlpatterns = [
     path("api/listings/<int:pk>", ListingDetailsView.as_view(), name="api_listings_details"),
     path("api/listings/categories", views.get_all_item_categories, name="get_all_item_categories"),
     path("api/listings/new/data", views.publish_listing, name="publish_listing"),
+    path("api/listings/requests/new/data", views.publish_request, name="publish_request"),
     
     # User-focused
     path("api/users/register/data", auth.sign_up, name='register'),

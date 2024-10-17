@@ -83,9 +83,10 @@ class Wishlist(models.Model):
     title = models.TextField(max_length=120)
     content = models.ManyToManyField(Listing)
 
-class LookingFor(models.Model):
+class Request(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    description = models.TextField(max_length=1000)
+    title = models.TextField(max_length=120)
+    # description = models.TextField(max_length=1000)
     listings = models.ManyToManyField(Listing)
 
 class Transaction(models.Model):

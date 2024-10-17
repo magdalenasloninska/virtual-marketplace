@@ -21,6 +21,7 @@
                 class="ml-2"
                 variant="outlined"
                 style="color: lightgrey;"
+                @click="goToEditingView(userId)"
               ></v-btn>
             </h1>
           </v-card-title>
@@ -333,6 +334,9 @@
             .catch(error => {
                 console.error(`Error fetching current user: ${error}`);
             });
+      },
+      goToEditingView(userId) {
+        this.$router.push(`/users/${userId}/edit`);
       }
     }
   };
