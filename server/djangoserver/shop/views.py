@@ -77,10 +77,15 @@ def publish_request(request):
             user_id = int(form.data.get('id'))
             user = CustomUser.objects.get(id=user_id)
             request.user = user
-            request.listings = []
             request.save()
             return JsonResponse({'message': f'New request {request.id} published successfully!'})
         else:
             print(form.errors)
         
     return JsonResponse({'message': 'OOPS!'})
+
+class RequestList(generics.ListAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
+    queryset = Request.objects.all()
+    serializer_class = RequestSerializer

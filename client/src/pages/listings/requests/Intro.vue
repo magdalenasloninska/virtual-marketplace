@@ -61,13 +61,13 @@
             };
         },
         mounted() {
-            // axios.get('http://localhost:8000/shop/api/listings/browse')
-            // .then(response => {
-            //     this.requests = response.data;
-            // })
-            // .catch(error => {
-            //     console.error('Error fetching listings:', error);
-            // });
+            axios.get('http://localhost:8000/shop/api/listings/requests/all')
+            .then(response => {
+                this.requests = response.data;
+            })
+            .catch(error => {
+                console.error('Error fetching listings:', error);
+            });
         },
         methods: {
             goToListingDetails(listingId) {

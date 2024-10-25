@@ -47,21 +47,22 @@
     export default {
         data() {
             return {
-                title: ''
+                title: '',
+                currentUserId: null
             }
+        },
+        created() {
+            this.getCurrentUser();
         },
         methods: {
             async publishRequest() {
                 let formData = new FormData();
                 formData.append('title', this.title);
+                formData.append('id', this.currentUserId);
 
-                let _ = await axios.post("http://localhost:8000/shop/api/listings/requests/new/data", formData, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    withCredentials: true,
-                })
+                let _ = await axios.post("http://localhost:8000/shop/api/listings/requests/new/data", formData)
                 .then(_ => {
+                    console.log(`Request title: ${this.title}`)
                     this.successAlert = true;
                     this.errorAlert = false;
                 })
@@ -71,6 +72,17 @@
                     this.errorAlert = true;
                 });
             },
+            getCurrentUser() {
+                axios.get('http://localhost:8000/shop/api/users/current-user')
+                    .then(response => {
+                        if (response.data.username) {
+                            this.currentUserId = response.data.id;
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Error fetching current user: ${error}`);
+                    });
+            }
         }
     }
 </script>

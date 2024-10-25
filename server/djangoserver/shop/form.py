@@ -24,4 +24,4 @@ class CustomUserForm(forms.ModelForm):
 class RequestForm(forms.ModelForm):
     class Meta:
         model = Request
-        fields = ('title')
+        fields = ('title',)

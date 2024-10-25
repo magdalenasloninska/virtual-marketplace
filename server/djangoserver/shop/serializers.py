@@ -46,5 +46,5 @@ class RequestSerializer(serializers.ModelSerializer):
         model = Request
         fields = ['id',
                   'user',
-                  'title'
+                  'title',
                   'listings']

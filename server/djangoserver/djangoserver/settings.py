@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,7 +56,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'djangoserver.urls'
@@ -134,7 +134,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media directories config
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT=os.path.join(BASE_DIR, "media/")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000"
@@ -145,6 +145,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vue.js development port
     "http://localhost:3000",  # Vuetify.js default port
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 # User authentication config
 
