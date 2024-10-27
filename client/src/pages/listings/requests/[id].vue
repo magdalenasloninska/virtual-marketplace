@@ -9,10 +9,10 @@
                         class="request-bubble mt-4"
                         style="overflow: visible;"
                     >
-                        <v-card-title>
-                            <h3>Grgrr</h3>
+                        <v-card-title class="handwritten px-8 pt-8">
+                            <h3>A title or something</h3>
                         </v-card-title>
-                        <v-card-text>
+                        <v-card-text class="px-8 pb-8">
                             {{ this.exampleText }}
                         </v-card-text>
                     </v-card>
@@ -129,6 +129,10 @@
         justify-content: center;
         align-items: center;
     }
+
+    .handwritten {
+        font-family: 'Homemade Apple', cursive;
+    }
 </style>
 
 <script>
@@ -140,13 +144,14 @@
             return {
                 currentUser: null,
                 requestId: this.$route.params.id,
+                requestDetails: null,
                 linkedListings: [],
                 exampleText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat neque at mauris tristique sagittis. Donec nec pretium felis. In nec efficitur nisl. Morbi consectetur odio sapien, non blandit massa suscipit a. Fusce varius purus eu augue aliquam, eget bibendum erat sagittis. Cras sodales leo in risus finibus, eget feugiat leo faucibus. Sed fringilla mollis sollicitudin. Aenean vitae consequat dui. In hac habitasse platea dictumst. Etiam tristique laoreet eros vel tempor. Proin fermentum semper ligula non vehicula. Nunc at est dui. Phasellus at odio in eros bibendum elementum. Duis maximus enim quis ornare elementum. ",
                 successAlert: false,
                 errorAlert: false
             };
         },
-        mounted() {
+        created() {
             this.getCurrentUser();
             this.fetchRequestDetails(this.requestId);
         },

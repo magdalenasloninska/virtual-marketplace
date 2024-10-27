@@ -11,6 +11,23 @@
                 <v-container fluid>
                     <v-row>
                         <v-col
+                            v-if="currentUser"
+                            :cols=6
+                        >
+                            <v-card
+                                class="plus-button"
+                                height="100%"
+                                width="100%"
+                                @click="goToCreatingNewRequest()"
+                            >
+                                <v-card-title class="handwritten">
+                                    <h3>
+                                        Help me find...
+                                    </h3>
+                                </v-card-title>
+                            </v-card>
+                        </v-col>
+                        <v-col
                             v-for="request in requests"
                             :key="request.title"
                             :cols=6
@@ -44,6 +61,17 @@
         background-color: /* rgb(216, 30, 91); */ rgb(81, 69, 118);
         /* font-family: 'Courier New', Courier, monospace; */
     }
+
+    .plus-button {
+        border-radius: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .handwritten {
+        font-family: 'Homemade Apple', cursive;
+    }
 </style>
 
 <script>
@@ -52,15 +80,14 @@
     export default {
         data() {
             return {
-                requests: [
-                    {"title": "An example"},
-                    {"title": "Another example"},
-                    {"title": "Yet another"}
-                ],
+                currentUser: null,
+                requests: [],
                 exampleText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat neque at mauris tristique sagittis. Donec nec pretium felis. In nec efficitur nisl. Morbi consectetur odio sapien, non blandit massa suscipit a. Fusce varius purus eu augue aliquam, eget bibendum erat sagittis. Cras sodales leo in risus finibus, eget feugiat leo faucibus. Sed fringilla mollis sollicitudin. Aenean vitae consequat dui. In hac habitasse platea dictumst. Etiam tristique laoreet eros vel tempor. Proin fermentum semper ligula non vehicula. Nunc at est dui. Phasellus at odio in eros bibendum elementum. Duis maximus enim quis ornare elementum. "
             };
         },
         mounted() {
+            this.getCurrentUser();
+            
             axios.get('http://localhost:8000/shop/api/listings/requests/all')
             .then(response => {
                 this.requests = response.data;
@@ -70,11 +97,20 @@
             });
         },
         methods: {
-            goToListingDetails(listingId) {
-                this.$router.push(`/listings/${listingId}`);
+            getCurrentUser() {
+                axios.get('http://localhost:8000/shop/api/users/current-user')
+                .then(response => {
+                    this.currentUser = response.data;
+                })
+                .catch(error => {
+                    console.error(`Error fetching current user: ${error}`);
+                });
+            },
+            goToCreatingNewRequest() {
+                this.$router.push('/listings/requests/new');
             },
             goToRequestDetails(requestId) {
-                this.$router.push(`/listings/requests/${requestId}`)
+                this.$router.push(`/listings/requests/${requestId}`);
             }
         }
     }

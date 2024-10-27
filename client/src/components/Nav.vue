@@ -50,7 +50,7 @@
 
             <router-link to="/listings/new" class="nav-link">
                 <v-tab>
-                    <v-icon>mdi-plus</v-icon>
+                    Add new listing
                 </v-tab>
             </router-link>
 
