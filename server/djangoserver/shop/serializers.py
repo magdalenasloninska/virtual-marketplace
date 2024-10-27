@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Listing, CustomUser, Request
+from .models import Listing, CustomUser, Request, Wishlist
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -40,7 +40,7 @@ class ListingSerializer(serializers.ModelSerializer):
 
 class RequestSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer()
-    listings = ListingSerializer()
+    listings = ListingSerializer(many=True)
 
     class Meta:
         model = Request
@@ -48,3 +48,14 @@ class RequestSerializer(serializers.ModelSerializer):
                   'user',
                   'title',
                   'listings']
+        
+class WishlistSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer()
+    content = ListingSerializer(many=True)
+
+    class Meta:
+        model = Wishlist
+        fields = ['id',
+                  'user',
+                  'title',
+                  'content']

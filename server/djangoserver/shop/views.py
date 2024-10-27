@@ -89,3 +89,20 @@ class RequestList(generics.ListAPIView):
     permission_classes = (AllowAny,)
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
+
+class RequestDetailsView(generics.RetrieveAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
+    queryset = Request.objects.all()
+    serializer_class = RequestSerializer
+
+@csrf_exempt
+def link_listing_to_request(request, pk):
+    if request.method == 'POST':
+        current_request = Request.objects.get(id=pk)
+        listing = Listing.objects.get(id=request.POST.get('listing_id'))
+        current_request.listings.add(listing)
+
+        return JsonResponse({'message': f'New listing linked successfully!'})
+
+    return JsonResponse({'message': 'OOPS!'})

@@ -8,7 +8,8 @@ from .views import \
     ListingListOfUser, \
     ListingDetailsView, \
     UserDetailsView, \
-    RequestList
+    RequestList, \
+    RequestDetailsView
 
 urlpatterns = [
     # JWT authentication
@@ -23,6 +24,8 @@ urlpatterns = [
     path("api/listings/new/data", views.publish_listing, name="publish_listing"),
     path("api/listings/requests/new/data", views.publish_request, name="publish_request"),
     path("api/listings/requests/all", RequestList.as_view(), name="all_requests"),
+    path("api/listings/requests/<int:pk>", RequestDetailsView.as_view(), name="api_request_details"),
+    path("api/listings/requests/<int:pk>/new/data", views.link_listing_to_request, name="link_listing_to_request"),
     
     # User-focused
     path("api/users/register/data", auth.sign_up, name='register'),

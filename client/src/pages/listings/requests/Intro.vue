@@ -17,7 +17,7 @@
                         >
                             <v-card
                                 class="request_card"
-                                @click="goToRequestDetails(1)"
+                                @click="goToRequestDetails(request.id)"
                             >
                                 <v-card-title>
                                     {{ request.title }}
@@ -66,7 +66,7 @@
                 this.requests = response.data;
             })
             .catch(error => {
-                console.error('Error fetching listings:', error);
+                console.error('Error fetching requests:', error);
             });
         },
         methods: {

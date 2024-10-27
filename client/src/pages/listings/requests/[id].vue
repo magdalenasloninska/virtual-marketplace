@@ -2,29 +2,31 @@
     <Nav />
 
     <v-container class="pt-10">
-        <v-row justify="center" align="center">
-            <v-col cols="8" xl="5">
-                <v-card
-                    class="request-bubble mx-10 mt-4"
-                    style="overflow: visible;"
-                >
-                    <v-card-title>
-                        <h3>grgrr</h3>
-                    </v-card-title>
-                    <v-card-text>
-                        {{ this.exampleText }}
-                    </v-card-text>
-                </v-card>
-            </v-col>
+        <v-container class="px-16">
+            <v-row justify="center" align="center">
+                <v-col cols="8" xl="5">
+                    <v-card
+                        class="request-bubble mt-4"
+                        style="overflow: visible;"
+                    >
+                        <v-card-title>
+                            <h3>Grgrr</h3>
+                        </v-card-title>
+                        <v-card-text>
+                            {{ this.exampleText }}
+                        </v-card-text>
+                    </v-card>
+                </v-col>
 
-            <v-col cols="4" xl="3" class="d-flex justify-center">
-                <v-avatar size="300">
-                    <v-img
-                        src="@/assets/museum.jpeg"
-                    ></v-img>
-                </v-avatar>
-            </v-col>
-        </v-row>
+                <v-col cols="4" xl="3" class="d-flex justify-center align-start">
+                    <v-avatar size="200">
+                        <v-img
+                            src="@/assets/museum.jpeg"
+                        ></v-img>
+                    </v-avatar>
+                </v-col>
+            </v-row>
+        </v-container>
 
         <v-spacer class="pa-4"></v-spacer>
 
@@ -35,7 +37,26 @@
                 <v-container fluid>
                     <v-row>
                         <v-col
-                            v-for="listing in listings"
+                            v-if="currentUser"
+                            :cols=4
+                        >
+                            <v-card
+                                class="plus-button"
+                                height="100%"
+                                width="100%"  
+                                @click="linkListing(1)"
+                            >
+                                <v-card-title>
+                                    <h1>
+                                        <v-icon>
+                                            mdi-plus
+                                        </v-icon>
+                                    </h1>
+                                </v-card-title>
+                            </v-card>
+                        </v-col>
+                        <v-col
+                            v-for="listing in linkedListings"
                             :key="listing.title"
                             :cols=4
                         >
@@ -85,7 +106,6 @@
         border-right: 0;
         margin-top: -30px;
         margin-right: -30px;
-        z-index: 1;
     }
 
     .grid-item {
@@ -102,6 +122,13 @@
         object-fit: cover;
         object-position: center;
     }
+
+    .plus-button {
+        border-radius: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 
 <script>
@@ -111,22 +138,60 @@
         name: 'Listings',
         data() {
             return {
-                listings: [],
-                exampleText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat neque at mauris tristique sagittis. Donec nec pretium felis. In nec efficitur nisl. Morbi consectetur odio sapien, non blandit massa suscipit a. Fusce varius purus eu augue aliquam, eget bibendum erat sagittis. Cras sodales leo in risus finibus, eget feugiat leo faucibus. Sed fringilla mollis sollicitudin. Aenean vitae consequat dui. In hac habitasse platea dictumst. Etiam tristique laoreet eros vel tempor. Proin fermentum semper ligula non vehicula. Nunc at est dui. Phasellus at odio in eros bibendum elementum. Duis maximus enim quis ornare elementum. "
+                currentUser: null,
+                requestId: this.$route.params.id,
+                linkedListings: [],
+                exampleText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat neque at mauris tristique sagittis. Donec nec pretium felis. In nec efficitur nisl. Morbi consectetur odio sapien, non blandit massa suscipit a. Fusce varius purus eu augue aliquam, eget bibendum erat sagittis. Cras sodales leo in risus finibus, eget feugiat leo faucibus. Sed fringilla mollis sollicitudin. Aenean vitae consequat dui. In hac habitasse platea dictumst. Etiam tristique laoreet eros vel tempor. Proin fermentum semper ligula non vehicula. Nunc at est dui. Phasellus at odio in eros bibendum elementum. Duis maximus enim quis ornare elementum. ",
+                successAlert: false,
+                errorAlert: false
             };
         },
         mounted() {
-            axios.get('http://localhost:8000/shop/api/listings/browse')
-            .then(response => {
-                this.listings = response.data;
-            })
-            .catch(error => {
-                console.error('Error fetching listings:', error);
-            });
+            this.getCurrentUser();
+            this.fetchRequestDetails(this.requestId);
         },
         methods: {
+            fetchRequestDetails(requestId) {
+                axios.get(`http://localhost:8000/shop/api/listings/requests/${requestId}`)
+                .then(response => {
+                    this.requestDetails = response.data;
+                    this.linkedListings = this.requestDetails.listings;
+                })
+                .catch(error => {
+                    console.error('Error fetching request details:', error);
+                });
+            },
             goToListingDetails(listingId) {
                 this.$router.push(`/listings/${listingId}`);
+            },
+            getCurrentUser() {
+                axios.get('http://localhost:8000/shop/api/users/current-user')
+                .then(response => {
+                    this.currentUser = response.data;
+                })
+                .catch(error => {
+                    console.error(`Error fetching current user: ${error}`);
+                });
+            },
+            async linkListing(listingId) {
+                // For now we would skip the selection process and automatically add #1
+                let formData = new FormData();
+                formData.append('listing_id', listingId);
+
+                let _ = await axios.post(`http://localhost:8000/shop/api/listings/requests/${this.requestId}/new/data`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(_ => {
+                    this.successAlert = true;
+                    this.errorAlert = false;
+                })
+                .catch(error => {
+                    console.error('Error linking new listing:', error);
+                    this.successAlert = false;
+                    this.errorAlert = true;
+                });
             }
         },
     };
