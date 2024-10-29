@@ -47,7 +47,8 @@
 
 <style>
     .result_card {
-        background-color: cornflowerblue;
+        background-color: rgb(199, 189, 231);
+        color: black;
         font-family: 'Courier New', Courier, monospace;
     }
 </style>

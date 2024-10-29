@@ -10,10 +10,20 @@
                         style="overflow: visible;"
                     >
                         <v-card-title class="handwritten px-8 pt-8">
-                            <h3>A title or something</h3>
+                            <h3 v-if="!loading">
+                                {{ requestDetails.title }}
+                            </h3>
+                            <h3 v-else>
+                                A title or something
+                            </h3>
                         </v-card-title>
                         <v-card-text class="px-8 pb-8">
-                            {{ this.exampleText }}
+                            <p v-if="!loading">
+                                *insert description here*
+                            </p>
+                            <p v-else>
+                                {{ this.exampleText }}
+                            </p>
                         </v-card-text>
                     </v-card>
                 </v-col>
@@ -21,7 +31,12 @@
                 <v-col cols="4" xl="3" class="d-flex justify-center align-start">
                     <v-avatar size="200">
                         <v-img
+                            v-if="loading"
                             src="@/assets/museum.jpeg"
+                        ></v-img>
+                        <v-img
+                            v-else
+                            :src="requestDetails.user.profile_picture"
                         ></v-img>
                     </v-avatar>
                 </v-col>
@@ -44,7 +59,7 @@
                                 class="plus-button"
                                 height="100%"
                                 width="100%"  
-                                @click="linkListing(1)"
+                                @click="goToSelection(requestId)"
                             >
                                 <v-card-title>
                                     <h1>
@@ -142,13 +157,12 @@
         name: 'Listings',
         data() {
             return {
+                loading: true,
                 currentUser: null,
                 requestId: this.$route.params.id,
                 requestDetails: null,
                 linkedListings: [],
-                exampleText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat neque at mauris tristique sagittis. Donec nec pretium felis. In nec efficitur nisl. Morbi consectetur odio sapien, non blandit massa suscipit a. Fusce varius purus eu augue aliquam, eget bibendum erat sagittis. Cras sodales leo in risus finibus, eget feugiat leo faucibus. Sed fringilla mollis sollicitudin. Aenean vitae consequat dui. In hac habitasse platea dictumst. Etiam tristique laoreet eros vel tempor. Proin fermentum semper ligula non vehicula. Nunc at est dui. Phasellus at odio in eros bibendum elementum. Duis maximus enim quis ornare elementum. ",
-                successAlert: false,
-                errorAlert: false
+                exampleText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat neque at mauris tristique sagittis. Donec nec pretium felis. In nec efficitur nisl. Morbi consectetur odio sapien, non blandit massa suscipit a. Fusce varius purus eu augue aliquam, eget bibendum erat sagittis. Cras sodales leo in risus finibus, eget feugiat leo faucibus. Sed fringilla mollis sollicitudin. Aenean vitae consequat dui. In hac habitasse platea dictumst. Etiam tristique laoreet eros vel tempor. Proin fermentum semper ligula non vehicula. Nunc at est dui. Phasellus at odio in eros bibendum elementum. Duis maximus enim quis ornare elementum. "
             };
         },
         created() {
@@ -161,6 +175,7 @@
                 .then(response => {
                     this.requestDetails = response.data;
                     this.linkedListings = this.requestDetails.listings;
+                    this.loading = false;
                 })
                 .catch(error => {
                     console.error('Error fetching request details:', error);
@@ -178,25 +193,8 @@
                     console.error(`Error fetching current user: ${error}`);
                 });
             },
-            async linkListing(listingId) {
-                // For now we would skip the selection process and automatically add #1
-                let formData = new FormData();
-                formData.append('listing_id', listingId);
-
-                let _ = await axios.post(`http://localhost:8000/shop/api/listings/requests/${this.requestId}/new/data`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-                .then(_ => {
-                    this.successAlert = true;
-                    this.errorAlert = false;
-                })
-                .catch(error => {
-                    console.error('Error linking new listing:', error);
-                    this.successAlert = false;
-                    this.errorAlert = true;
-                });
+            goToSelection(requestId) {
+                this.$router.push(`/listings/requests/${requestId}/select`);
             }
         },
     };

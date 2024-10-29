@@ -110,7 +110,7 @@
                 this.$router.push('/listings/requests/new');
             },
             goToRequestDetails(requestId) {
-                this.$router.push(`/listings/requests/${requestId}`);
+                this.$router.push(`/listings/requests/${requestId}/details`);
             }
         }
     }

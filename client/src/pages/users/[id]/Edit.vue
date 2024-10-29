@@ -17,7 +17,7 @@
                 <h1>
                     {{ userDetails.username }}
                     <v-btn
-                        class="ml-2"
+                        class="ml-4"
                         append-icon="mdi-check"
                     >
                         Save changes
