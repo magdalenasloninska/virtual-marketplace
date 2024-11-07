@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Listing, CustomUser, Request
+from .models import Listing, CustomUser, Request, Wishlist
 
 
 class ListingForm(forms.ModelForm):
@@ -22,6 +22,12 @@ class CustomUserForm(forms.ModelForm):
                   'password')
         
 class RequestForm(forms.ModelForm):
+    class Meta:
+        model = Request
+        fields = ('title',
+                  'description')
+
+class WishlistForm(forms.ModelForm):
     class Meta:
         model = Request
         fields = ('title',)

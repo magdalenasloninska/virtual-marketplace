@@ -5,9 +5,9 @@ from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from .models import Listing, CustomUser, Request
-from .form import ListingForm, RequestForm
-from .serializers import ListingSerializer, CustomUserSerializer, RequestSerializer
+from .models import Listing, CustomUser, Request, Wishlist
+from .form import ListingForm, RequestForm, WishlistForm
+from .serializers import ListingSerializer, CustomUserSerializer, RequestSerializer, WishlistSerializer
 
 
 def get_all_item_categories(request):
@@ -106,3 +106,9 @@ def link_listing_to_request(request, pk):
         return JsonResponse({'message': f'New listing linked successfully!'})
 
     return JsonResponse({'message': 'OOPS!'})
+
+class WishlistList(generics.ListAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
+    queryset = Wishlist.objects.all()
+    serializer_class = WishlistSerializer

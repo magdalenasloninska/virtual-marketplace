@@ -75,8 +75,9 @@ class Listing(models.Model):
     def __str__(self):
         return self.title
 
-    def is_new(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+    @classmethod
+    def get_newest(cls, user_id):
+        return cls.objects.filter(user=user_id).order_by('-pub_date')[:3]
 
 class Wishlist(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -86,7 +87,7 @@ class Wishlist(models.Model):
 class Request(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.TextField(max_length=120)
-    # description = models.TextField(max_length=1000)
+    description = models.TextField(max_length=1000)
     listings = models.ManyToManyField(Listing)
 
 class Transaction(models.Model):

@@ -21,6 +21,7 @@
                         auto-grow
                         prepend-icon="mdi-text-box-edit"
                         rows="3"
+                        v-model="description"
                     ></v-textarea>
 
                     <v-spacer class="pa-4"></v-spacer>
@@ -48,6 +49,7 @@
         data() {
             return {
                 title: '',
+                description: '',
                 currentUserId: null
             }
         },
@@ -58,6 +60,7 @@
             async publishRequest() {
                 let formData = new FormData();
                 formData.append('title', this.title);
+                formData.append('description', this.description);
                 formData.append('id', this.currentUserId);
 
                 let _ = await axios.post("http://localhost:8000/shop/api/listings/requests/new/data", formData)

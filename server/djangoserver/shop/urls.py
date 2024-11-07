@@ -9,7 +9,8 @@ from .views import \
     ListingDetailsView, \
     UserDetailsView, \
     RequestList, \
-    RequestDetailsView
+    RequestDetailsView, \
+    WishlistList
 
 urlpatterns = [
     # JWT authentication
@@ -33,4 +34,5 @@ urlpatterns = [
     path("api/users/current-user", auth.get_current_user, name='current_user'),
     path("api/users/<int:pk>", UserDetailsView.as_view()),
     path("api/users/<int:pk>/listings", ListingListOfUser.as_view()),
+    path("api/users/<int:pk>/wishlists", WishlistList.as_view()),
 ]

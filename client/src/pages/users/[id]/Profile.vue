@@ -138,11 +138,11 @@
           <v-card
             height="120"
             class="d-flex align-center justify-space-between"
-            @click=""
             variant="outlined"
             style="color: lightgrey;"
+            @click="goToWishlists(userDetails.id)"
           >
-            <v-card-title>Go to your wishlist</v-card-title>
+            <v-card-title>Go to your wishlists</v-card-title>
 
             <v-icon class="ml-2">mdi-arrow-right-bold</v-icon>
 
@@ -337,6 +337,9 @@
       },
       goToEditingView(userId) {
         this.$router.push(`/users/${userId}/edit`);
+      },
+      goToWishlists(userId) {
+        this.$router.push(`/users/${userId}/wishlists/all`);
       }
     }
   };

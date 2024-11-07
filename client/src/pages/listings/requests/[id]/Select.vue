@@ -26,7 +26,7 @@
                             cols="12"
                         >
                             <v-card class="d-flex justify-center">
-                                <v-card-text>
+                                <v-card-text class="pb-0">
                                     <v-checkbox
                                         :label=listing.title
                                         :value=listing.id
@@ -34,7 +34,6 @@
                                     ></v-checkbox>
                                 </v-card-text>
                             </v-card>
-                            
                         </v-col>
                     </v-row>
                 </v-container>
