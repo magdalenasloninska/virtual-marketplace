@@ -41,7 +41,7 @@
                                 </v-card-title>
 
                                 <v-card-subtitle>
-                                    4 listings linked
+                                    {{ request.linked_listings_count }} listings linked
                                 </v-card-subtitle>
 
                                 <v-card-text class="text-truncate">

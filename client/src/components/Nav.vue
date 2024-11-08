@@ -186,7 +186,6 @@
                 });
             },
             performSearch(phrase) {
-                console.log(`Searching for... ${phrase}`);
                 this.$router.push(`/search/${phrase}`);
             }
         }

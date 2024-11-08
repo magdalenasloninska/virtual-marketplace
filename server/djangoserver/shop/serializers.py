@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db.models import Count
 
 from .models import Listing, CustomUser, Request, Wishlist
 
@@ -41,13 +42,18 @@ class ListingSerializer(serializers.ModelSerializer):
 class RequestSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer()
     listings = ListingSerializer(many=True)
+    linked_listings_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Request
         fields = ['id',
                   'user',
                   'title',
-                  'listings']
+                  'listings',
+                  'linked_listings_count']
+        
+    def get_linked_listings_count(self, obj):
+        return obj.linked_listings_count()
         
 class WishlistSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer()

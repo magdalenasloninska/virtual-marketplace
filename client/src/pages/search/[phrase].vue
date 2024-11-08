@@ -8,7 +8,7 @@
 
                 <v-spacer class="pa-4"></v-spacer>
                 
-                <v-container fluid>
+                <v-container fluid :key="renderKey">
                     <v-row
                         v-if="results.length > 0"
                     >
@@ -60,7 +60,8 @@
         data() {
             return {
                 listings: [],
-                results: []
+                results: [],
+                renderKey: 0
             };
         },
         mounted() {
@@ -83,15 +84,24 @@
         // },
         methods: {
             performSearch(phrase) {
+
+                this.results = [];
+
                 for (const listing of this.listings) {
                     if (listing.title.toLowerCase().includes(phrase.toLowerCase())) {
                         this.results.push(listing);
                     }
                 }
+
+                this.renderKey += 1;
             },
             goToListingDetails(listingId) {
                 this.$router.push(`/listings/${listingId}`);
             }
+        },
+        beforeRouteUpdate(to, from, next) {
+            this.performSearch(to.params.phrase);
+            next();
         }
     }
 </script>

@@ -90,6 +90,9 @@ class Request(models.Model):
     description = models.TextField(max_length=1000)
     listings = models.ManyToManyField(Listing)
 
+    def linked_listings_count(self):
+        return self.listings.count()
+
 class Transaction(models.Model):
 
     class TransactionStatus(models.TextChoices):

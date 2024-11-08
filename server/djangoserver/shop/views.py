@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -110,5 +109,36 @@ def link_listing_to_request(request, pk):
 class WishlistList(generics.ListAPIView):
     authentication_classes = []
     permission_classes = (AllowAny,)
-    queryset = Wishlist.objects.all()
     serializer_class = WishlistSerializer
+
+    def get_queryset(self):
+        user_id = int(self.kwargs['pk'])
+        return Wishlist.objects.filter(user=user_id)
+
+@csrf_exempt
+def create_new_wishlist(request, pk):
+    if request.method == 'POST':
+        form = WishlistForm(request.POST)
+
+        if form.is_valid():
+            wishlist = form.save(commit=False)
+            user = CustomUser.objects.get(id=pk)
+            wishlist.user = user
+            wishlist.save()
+            print(wishlist.title)
+            return JsonResponse({'message': f'New wishlist {wishlist.id} published successfully!'})
+        else:
+            print(form.errors)
+        
+    return JsonResponse({'message': 'OOPS!'})
+
+@csrf_exempt
+def link_listing_to_wishlist(request, pk):
+    if request.method == 'POST':
+        current_request = Request.objects.get(id=pk)
+        listing = Listing.objects.get(id=request.POST.get('listing_id'))
+        current_request.listings.add(listing)
+
+        return JsonResponse({'message': f'New listing linked successfully!'})
+
+    return JsonResponse({'message': 'OOPS!'})

@@ -29,5 +29,5 @@ class RequestForm(forms.ModelForm):
 
 class WishlistForm(forms.ModelForm):
     class Meta:
-        model = Request
+        model = Wishlist
         fields = ('title',)
