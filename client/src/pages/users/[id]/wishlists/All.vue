@@ -10,10 +10,20 @@
                     <v-btn
                         class="ml-4"
                         append-icon="mdi-plus"
-                        @click="createNewWishlist()"
+                        @click="currentlyEditingTitle=true"
                     >
                         Create new list
                     </v-btn>
+
+                    <v-text-field
+                        v-if="currentlyEditingTitle"
+                        class="mt-4"
+                        clearable
+                        label="Title of your new wishlist"
+                        variant="outlined"
+                        @keyup.enter="createNewWishlist()"
+                        v-model="newTitle"
+                    ></v-text-field>
                 </h3>
 
                 <v-spacer class="pa-4"></v-spacer>
@@ -21,41 +31,41 @@
                 <v-container fluid :key="renderKey">
                     <v-row>
                         <v-col
-                            v-if="currentUser"
-                            :cols=6
-                        >
-                            <v-card
-                                class="plus-button"
-                                height="100%"
-                                width="100%"
-                                @click=""
-                            >
-                                <v-card-title class="handwritten">
-                                    <h3>
-                                        Help me find...
-                                    </h3>
-                                </v-card-title>
-                            </v-card>
-                        </v-col>
-                        <v-col
                             v-for="wishlist in wishlists"
                             :key="wishlist.title"
                             :cols=6
                         >
                             <v-card
                                 class="wishlist_card"
-                                @click=""
+                                @click="goToWishlistDetails(wishlist.id)"
                             >
-                                <v-card-title>
+                                <v-card-title class="d-flex justify-space-between align-center typewriter">
                                     {{ wishlist.title }}
+                                    <div>
+                                        <v-btn
+                                            class="ml-2"
+                                            icon="mdi-pencil"
+                                            style="color: lightgrey;"
+                                            variant="outlined"
+                                            @click.stop="editWishlistTitle(wishlist.id)"
+                                        ></v-btn>
+                                        <v-btn
+                                            class="ml-2"
+                                            icon="mdi-trash-can"
+                                            style="color: lightgrey;"
+                                            variant="outlined"
+                                            @click.stop="deleteWishlist(wishlist.id)"
+                                        ></v-btn>
+                                    </div>
+                                    
                                 </v-card-title>
 
                                 <v-card-subtitle>
-                                    Last updated: ...
+                                    Last updated in October 2024
                                 </v-card-subtitle>
 
                                 <v-card-text>
-                                    gfgfgfgfgffgggggggggggg
+                                    {{ wishlist.id }}
                                 </v-card-text>
                             </v-card>
                         </v-col>
@@ -67,6 +77,9 @@
 </template>
 
 <style>
+    .typewriter {
+        font-family: 'Courier New', Courier, monospace;
+    }
 </style>
 
 <script>
@@ -77,7 +90,8 @@
             return {
                 loading: true,
                 userId: this.$route.params.id,
-                newTitle: "New untitled list",
+                newTitle: "",
+                currentlyEditingTitle: false,
                 wishlists: [],
                 successAlert: false,
                 errorAlert: false,
@@ -111,6 +125,8 @@
                     this.successAlert = true;
                     this.errorAlert = false;
 
+                    this.currentlyEditingTitle = false;
+                    this.newTitle = "";
                     this.renderKey += 1;
                     this.fetchAllWishlists(this.userId);
                 })
@@ -121,7 +137,20 @@
                 });
             },
             deleteWishlist(wishlistId) {
-                
+                axios.post(`http://localhost:8000/shop/api/wishlists/delete/${wishlistId}`)
+                .then(_ => {
+                    this.renderKey += 1;
+                    this.fetchAllWishlists(this.userId);
+                })
+                .catch(error => {
+                    console.error('Error deleting wishlist:', error);
+                });
+            },
+            editWishlistTitle(wishlistId) {
+
+            },
+            goToWishlistDetails(wishlistId) {
+                this.$router.push(`/users/${this.userId}/wishlists/${wishlistId}`);
             }
         }
     }

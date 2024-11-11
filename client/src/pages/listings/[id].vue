@@ -158,7 +158,8 @@
         listingId: this.$route.params.id,
         listingDetails: [],
         seller: [],
-        isHearted: false
+        isHearted: false,
+        wishlistId: 32
       };
     },
     created() {
@@ -182,6 +183,7 @@
       },
       toggleHeart() {
         this.isHearted = !this.isHearted;
+        this.linkListing(this.listingId);
       },
       goToseller(userId) {
         this.$router.push(`/users/${userId}/profile`);
@@ -197,6 +199,22 @@
             .catch(error => {
                 console.error(`Error fetching current user: ${error}`);
             });
+      },
+      async linkListing(listingId) {
+          let formData = new FormData();
+          formData.append('listing_id', listingId);
+
+          let _ = await axios.post(`http://localhost:8000/shop/api/wishlists/${this.wishlistId}/new/data`, formData, {
+              headers: {
+                  'Content-Type': 'multipart/form-data'
+              }
+          })
+          .then(_ => {
+              // this.$router.push(`/listings/requests/${this.requestId}/details`);
+          })
+          .catch(error => {
+              console.error('Error linking new listing:', error);
+          });
       }
     }
   };

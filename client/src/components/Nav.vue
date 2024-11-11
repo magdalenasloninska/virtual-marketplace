@@ -71,6 +71,13 @@
             v-model="searchVal"
         ></v-text-field>
 
+        <v-btn
+            v-if="!loading"
+            class="mr-4"
+            icon="mdi-heart"
+            @click="this.$router.push(`/users/${user.id}/wishlists/all`);"
+        ></v-btn>
+
         <v-menu>
             <template v-slot:activator="{ props }">
                 <v-btn
@@ -95,14 +102,16 @@
             <v-card max-width="250">
                 <v-card-text>
                     <div class="mx-auto text-center" v-if="user">
-                        <h3>{{ user.username }}</h3>
+                        <h3>Hello, {{ user.username }}!</h3>
 
                         <v-spacer class="pa-2"></v-spacer>
 
                         <router-link :to="`/users/${user.id}/profile`">
                             <v-btn
+                                class="link"
                                 color="white"
                                 rounded
+                                block
                             >
                                 My profile
                             </v-btn>
@@ -112,8 +121,10 @@
 
                         <router-link :to="`/users/${user.id}/profile`">
                             <v-btn
+                                class="link"
                                 color="white"
                                 rounded
+                                block
                             >
                                 Logout
                             </v-btn>
@@ -127,8 +138,10 @@
 
                         <router-link to="/users/login">
                             <v-btn
+                                class="link"
                                 color="white"
                                 rounded
+                                block
                             >
                                 Login
                             </v-btn>
@@ -138,9 +151,11 @@
 
                         <router-link to="/users/register">
                             <v-btn
+                                class="link"
                                 color="white"
                                 variant="outlined"
                                 rounded
+                                block
                             >
                                 Register
                             </v-btn>
@@ -158,6 +173,10 @@
         color: white;
         text-decoration: none;
     }
+
+    .link {
+        text-decoration: none;
+    }
 </style>
 
 <script>
@@ -166,6 +185,7 @@
     export default {
         data() {
             return {
+                loading: true,
                 user: null,
                 searchVal: ''
             };
@@ -180,6 +200,8 @@
                     if ('username' in response.data) {
                         this.user = response.data;
                     }
+
+                    this.loading = false;
                 })
                 .catch(error => {
                     console.error(`Error fetching current user: ${error}`);

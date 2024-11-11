@@ -114,6 +114,13 @@ class WishlistList(generics.ListAPIView):
     def get_queryset(self):
         user_id = int(self.kwargs['pk'])
         return Wishlist.objects.filter(user=user_id)
+    
+class WishlistDetailsView(generics.RetrieveAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
+    queryset = Wishlist.objects.all()
+    serializer_class = WishlistSerializer
+
 
 @csrf_exempt
 def create_new_wishlist(request, pk):
@@ -135,10 +142,17 @@ def create_new_wishlist(request, pk):
 @csrf_exempt
 def link_listing_to_wishlist(request, pk):
     if request.method == 'POST':
-        current_request = Request.objects.get(id=pk)
+        wishlist = Wishlist.objects.get(id=pk)
         listing = Listing.objects.get(id=request.POST.get('listing_id'))
-        current_request.listings.add(listing)
+        wishlist.content.add(listing)
 
         return JsonResponse({'message': f'New listing linked successfully!'})
+
+    return JsonResponse({'message': 'OOPS!'})
+
+@csrf_exempt
+def delete_wishlist(request, pk):
+    if request.method == 'POST':
+        Wishlist.objects.filter(id=pk).delete()
 
     return JsonResponse({'message': 'OOPS!'})
