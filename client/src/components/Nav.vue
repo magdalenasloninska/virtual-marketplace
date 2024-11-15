@@ -74,7 +74,7 @@
         <v-btn
             v-if="!loading"
             class="mr-4"
-            icon="mdi-heart"
+            icon="mdi-heart-outline"
             @click="this.$router.push(`/users/${user.id}/wishlists/all`);"
         ></v-btn>
 

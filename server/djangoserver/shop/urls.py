@@ -28,12 +28,17 @@ urlpatterns = [
     path("api/listings/requests/all", RequestList.as_view(), name="all_requests"),
     path("api/listings/requests/<int:pk>", RequestDetailsView.as_view(), name="api_request_details"),
     path("api/listings/requests/<int:pk>/new/data", views.link_listing_to_request, name="link_listing_to_request"),
+
+    # Transactions
+    # path("api/transactions/<int:pk>/status", views.create_transaction, name="transaction_status"),
+    path("api/transactions/new/data", views.create_transaction, name="new_transaction"),
     
     # User-focused
     path("api/users/register/data", auth.sign_up, name='register'),
     path("api/users/login/data", auth.login_custom_user),
     path("api/users/current-user", auth.get_current_user, name='current_user'),
     path("api/users/<int:pk>", UserDetailsView.as_view()),
+    path("api/users/<int:pk>/edit", auth.edit_custom_user),
     path("api/users/<int:pk>/listings", ListingListOfUser.as_view()),
     path("api/users/<int:pk>/wishlists", WishlistList.as_view()),
     path("api/users/<int:pk>/wishlists/new/data", views.create_new_wishlist, name="new_wishlist"),

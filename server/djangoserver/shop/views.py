@@ -156,3 +156,12 @@ def delete_wishlist(request, pk):
         Wishlist.objects.filter(id=pk).delete()
 
     return JsonResponse({'message': 'OOPS!'})
+
+def create_transaction(request):
+    # Here's where transactions would be initialized
+    # Later at a confirmation step, we would switch it to COMPLETED (?)
+    # All of this would lead up to the possibility of adding a review
+    pass
+
+def add_review():
+    pass

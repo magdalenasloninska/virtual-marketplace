@@ -56,6 +56,11 @@ def login_custom_user(request):
 
     return JsonResponse({'message': f'OOPS! Error occured while logging in.'})
 
+@csrf_exempt
+def edit_custom_user(request):
+    if request.method == 'POST':
+        pass
+
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([AllowAny])
@@ -69,7 +74,7 @@ def get_current_user(request):
             'username': user.username,
             'profile_picture': request.build_absolute_uri(user.profile_picture.url)
         })
-    else:
-        return JsonResponse({
-            'active_login': False
-        })
+    
+    return JsonResponse({
+        'active_login': False
+    })

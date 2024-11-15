@@ -71,6 +71,7 @@ class Listing(models.Model):
     photo = models.ImageField(upload_to="uploads/listings/")
     description = models.TextField(max_length=1000)
     price = models.IntegerField(default=13)
+    featured = models.BooleanField
 
     def __str__(self):
         return self.title
@@ -98,7 +99,7 @@ class Transaction(models.Model):
     class TransactionStatus(models.TextChoices):
         INITIATED = "INITIATED"
         AWAITING_PAYMENT = "AWAITING_PAYMENT"
-        CONFIRMED = "CONFIRMED"
+        COMPLETED = "COMPLETED"
         CANCELLED = "CANCELLED"
 
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
@@ -108,12 +109,17 @@ class Transaction(models.Model):
         default=TransactionStatus.INITIATED
     )
 
-class Chat(models.Model):
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+class Review(models.Model):
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+    stars = models.FloatField()
+    comment = models.TextField(max_length=400)
 
-class Message(models.Model):
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
-    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    content = models.TextField(max_length=400)
-    time_sent = models.DateTimeField(auto_now_add=True)
-    # time_seen = models.DateTimeField()
+# class Chat(models.Model):
+#     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+
+# class Message(models.Model):
+#     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+#     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+#     content = models.TextField(max_length=400)
+#     time_sent = models.DateTimeField(auto_now_add=True)
+#     time_seen = models.DateTimeField()
