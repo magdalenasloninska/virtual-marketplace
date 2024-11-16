@@ -29,7 +29,8 @@ class ListingSerializer(serializers.ModelSerializer):
                   'category',
                   'photo',
                   'description',
-                  'price']
+                  'price',
+                  'featured']
 
     def get_photo(self, obj):
         request = self.context.get('request')

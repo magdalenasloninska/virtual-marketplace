@@ -38,7 +38,7 @@ urlpatterns = [
     path("api/users/login/data", auth.login_custom_user),
     path("api/users/current-user", auth.get_current_user, name='current_user'),
     path("api/users/<int:pk>", UserDetailsView.as_view()),
-    path("api/users/<int:pk>/edit", auth.edit_custom_user),
+    path("api/users/<int:pk>/edit/data", auth.edit_custom_user),
     path("api/users/<int:pk>/listings", ListingListOfUser.as_view()),
     path("api/users/<int:pk>/wishlists", WishlistList.as_view()),
     path("api/users/<int:pk>/wishlists/new/data", views.create_new_wishlist, name="new_wishlist"),

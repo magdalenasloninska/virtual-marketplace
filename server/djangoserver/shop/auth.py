@@ -57,9 +57,16 @@ def login_custom_user(request):
     return JsonResponse({'message': f'OOPS! Error occured while logging in.'})
 
 @csrf_exempt
-def edit_custom_user(request):
+def edit_custom_user(request, pk):
     if request.method == 'POST':
-        pass
+        new_about = request.POST.get('new_about')
+        user = CustomUser.objects.get(id=pk)
+        user.about = new_about
+        user.save()
+
+        return JsonResponse({'message': 'Successful edit!'})
+    
+    return JsonResponse({'message': 'Oops! Error occured during profile edit'})
 
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
