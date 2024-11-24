@@ -31,6 +31,51 @@
                 </div>
 
                 <v-row>
+                    <v-col cols="6" class="d-flex justify-center">
+                        <div v-if="photoPreview">
+                            <!-- <v-img
+                                :src="photoPreview"
+                                height="500"
+                                width="500"
+                            ></v-img> -->
+
+                            <v-card
+                                class="mt-8 mb-8"
+                                variant="outlined"
+                                height="400"
+                                width="400"
+                                style="overflow: visible;"
+                            >
+                                <canvas
+                                    id="editingCanvas"
+                                    width="400"
+                                    height="400"
+                                ></canvas>
+                            </v-card>
+
+                            <v-switch
+                                class="mt-4"
+                                label="Drawing mode"
+                                color="primary"
+                                @change="toggleFreeDrawing"
+                            ></v-switch>
+                        </div>
+                
+                        <v-card
+                            v-else
+                            class="d-flex justify-center align-center"
+                            variant="outlined"
+                            height="500"
+                            width="400"
+                            style="color: lightgrey;"
+                        >
+                            <v-card-title
+                                class="typewriter"
+                            >
+                                Photo preview here
+                            </v-card-title>    
+                        </v-card>
+                    </v-col>
                     <v-col cols="6">
                         <form>
                             <v-text-field
@@ -86,35 +131,12 @@
                                 class="me-4"
                                 color="rgb(199, 189, 231)"
                                 variant="outlined"
+                                @click="this.$router.push('/listings/fabric')"
                             >
                                 Save to drafts
                             </v-btn>
                         </form>
 
-                    </v-col>
-
-                    <v-col cols="6" class="d-flex justify-center">
-                        <v-img
-                            v-if="photoPreview"
-                            :src="photoPreview"
-                            height="500"
-                            width="500"
-                        ></v-img>
-
-                        <v-card
-                            v-else
-                            class="d-flex justify-center align-center"
-                            variant="outlined"
-                            height="500"
-                            width="400"
-                            style="color: lightgrey;"
-                        >
-                            <v-card-title
-                                class="typewriter"
-                            >
-                                Photo preview here
-                            </v-card-title>    
-                        </v-card>
                     </v-col>
                 </v-row>
             </v-col>
@@ -134,7 +156,8 @@
 
 <script>
     import axios from 'axios';
-    // import fabric from 'fabric';
+    import * as fabric from 'fabric';
+    import dressImage from '@/assets/dress.jpeg';
 
     export default {
         data() {
@@ -148,12 +171,18 @@
                 price: 0,
                 currentUserId: null,
                 successAlert: false,
-                errorAlert: false
+                errorAlert: false,
+
+                // Fabric.js canvas options
+                canvas: null,
+                isDrawing: false,
+                brushColour: "#c7bde7"
             }
         },
-        created() {
+        mounted() {
             this.fetchAllItemCategories();
             this.getCurrentUser();
+            this.setupCanvas();
         },
         methods: {
             fetchAllItemCategories() {
@@ -179,9 +208,17 @@
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-                .then(_ => {
-                    this.successAlert = true;
-                    this.errorAlert = false;
+                .then(response => {
+                    console.log(response.data.message);
+
+                    if (response.data.success) {
+                        this.successAlert = true;
+                        this.errorAlert = false;
+                    } else {
+                        this.successAlert = false;
+                        this.errorAlert = true;
+                    }
+                    
                 })
                 .catch(error => {
                     console.error('Error publishing new listing:', error);
@@ -205,6 +242,42 @@
                 if (file) {
                     this.photo = file;
                     this.photoPreview = URL.createObjectURL(file);
+                }
+            },
+            setupCanvas() {
+                this.canvas = new fabric.Canvas('editingCanvas', {
+                    width: 400,
+                    height: 400
+                });
+
+                this.canvas.freeDrawingBrush = new fabric.PencilBrush(this.canvas);
+                this.canvas.freeDrawingBrush.color = this.brushColour;
+                this.canvas.freeDrawingBrush.width = 10;
+
+                fabric.Image.fromURL(dressImage).then((img) => {
+                    img.set({
+                            dirty: true,
+                            scaleX: 1,
+                            scaleY: 1,
+                            left: 0,
+                            top: 0,
+                            selectable: false,
+                            evented: false,
+                            hasControls: false
+                    });
+
+                    this.canvas.add(img);
+                    this.canvas.setActiveObject(img);
+
+                    console.log('Image added!');
+                });
+            },
+            toggleFreeDrawing() {
+                this.isDrawing = !this.isDrawing;
+                this.canvas.isDrawingMode = this.isDrawing;
+
+                if (this.isDrawing) {
+                    this.canvas.freeDrawingBrush.color = this.brushColour;
                 }
             }
         }

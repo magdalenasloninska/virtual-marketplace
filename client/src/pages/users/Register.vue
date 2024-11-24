@@ -93,12 +93,17 @@
                 formData.append('profile_picture', this.profile_picture);
                 formData.append('password', this.password1);
 
-                let _ = await axios.post("http://localhost:8000/shop/api/users/register/data", formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+                try {
+                    let _ = await axios.post("http://localhost:8000/shop/api/users/register/data", formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                } catch (error) {
+                    
+                }
             }
+                
         }
     }
 </script>

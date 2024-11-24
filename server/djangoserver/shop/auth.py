@@ -21,11 +21,17 @@ def sign_up(request):
 
         if form.is_valid():
             user = form.save()
-            return JsonResponse({'message': f'New user {user.id} has been registered successfully!',})
+            return JsonResponse({
+                'success': True,
+                'message': f'New user {user.id} has been registered successfully!'
+            })
         else:
             print(form.errors)
 
-    return JsonResponse({'message': 'OOPS! Error occured while registering a new user.'})
+    return JsonResponse({
+        'success': False,
+        'message': 'OOPS! Error occured while registering a new user.'
+    })
 
 @csrf_exempt
 def login_custom_user(request):
@@ -64,9 +70,15 @@ def edit_custom_user(request, pk):
         user.about = new_about
         user.save()
 
-        return JsonResponse({'message': 'Successful edit!'})
+        return JsonResponse({
+            'success': True,
+            'message': 'Successful edit!'
+        })
     
-    return JsonResponse({'message': 'Oops! Error occured during profile edit'})
+    return JsonResponse({
+        'success': False,
+        'message': 'Oops! Error occured during profile edit'
+    })
 
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
