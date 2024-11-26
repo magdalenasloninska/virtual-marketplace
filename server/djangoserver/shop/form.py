@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Listing, CustomUser, Request, Wishlist
+from .models import Listing, CustomUser, Request, Wishlist, Transaction
 
 
 class ListingForm(forms.ModelForm):
@@ -31,3 +31,8 @@ class WishlistForm(forms.ModelForm):
     class Meta:
         model = Wishlist
         fields = ('title',)
+
+class TransactionForm(forms.ModelForm):
+    class Meta:
+        model = Transaction
+        fields = ()

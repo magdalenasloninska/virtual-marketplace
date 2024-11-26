@@ -69,9 +69,19 @@
 						</v-menu>
 
 					</v-container>
-					
+
 					<v-card-title class="text-wrap">
-						<h1>{{ listingDetails.title }}</h1>
+						<h1>{{ listingDetails.title }}
+							<v-chip
+								v-if="listingDetails.sold"
+								class="ml-2 "
+								size="x-large"
+								variant="flat"
+								color="rgb(215, 235, 186)"
+							>
+								Item sold
+							</v-chip>
+						</h1>
 					</v-card-title>
 					<v-card-subtitle>
 						<h2>{{ listingDetails.price }} €</h2>
@@ -115,7 +125,7 @@
 				<v-spacer class="my-8"></v-spacer>
 
 				<v-container
-					v-if="!isCurrentUser"
+					v-if="!isCurrentUser && !listingDetails.sold"
 					class="pa-0"
 				>
 					<v-btn
@@ -123,7 +133,7 @@
 						color="rgb(199, 189, 231)"
 						rounded
 						class="pa-4"
-						@click="createOrder()"
+						@click="createOrder(listingId)"
 					>
 						Buy now
 					</v-btn>
@@ -212,8 +222,8 @@
 			goToseller(userId) {
 				this.$router.push(`/users/${userId}/profile`);
 			},
-			createOrder() {
-				this.$router.push(`/order/create`);
+			createOrder(listingId) {
+				this.$router.push(`/order/${listingId}/create`);
 			},
 			getCurrentUser() {
 				axios.get('http://localhost:8000/shop/api/users/current-user')

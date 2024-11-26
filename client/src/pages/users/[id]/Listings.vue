@@ -24,6 +24,15 @@
                                     aspect-ratio="1"
                                     cover
                                 >
+                                    <v-chip
+                                        v-if="listing.sold"
+                                        size="x-large"
+                                        variant="flat"
+                                        color="rgb(215, 235, 186)"
+                                    >
+                                        Item sold
+                                    </v-chip>
+
                                     <v-card-title class="text-white">
                                         {{listing.title}}
                                     </v-card-title>

@@ -9,7 +9,7 @@
                 <v-container fluid>
                     <v-row>
                         <v-col
-                            v-for="listing in listings"
+                            v-for="listing in listings.filter(listing => !listing.sold)"
                             :key="listing.title"
                             :cols=4
                             >

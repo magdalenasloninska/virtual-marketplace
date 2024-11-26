@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.db.models import Count
 
-from .models import Listing, CustomUser, Request, Wishlist
+from .models import Listing, CustomUser, Request, Wishlist, Transaction
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -30,6 +30,7 @@ class ListingSerializer(serializers.ModelSerializer):
                   'photo',
                   'description',
                   'price',
+                  'sold',
                   'featured']
 
     def get_photo(self, obj):
@@ -67,3 +68,10 @@ class WishlistSerializer(serializers.ModelSerializer):
                   'user',
                   'title',
                   'content']
+        
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = ['id',
+                  'listing',
+                  'status']

@@ -9,7 +9,7 @@
                 <v-container fluid>
                     <v-row>
                         <v-col
-                            v-for="listing in listings"
+                            v-for="listing in listings.filter(listing => !listing.sold)"
                             :key="listing.title"
                             :cols=4
                         >
@@ -23,7 +23,7 @@
                                     gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
                                     aspect-ratio="1"
                                     cover
-                                    >
+                                >
                                     <v-card-title class="text-white">
                                         {{listing.title}}
                                     </v-card-title>

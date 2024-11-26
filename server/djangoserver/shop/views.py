@@ -4,8 +4,8 @@ from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from .models import Listing, CustomUser, Request, Wishlist
-from .form import ListingForm, RequestForm, WishlistForm
+from .models import Listing, CustomUser, Request, Wishlist, Transaction
+from .form import ListingForm, RequestForm, WishlistForm, TransactionForm
 from .serializers import ListingSerializer, CustomUserSerializer, RequestSerializer, WishlistSerializer
 
 
@@ -144,7 +144,6 @@ def create_new_wishlist(request, pk):
             user = CustomUser.objects.get(id=pk)
             wishlist.user = user
             wishlist.save()
-            print(wishlist.title)
             return JsonResponse({'message': f'New wishlist {wishlist.id} published successfully!'})
         else:
             print(form.errors)
@@ -169,11 +168,35 @@ def delete_wishlist(request, pk):
 
     return JsonResponse({'message': 'OOPS!'})
 
+@csrf_exempt
 def create_transaction(request):
     # Here's where transactions would be initialized
     # Later at a confirmation step, we would switch it to COMPLETED (?)
     # All of this would lead up to the possibility of adding a review
-    pass
 
-def add_review():
+    if request.method == 'POST':
+        form = TransactionForm(request.POST)
+
+        if form.is_valid():
+            transaction = form.save(commit=False)
+
+            listing = Listing.objects.get(id=request.POST.get('listing_id'))
+            listing.sold = True
+            listing.save()
+
+            transaction.listing = listing
+            transaction.status = Transaction.TransactionStatus.COMPLETED
+            transaction.save()
+
+            return JsonResponse({
+                'success': True,
+                'message': 'New transaction initialized successfully!'
+            })
+        
+    return JsonResponse({
+        'success': False,
+        'message': 'Error while creating a new transaction'
+    })
+
+def add_review(request):
     pass
