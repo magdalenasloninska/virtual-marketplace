@@ -71,6 +71,7 @@ class Listing(models.Model):
     photo = models.ImageField(upload_to="uploads/listings/")
     description = models.TextField(max_length=1000)
     price = models.IntegerField(default=13)
+    sold = models.BooleanField(default=False)
     featured = models.BooleanField(default=False)
 
     def __str__(self):

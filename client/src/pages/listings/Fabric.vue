@@ -77,6 +77,8 @@
                     this.canvas.add(img);
                     this.canvas.setActiveObject(img);
                 });
+
+                console.log('After setupCanvas:', document.getElementById('drawingCanvas'));
             },
             toggleFreeDrawing() {
                 this.isDrawing = !this.isDrawing;
@@ -91,8 +93,8 @@
             saveCanvas() {
                 const dataURL = this.canvas.toDataURL();
                 console.log('Canvas saved image URL:', dataURL);
-            },
-        },
+            }
+        }
     };
 
 </script>

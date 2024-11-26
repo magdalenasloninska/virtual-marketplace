@@ -24,11 +24,17 @@ def publish_listing(request):
             user = CustomUser.objects.get(id=user_id)
             listing.user = user
             listing.save()
-            return JsonResponse({'message': f'New listing {listing.id} published successfully!'})
+            return JsonResponse({
+                'success': True,
+                'message': f'New listing {listing.id} published successfully!'
+            })
         else:
             print(form.errors)
         
-    return JsonResponse({'message': 'OOPS!'})
+    return JsonResponse({
+        'success': False,
+        'message': 'OOPS!'
+    })
 
 class ListingList(generics.ListAPIView):
     authentication_classes = []
@@ -72,16 +78,23 @@ def publish_request(request):
         form = RequestForm(request.POST)
 
         if form.is_valid():
-            request = form.save(commit=False)
+            new_request = form.save(commit=False)
             user_id = int(form.data.get('id'))
             user = CustomUser.objects.get(id=user_id)
-            request.user = user
-            request.save()
-            return JsonResponse({'message': f'New request {request.id} published successfully!'})
+            new_request.user = user
+            new_request.save()
+            print(new_request.description)
+            return JsonResponse({
+                'success': True,
+                'message': f'New request {new_request.id} published successfully!'
+            })
         else:
             print(form.errors)
         
-    return JsonResponse({'message': 'OOPS!'})
+    return JsonResponse({
+        'success': False,
+        'message': 'OOPS!'
+    })
 
 class RequestList(generics.ListAPIView):
     authentication_classes = []
@@ -120,7 +133,6 @@ class WishlistDetailsView(generics.RetrieveAPIView):
     permission_classes = (AllowAny,)
     queryset = Wishlist.objects.all()
     serializer_class = WishlistSerializer
-
 
 @csrf_exempt
 def create_new_wishlist(request, pk):

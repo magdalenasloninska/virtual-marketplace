@@ -45,7 +45,7 @@
                                 </v-card-subtitle>
 
                                 <v-card-text class="text-truncate">
-                                    {{ exampleText }}
+                                    {{ request.description }}
                                 </v-card-text>
                             </v-card>
                         </v-col>

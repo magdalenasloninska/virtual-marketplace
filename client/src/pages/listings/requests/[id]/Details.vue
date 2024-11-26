@@ -19,7 +19,7 @@
                         </v-card-title>
                         <v-card-text class="px-8 pb-8">
                             <p v-if="!loading">
-                                *insert description here*
+                                {{ requestDetails.description }}
                             </p>
                             <p v-else>
                                 {{ this.exampleText }}

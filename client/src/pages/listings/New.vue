@@ -32,7 +32,7 @@
 
                 <v-row>
                     <v-col cols="6" class="d-flex justify-center">
-                        <div v-if="photoPreview">
+                        <div>
                             <!-- <v-img
                                 :src="photoPreview"
                                 height="500"
@@ -40,16 +40,15 @@
                             ></v-img> -->
 
                             <v-card
-                                class="mt-8 mb-8"
+                                class="mt mb-8"
                                 variant="outlined"
-                                height="400"
-                                width="400"
-                                style="overflow: visible;"
+                                height="500"
+                                width="500"
                             >
                                 <canvas
                                     id="editingCanvas"
-                                    width="400"
-                                    height="400"
+                                    width="500"
+                                    height="500"
                                 ></canvas>
                             </v-card>
 
@@ -60,13 +59,12 @@
                                 @change="toggleFreeDrawing"
                             ></v-switch>
                         </div>
-                
+<!--                 
                         <v-card
-                            v-else
                             class="d-flex justify-center align-center"
                             variant="outlined"
                             height="500"
-                            width="400"
+                            width="500"
                             style="color: lightgrey;"
                         >
                             <v-card-title
@@ -74,7 +72,7 @@
                             >
                                 Photo preview here
                             </v-card-title>    
-                        </v-card>
+                        </v-card> -->
                     </v-col>
                     <v-col cols="6">
                         <form>
@@ -157,7 +155,6 @@
 <script>
     import axios from 'axios';
     import * as fabric from 'fabric';
-    import dressImage from '@/assets/dress.jpeg';
 
     export default {
         data() {
@@ -243,22 +240,15 @@
                     this.photo = file;
                     this.photoPreview = URL.createObjectURL(file);
                 }
-            },
-            setupCanvas() {
-                this.canvas = new fabric.Canvas('editingCanvas', {
-                    width: 400,
-                    height: 400
-                });
 
-                this.canvas.freeDrawingBrush = new fabric.PencilBrush(this.canvas);
-                this.canvas.freeDrawingBrush.color = this.brushColour;
-                this.canvas.freeDrawingBrush.width = 10;
+                fabric.Image.fromURL(this.photoPreview).then((img) => {
+                    
+                    let scale = Math.min(500 / img.height, 500 / img.width);
 
-                fabric.Image.fromURL(dressImage).then((img) => {
                     img.set({
                             dirty: true,
-                            scaleX: 1,
-                            scaleY: 1,
+                            scaleX: scale,
+                            scaleY: scale,
                             left: 0,
                             top: 0,
                             selectable: false,
@@ -267,10 +257,18 @@
                     });
 
                     this.canvas.add(img);
-                    this.canvas.setActiveObject(img);
-
-                    console.log('Image added!');
+                    this.canvas.centerObject(img);
                 });
+            },
+            setupCanvas() {
+                this.canvas = new fabric.Canvas('editingCanvas', {
+                    width: 500,
+                    height: 500
+                });
+
+                this.canvas.freeDrawingBrush = new fabric.PencilBrush(this.canvas);
+                this.canvas.freeDrawingBrush.color = this.brushColour;
+                this.canvas.freeDrawingBrush.width = 10;
             },
             toggleFreeDrawing() {
                 this.isDrawing = !this.isDrawing;
@@ -279,6 +277,8 @@
                 if (this.isDrawing) {
                     this.canvas.freeDrawingBrush.color = this.brushColour;
                 }
+
+                console.log('Toggle!');
             }
         }
     }

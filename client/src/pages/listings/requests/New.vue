@@ -8,6 +8,29 @@
 
                 <v-spacer class="pa-4"></v-spacer>
                 
+                <div>
+                    <v-alert
+                        v-if="successAlert"
+                        close-label="Close Alert"
+                        color="rgb(215, 235, 186)"
+                        type="success"
+                        closable
+                        class="mb-8"
+                    >
+                        The request has been published successfuly!
+                    </v-alert>
+                    
+                    <v-alert
+                        v-if="errorAlert"
+                        color="rgb(216, 30, 91)"
+                        type="error"
+                        closable
+                        class="mb-8"
+                    >
+                        The request couldn't be published, fix errors and try again!
+                    </v-alert>
+                </div>
+
                 <form>
                     <v-text-field
                         label="Title"
@@ -50,7 +73,9 @@
             return {
                 title: '',
                 description: '',
-                currentUserId: null
+                currentUserId: null,
+                successAlert: false,
+                errorAlert: false
             }
         },
         created() {
@@ -64,10 +89,15 @@
                 formData.append('id', this.currentUserId);
 
                 let _ = await axios.post("http://localhost:8000/shop/api/listings/requests/new/data", formData)
-                .then(_ => {
-                    console.log(`Request title: ${this.title}`)
-                    this.successAlert = true;
-                    this.errorAlert = false;
+                .then(response => {
+
+                    if (response.data.success) {
+                        this.successAlert = true;
+                        this.errorAlert = false;
+                    } else {
+                        this.successAlert = false;
+                        this.errorAlert = true;
+                    }
                 })
                 .catch(error => {
                     console.error('Error publishing new request:', error);

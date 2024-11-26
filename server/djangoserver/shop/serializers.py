@@ -50,6 +50,7 @@ class RequestSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'user',
                   'title',
+                  'description',
                   'listings',
                   'linked_listings_count']
         
