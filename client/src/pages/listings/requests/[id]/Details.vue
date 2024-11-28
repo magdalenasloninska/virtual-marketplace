@@ -13,16 +13,10 @@
                             <h3 v-if="!loading">
                                 {{ requestDetails.title }}
                             </h3>
-                            <h3 v-else>
-                                A title or something
-                            </h3>
                         </v-card-title>
                         <v-card-text class="px-8 pb-8">
                             <p v-if="!loading">
                                 {{ requestDetails.description }}
-                            </p>
-                            <p v-else>
-                                {{ this.exampleText }}
                             </p>
                         </v-card-text>
                     </v-card>
@@ -161,8 +155,7 @@
                 currentUser: null,
                 requestId: this.$route.params.id,
                 requestDetails: null,
-                linkedListings: [],
-                exampleText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat neque at mauris tristique sagittis. Donec nec pretium felis. In nec efficitur nisl. Morbi consectetur odio sapien, non blandit massa suscipit a. Fusce varius purus eu augue aliquam, eget bibendum erat sagittis. Cras sodales leo in risus finibus, eget feugiat leo faucibus. Sed fringilla mollis sollicitudin. Aenean vitae consequat dui. In hac habitasse platea dictumst. Etiam tristique laoreet eros vel tempor. Proin fermentum semper ligula non vehicula. Nunc at est dui. Phasellus at odio in eros bibendum elementum. Duis maximus enim quis ornare elementum. "
+                linkedListings: []
             };
         },
         created() {

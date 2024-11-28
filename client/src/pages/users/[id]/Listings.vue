@@ -12,15 +12,15 @@
                             v-for="listing in listings"
                             :key="listing.title"
                             :cols=4
-                            >
+                        >
                             <v-card
                                 class="grid-item"
                                 @click="goToListingDetails(listing.id)"
-                                >
+                            >
                                 <v-img
                                     :src="listing.photo"
                                     class="align-end"
-                                    gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
+                                    :gradient="getThumbnailGradient(listing.sold)"
                                     aspect-ratio="1"
                                     cover
                                 >
@@ -90,6 +90,11 @@
             goToListingDetails(listingId) {
                 this.$router.push(`/listings/${listingId}`);
             },
-        },
+            getThumbnailGradient(isSold) {
+                return isSold
+                    ? 'to bottom, rgba(0,0,0,0.55), rgba(0,0,0,.55)'
+                    : 'to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)';
+            },
+        }
     };
 </script>

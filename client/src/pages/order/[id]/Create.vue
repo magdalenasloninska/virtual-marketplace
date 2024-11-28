@@ -14,9 +14,22 @@
                     <template v-slot:item.1>
                         <v-card>
                             <v-card-title>Item details</v-card-title>
-                            <v-card-text>
-                                The item: <b>{{ listingId }}</b>
-                            </v-card-text>
+                            
+                            <div v-if="!loading">
+                                <v-card-text>
+                                    Name: <b>{{ listingDetails.title }}</b>
+                                    <br>
+                                    Price: <b>{{ listingDetails.price }}</b>
+                                </v-card-text>
+
+                                <v-img
+                                    :src="listingDetails.photo"
+                                    height="300"
+                                    width="300"
+                                    class="rounded-xl mt-2 ml-3"
+                                    cover
+                                ></v-img>
+                            </div>
                         </v-card>
                     </template>
 
@@ -31,22 +44,22 @@
                                 <v-spacer class="pa-4"></v-spacer>
 
                                 <v-btn-toggle
-                                    v-model="text"
-                                    color="lightgrey"
+                                    v-model="deliveryOption"
+                                    color="rgb(81, 69, 118)"
                                     rounded="0"
                                     group
                                 >
-                                    <v-btn value="left">
+                                    <v-btn value=0>
                                         Delivery option 1<br>
                                         10 €
                                     </v-btn>
 
-                                    <v-btn value="center">
+                                    <v-btn value=1>
                                         Delivery option 2<br>
                                         12 €
                                     </v-btn>
 
-                                    <v-btn value="right">
+                                    <v-btn value=2>
                                         Delivery option 3<br>
                                         13 €
                                     </v-btn>
@@ -122,23 +135,25 @@
                     </template>
                 </v-stepper>
 
-                <v-btn
-                    class="mt-8 mr-4"
-                    color="rgb(199, 189, 231)"
-                    :disabled="isLastStep"
-                    @click="initTransaction(listingId)"
-                >
-                    Order
-                </v-btn>
+                <div>
+                    <v-btn
+                        class="mt-8 mr-4"
+                        color="rgb(199, 189, 231)"
+                        :disabled="isLastStep"
+                        @click="initTransaction(listingId)"
+                    >
+                        Order
+                    </v-btn>
 
-                <v-btn
-                    class="mt-8"
-                    color="rgb(199, 189, 231)"
-                    variant="outlined"
-                    @click="this.$router.push(`/listings/${listingId}`);"
-                >
-                    Back to listing
-                </v-btn>
+                    <v-btn
+                        class="mt-8"
+                        color="rgb(199, 189, 231)"
+                        variant="outlined"
+                        @click="this.$router.push(`/listings/${listingId}`);"
+                    >
+                        Back to listing
+                    </v-btn>
+                </div>
             </v-col>
         </v-row>
     </v-container>
@@ -153,13 +168,28 @@
     export default {
         data() {
             return {
+                loading: true,
+                listingDetails: null,
                 listingId: this.$route.params.id,
                 stepperItems: ["Item details", "Delivery", "Payment methods"],
                 isLastStep: false,
-                text: 'center',
+                deliveryOption: 0
             }
         },
+        mounted() {
+            this.fetchListingDetails(this.listingId);
+        },
         methods: {
+            fetchListingDetails(listingId) {
+				axios.get(`http://localhost:8000/shop/api/listings/${listingId}`)
+					.then(response => {
+						this.listingDetails = response.data;
+						this.loading = false;
+					})
+					.catch(error => {
+						console.error('Error fetching listing details:', error);
+					});
+			},
             async initTransaction(listingId) {
                 let formData = new FormData();
 				formData.append('listing_id', listingId);

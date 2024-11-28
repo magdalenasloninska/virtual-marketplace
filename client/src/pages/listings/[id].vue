@@ -36,7 +36,6 @@
 									v-if="!isCurrentUser"
 									v-bind="props"
 									:icon="isHearted ? 'mdi-heart' : 'mdi-heart-outline'"
-									@click="toggleHeart"
 								></v-btn>
 							</template>
 
@@ -257,6 +256,7 @@
 				})
 				.then(_ => {
 					// this.$router.push(`/listings/requests/${this.requestId}/details`);
+					this.isHearted = true;
 				})
 				.catch(error => {
 					console.error('Error linking new listing:', error);
