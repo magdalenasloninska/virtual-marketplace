@@ -28,7 +28,7 @@
                                         v-if="listing.sold"
                                         size="x-large"
                                         variant="flat"
-                                        color="rgb(215, 235, 186)"
+                                        color="success"
                                     >
                                         Item sold
                                     </v-chip>

@@ -58,7 +58,7 @@
 
 <style>
     .request_card {
-        background-color: /* rgb(216, 30, 91); */ rgb(81, 69, 118);
+        background-color: rgb(var(--v-theme-primary));
         /* font-family: 'Courier New', Courier, monospace; */
     }
 

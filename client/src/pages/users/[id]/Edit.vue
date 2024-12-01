@@ -119,7 +119,7 @@
 	opacity: .85;
 	align-items: center;
 	justify-content: center;
-	background-color: rgb(81, 69, 118);
+	background-color: rgb(var(--v-theme-primary));
 	height: 100%;
 	}
 

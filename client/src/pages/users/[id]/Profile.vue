@@ -20,7 +20,7 @@
 								icon="mdi-account-edit"
 								class="ml-2"
 								variant="outlined"
-								style="color: lightgrey;"
+								color="ternary"
 								@click="goToEditingView(userId)"
 							></v-btn>
 						</h1>
@@ -53,7 +53,7 @@
 						class="d-flex align-center justify-space-between mb-4"
 						@click="this.$router.push(`/users/${userDetails.id}/listings`)"
 						variant="outlined"
-						style="color: lightgrey;"
+						color="ternary"
 						
 					>
 						<v-card-title>Go to your published listings</v-card-title>
@@ -67,7 +67,7 @@
 						class="d-flex align-center justify-space-between mb-4"
 						@click=""
 						variant="outlined"
-						style="color: lightgrey;"
+						color="ternary"
 					>
 						<v-card-title>Go to your drafts</v-card-title>
 
@@ -79,7 +79,7 @@
 						height="120"
 						class="d-flex align-center justify-space-between"
 						variant="outlined"
-						style="color: lightgrey;"
+						color="ternary"
 						@click="goToWishlists(userDetails.id)"
 					>
 						<v-card-title>Go to your wishlists</v-card-title>
@@ -153,7 +153,7 @@
 		opacity: .85;
 		align-items: center;
 		justify-content: center;
-		background-color: rgb(81, 69, 118);
+		background-color: rgb(var(--v-theme-primary));
 		height: 100%;
 	}
 

@@ -10,7 +10,7 @@
                     <v-btn
                         class="ml-4"
                         append-icon="mdi-check"
-                        color="rgb(199, 189, 231)"
+                        color="secondary"
                         @click="linkListing(selectedListingId)"
                     >
                         Save my choice

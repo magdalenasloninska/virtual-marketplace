@@ -45,14 +45,14 @@
                                         <v-btn
                                             class="ml-2"
                                             icon="mdi-pencil"
-                                            style="color: lightgrey;"
+                                            color="ternary"
                                             variant="outlined"
                                             @click.stop="editWishlistTitle(wishlist.id)"
                                         ></v-btn>
                                         <v-btn
                                             class="ml-2"
                                             icon="mdi-trash-can"
-                                            style="color: lightgrey;"
+                                            color="ternary"
                                             variant="outlined"
                                             @click.stop="deleteWishlist(wishlist.id)"
                                         ></v-btn>

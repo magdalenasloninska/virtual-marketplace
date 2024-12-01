@@ -26,7 +26,7 @@
 
                     <v-btn
                         class="me-4"
-                        color="rgb(199, 189, 231)"
+                        color="secondary"
                         v-on:click.prevent="loginUser()"
                     >
                         Login

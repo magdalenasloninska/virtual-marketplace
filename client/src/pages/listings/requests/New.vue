@@ -12,7 +12,7 @@
                     <v-alert
                         v-if="successAlert"
                         close-label="Close Alert"
-                        color="rgb(215, 235, 186)"
+                        color="success"
                         type="success"
                         closable
                         class="mb-8"
@@ -22,7 +22,7 @@
                     
                     <v-alert
                         v-if="errorAlert"
-                        color="rgb(216, 30, 91)"
+                        color="error"
                         type="error"
                         closable
                         class="mb-8"
@@ -51,7 +51,7 @@
 
                     <v-btn
                         class="me-4"
-                        color="rgb(199, 189, 231)"
+                        color="secondary"
                         @click="publishRequest()"
                     >
                         Publish

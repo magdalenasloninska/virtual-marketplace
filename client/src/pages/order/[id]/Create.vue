@@ -45,7 +45,7 @@
 
                                 <v-btn-toggle
                                     v-model="deliveryOption"
-                                    color="rgb(81, 69, 118)"
+                                    color="primary"
                                     rounded="0"
                                     group
                                 >
@@ -138,7 +138,7 @@
                 <div>
                     <v-btn
                         class="mt-8 mr-4"
-                        color="rgb(199, 189, 231)"
+                        color="secondary"
                         :disabled="isLastStep"
                         @click="initTransaction(listingId)"
                     >
@@ -147,7 +147,7 @@
 
                     <v-btn
                         class="mt-8"
-                        color="rgb(199, 189, 231)"
+                        color="secondary"
                         variant="outlined"
                         @click="this.$router.push(`/listings/${listingId}`);"
                     >

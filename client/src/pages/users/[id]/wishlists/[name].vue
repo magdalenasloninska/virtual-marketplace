@@ -85,7 +85,7 @@
     }
 
     .title-card {
-        background-color: lightgrey;
+        background-color: rgb(var(--v-theme-ternary));
         color: black;
     }
 </style>

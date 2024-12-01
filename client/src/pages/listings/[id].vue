@@ -25,7 +25,7 @@
 							v-if="isCurrentUser"
 							icon="mdi-pencil"
 							variant="outlined"
-							style="color: lightgrey;"
+							color="ternary"
 						></v-btn> 
 
 						<v-menu
@@ -60,7 +60,7 @@
 								</v-container>
 							</v-card>
 							<v-btn
-								color="rgb(199, 189, 231)"
+								color="secondary"
 								@click="linkListing(selectedWishlistId, listingId)"
 							>
 								Ok
@@ -76,7 +76,7 @@
 								class="ml-2 "
 								size="x-large"
 								variant="flat"
-								color="rgb(215, 235, 186)"
+								color="success"
 							>
 								Item sold
 							</v-chip>
@@ -129,7 +129,7 @@
 				>
 					<v-btn
 						block
-						color="rgb(199, 189, 231)"
+						color="secondary"
 						rounded
 						class="pa-4"
 						@click="createOrder(listingId)"
@@ -142,7 +142,7 @@
 					<v-btn
 						block
 						variant="outlined"
-						color="rgb(199, 189, 231)"
+						color="secondary"
 						rounded
 						class="pa-4"
 					>

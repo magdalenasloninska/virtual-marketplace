@@ -14,7 +14,7 @@
                             class="welcome_page_btn typewriter pa-4"
                             block
                             size="x-large"
-                            color="rgb(199, 189, 231)"
+                            color="secondary"
                         >
                             I'm buying
                         </v-btn>
@@ -27,7 +27,7 @@
                             class="welcome_page_btn handwritten pa-4"
                             block
                             size="x-large"
-                            color="rgb(81, 69, 118)"
+                            color="primary"
                         >
                             I'm selling
                         </v-btn>   
