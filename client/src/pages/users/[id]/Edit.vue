@@ -116,21 +116,21 @@
   
 <style scoped>
 	.featured-transition {
-	opacity: .85;
-	align-items: center;
-	justify-content: center;
-	background-color: rgb(var(--v-theme-primary));
-	height: 100%;
+		opacity: .85;
+		align-items: center;
+		justify-content: center;
+		background-color: rgb(var(--v-theme-primary));
+		height: 100%;
 	}
 
 	.handwritten {
-	font-family: 'Homemade Apple', cursive;
+		font-family: 'Homemade Apple', cursive;
 	}
 
 	.wrap-text {
-	word-wrap: break-word;
-	word-break: break-word;
-	white-space: normal;
+		word-wrap: break-word;
+		word-break: break-word;
+		white-space: normal;
 	}
 </style>
   

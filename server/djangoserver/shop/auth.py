@@ -50,17 +50,23 @@ def login_custom_user(request):
                 login(request, user)
                 refresh = RefreshToken.for_user(user)
                 return JsonResponse({
+                    'success': True,
                     'message': f'Successfully logged in {username}',
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
                 })
             else:
-                # TODO: implement some kind of notification system
-                pass
+                return JsonResponse({
+                    'success': False,
+                    'message': "Oops, this user doesn't exist!"
+                })
         else:
             print(form.errors)
 
-    return JsonResponse({'message': f'OOPS! Error occured while logging in.'})
+    return JsonResponse({
+        'success': False,
+        'message': 'Oops, an error occured while logging in!'
+    })
 
 @csrf_exempt
 def edit_custom_user(request, pk):

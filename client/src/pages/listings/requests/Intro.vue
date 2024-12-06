@@ -11,7 +11,7 @@
                 <v-container fluid>
                     <v-row>
                         <v-col
-                            v-if="currentUser"
+                            v-if="!loading && currentUser.active_login"
                             :cols=6
                         >
                             <v-card
@@ -59,7 +59,6 @@
 <style>
     .request_card {
         background-color: rgb(var(--v-theme-primary));
-        /* font-family: 'Courier New', Courier, monospace; */
     }
 
     .plus-button {
@@ -82,7 +81,7 @@
             return {
                 currentUser: null,
                 requests: [],
-                exampleText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat neque at mauris tristique sagittis. Donec nec pretium felis. In nec efficitur nisl. Morbi consectetur odio sapien, non blandit massa suscipit a. Fusce varius purus eu augue aliquam, eget bibendum erat sagittis. Cras sodales leo in risus finibus, eget feugiat leo faucibus. Sed fringilla mollis sollicitudin. Aenean vitae consequat dui. In hac habitasse platea dictumst. Etiam tristique laoreet eros vel tempor. Proin fermentum semper ligula non vehicula. Nunc at est dui. Phasellus at odio in eros bibendum elementum. Duis maximus enim quis ornare elementum. "
+                loading: true
             };
         },
         mounted() {
@@ -101,6 +100,7 @@
                 axios.get('http://localhost:8000/shop/api/users/current-user')
                 .then(response => {
                     this.currentUser = response.data;
+                    this.loading = false;
                 })
                 .catch(error => {
                     console.error(`Error fetching current user: ${error}`);

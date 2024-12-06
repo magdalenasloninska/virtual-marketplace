@@ -67,12 +67,12 @@
             theme="light"
             variant="outlined"
             rounded
-            @keyup.enter="performSearch(searchVal)"
+
             v-model="searchVal"
         ></v-text-field>
 
         <v-btn
-            v-if="!loading"
+            v-if="!loading && user.active_login"
             class="mr-4"
             icon="mdi-heart-outline"
             @click="this.$router.push(`/users/${user.id}/wishlists/all`);"
@@ -86,7 +86,7 @@
                     class="mr-4"
                 >
                     <v-avatar
-                        v-if="user !== null"
+                        v-if="!loading && user.active_login"
                     >
                         <v-img
                             :src="user.profile_picture"
@@ -101,7 +101,10 @@
             </template>
             <v-card max-width="250">
                 <v-card-text>
-                    <div class="mx-auto text-center" v-if="user">
+                    <div
+                        v-if="! loading && user.active_login"
+                        class="mx-auto text-center"
+                    >
                         <h3>Hello, {{ user.username }}!</h3>
 
                         <v-spacer class="pa-2"></v-spacer>
@@ -131,7 +134,10 @@
                         </router-link>
                     </div>
 
-                    <div class="mx-auto text-center" v-else>
+                    <div
+                        v-else
+                        class="mx-auto text-center"
+                    >
                         <h3>You're not currently logged in, wanna fix that?</h3>
 
                         <v-spacer class="pa-2"></v-spacer>
@@ -197,14 +203,16 @@
             getCurrentUser() {
                 axios.get('http://localhost:8000/shop/api/users/current-user')
                 .then(response => {
-                    if ('username' in response.data) {
-                        this.user = response.data;
-                    }
-
+                    this.user = response.data;
                     this.loading = false;
                 })
                 .catch(error => {
-                    console.error(`Error fetching current user: ${error}`);
+                    if (error.response.status == 401) {
+                        this.user = { active_login: false };
+                        this.loading = false;
+                    } else {
+                        console.error(`Error fetching current user: ${error}`);
+                    }
                 });
             },
             performSearch(phrase) {

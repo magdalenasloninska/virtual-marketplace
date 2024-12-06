@@ -74,14 +74,6 @@
                 console.error('Error fetching listings:', error);
             });
         },
-        // watch: {
-        //     '$route.params.phrase': {
-        //         handler: (newPhrase) => {
-        //             this.performSearch(newPhrase);
-        //         },
-        //         immediate: true
-        //     }
-        // },
         methods: {
             performSearch(phrase) {
 
@@ -98,10 +90,6 @@
             goToListingDetails(listingId) {
                 this.$router.push(`/listings/${listingId}`);
             }
-        },
-        beforeRouteUpdate(to, from, next) {
-            this.performSearch(to.params.phrase);
-            next();
         }
     }
 </script>
