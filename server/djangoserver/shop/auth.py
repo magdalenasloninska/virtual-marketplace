@@ -13,20 +13,34 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .form import CustomUserForm
 from .models import CustomUser
 
-
 @csrf_exempt
 def sign_up(request):
     if request.method == 'POST':
         form = CustomUserForm(request.POST, request.FILES)
 
         if form.is_valid():
-            user = form.save()
-            return JsonResponse({
-                'success': True,
-                'message': f'New user {user.id} has been registered successfully!'
-            })
-        else:
-            print(form.errors)
+            email = form.cleaned_data.get('email')
+            username = form.cleaned_data.get('username')
+            about = form.cleaned_data.get('about')
+            profile_picture = form.cleaned_data.get('profile_picture')
+            password = form.cleaned_data.get('password')
+
+            user = CustomUser.objects.create_user(
+                email=email,
+                username=username,
+                date_joined=date.today(),
+                about=about,
+                profile_picture=profile_picture,
+                password=password
+            )
+
+            if user:
+                return JsonResponse({
+                    'success': True,
+                    'message': f'New user {user.id} has been registered successfully!'
+                })
+        
+    print(form.errors.as_json())
 
     return JsonResponse({
         'success': False,
@@ -61,7 +75,7 @@ def login_custom_user(request):
                     'message': "Oops, this user doesn't exist!"
                 })
         else:
-            print(form.errors)
+            print(form.errors.as_json())
 
     return JsonResponse({
         'success': False,

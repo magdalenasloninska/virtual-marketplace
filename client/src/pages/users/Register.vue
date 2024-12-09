@@ -91,6 +91,7 @@
                 formData.append('username', this.username);
                 formData.append('about', this.about);
                 formData.append('profile_picture', this.profile_picture);
+                console.log('Profile picture: ' + this.profile_picture);
                 formData.append('password', this.password1);
 
                 try {

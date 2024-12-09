@@ -102,7 +102,7 @@
             <v-card max-width="250">
                 <v-card-text>
                     <div
-                        v-if="! loading && user.active_login"
+                        v-if="!loading && user.active_login"
                         class="mx-auto text-center"
                     >
                         <h3>Hello, {{ user.username }}!</h3>

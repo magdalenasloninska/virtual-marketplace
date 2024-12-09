@@ -199,4 +199,5 @@ def create_transaction(request):
     })
 
 def add_review(request):
-    pass
+    if request.method == 'POST':
+        pass

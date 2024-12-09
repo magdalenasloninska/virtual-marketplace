@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 class CustomUserManager(BaseUserManager):
     
     def create_user(self, email, username, date_joined, about, profile_picture, password, **other_fields):
-        
+
         if not email:
             raise ValueError(_('Email address is required!'))
 
@@ -43,7 +43,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     about = models.TextField(max_length=400, default='Hi!')
     profile_picture = models.ImageField(upload_to='uploads/users', default='uploads/users/default_profile_pic.JPEG')
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
@@ -112,6 +112,7 @@ class Transaction(models.Model):
 
 class Review(models.Model):
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+    receiver = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     stars = models.FloatField()
     comment = models.TextField(max_length=400)
 
