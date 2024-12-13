@@ -11,7 +11,9 @@ from .views import \
     RequestList, \
     RequestDetailsView, \
     WishlistList, \
-    WishlistDetailsView
+    WishlistDetailsView, \
+    ReviewListOfUser, \
+    OrderListOfUser
 
 urlpatterns = [
     # JWT authentication
@@ -43,6 +45,7 @@ urlpatterns = [
     path("api/users/<int:pk>/listings", ListingListOfUser.as_view()),
     path("api/users/<int:pk>/wishlists", WishlistList.as_view()),
     path("api/users/<int:pk>/wishlists/new/data", views.create_new_wishlist, name="new_wishlist"),
+    path("api/users/<int:pk>/orders", OrderListOfUser.as_view()),
     path("api/wishlists/delete/<int:pk>", views.delete_wishlist, name='delete_wishlist'),
     path("api/wishlists/<int:pk>", WishlistDetailsView.as_view()),
     path("api/wishlists/<int:pk>/new/data", views.link_listing_to_wishlist, name="link_listing_to_wishlist"),

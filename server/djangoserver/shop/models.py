@@ -104,6 +104,7 @@ class Transaction(models.Model):
         CANCELLED = "CANCELLED"
 
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     status = models.CharField(
         max_length=20,
         choices=TransactionStatus,

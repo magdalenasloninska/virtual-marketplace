@@ -11,7 +11,8 @@ from .serializers import \
     CustomUserSerializer, \
     RequestSerializer, \
     WishlistSerializer, \
-    ReviewSerializer
+    ReviewSerializer, \
+    TransactionSerializer
 
 
 def get_all_item_categories(request):
@@ -206,6 +207,15 @@ def create_transaction(request):
 def add_review(request):
     if request.method == 'POST':
         pass
+
+class OrderListOfUser(generics.ListAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
+    serializer_class = TransactionSerializer
+
+    def get_queryset(self):
+        user_id = int(self.kwargs['pk'])
+        return Transaction.objects.filter(buyer=user_id)
 
 class ReviewListOfUser(generics.ListAPIView):
     authentication_classes = []

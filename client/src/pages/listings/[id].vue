@@ -22,7 +22,7 @@
 						v-if="!userLoading && currentUser.active_login"
 					>
 						<v-btn
-							v-if="isCurrentUser"
+							v-if="isCurrentUser && !listingDetails.sold"
 							icon="mdi-pencil"
 							variant="outlined"
 							color="ternary"

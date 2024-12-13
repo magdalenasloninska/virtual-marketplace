@@ -22,7 +22,12 @@
 
                 <v-container>
                     <v-row>
-                        <v-col cols="4">
+                        <v-col cols="1">
+                            <h1
+                                class="rating"
+                            >{{ stars }}</h1>
+                        </v-col>
+                        <v-col cols="3">
                             <v-rating
                                 class="d-flex justify-center mb-4"
                                 half-increments
@@ -34,21 +39,16 @@
                                 v-model="stars"
                             />
                         </v-col>
-                        <v-col>
-                            <h1
-                                class="rating"
-                            >{{ stars }}</h1>
-                        </v-col>
                     </v-row>
                 </v-container>
 
                 <v-textarea
                     label="Comment"
-                    variant="outlined"
+                    variant="filled"
                     auto-grow
                     prepend-icon="mdi-text-box-edit"
                     rows="3"
-                    v-model="description"
+                    v-model="comment"
                 ></v-textarea>
 
                 <v-spacer class="pa-4"></v-spacer>
@@ -56,7 +56,7 @@
                 <v-btn
                     color="secondary"
                 >
-                    Submit
+                    Submit review
                 </v-btn>
             </v-col>
         </v-row>
@@ -71,13 +71,14 @@
 
 <script>
     import axios from 'axios';
-
+    
     export default {
         data() {
             return {
                 loading: true,
                 userId: this.$route.params.id,
                 stars: 0,
+                comment: '',
                 errorAlert: false,
                 errorMessage: ''
             }

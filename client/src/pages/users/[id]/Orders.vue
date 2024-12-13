@@ -8,17 +8,32 @@
 
                 <v-spacer class="pa-4"></v-spacer>
                 
-                <div>       
-                    <v-alert
-                        v-if="errorAlert"
-                        color="error"
-                        type="error"
-                        closable
-                        class="mb-8"
-                    >
-                        {{ errorMessage }}
-                    </v-alert>
-                </div>
+                <v-container>
+                    <v-row>
+                        <v-col
+                            v-for="order in orders"
+                            :key="order.title"
+                            :cols=12
+                        >
+                            <v-card
+                                class="order_card"
+                                @click="redirectToReview(order.listing.user.id)"
+                            >
+                                <v-card-title>
+                                    Item: {{ order.listing.title }}
+                                </v-card-title>
+
+                                <v-card-subtitle>
+                                    Seller: {{ order.listing.user.username }}
+                                </v-card-subtitle>
+
+                                <v-card-text class="text-truncate">
+                                    {{ order.id }}
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </v-container>
 
             </v-col>
         </v-row>
@@ -34,11 +49,39 @@
     export default {
         data() {
             return {
+                loading: true,
+                userId: this.$route.params.id,
+                currentUser: null,
+                orders: [],
                 errorAlert: false,
                 errorMessage: ''
             }
         },
+        mounted() {
+            this.getCurrentUser();
+            
+            axios.get(`http://localhost:8000/shop/api/users/${this.userId}/orders`)
+            .then(response => {
+                this.orders = response.data;
+            })
+            .catch(error => {
+                console.error('Error fetching orders:', error);
+            });
+        },
         methods: {
+            getCurrentUser() {
+                axios.get('http://localhost:8000/shop/api/users/current-user')
+                .then(response => {
+                    this.currentUser = response.data;
+                    this.loading = false;
+                })
+                .catch(error => {
+                    console.error(`Error fetching current user: ${error}`);
+                });
+            },
+            redirectToReview(userId) {
+                this.$router.push(`/users/${userId}/reviews/new`);
+            }
         }
     }
 </script>
