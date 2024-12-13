@@ -94,7 +94,14 @@ DATABASES = {
         'USER': 'django_user',
         'PASSWORD': 'Paluszki23',
         'HOST': 'localhost',
-        'PORT': '5432'
+        'PORT': '5432',
+
+        # Test database user with elevated privileges
+        'TEST': {
+            'NAME': 'test_virtual_marketplace_db',
+            'USER': 'test_django_user',
+            'PASSWORD': 'TestPaluszki23',
+        }
     }
 }
 

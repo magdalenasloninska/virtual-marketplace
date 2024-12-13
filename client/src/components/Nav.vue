@@ -122,16 +122,15 @@
 
                         <v-spacer class="pa-2"></v-spacer>
 
-                        <router-link :to="`/users/${user.id}/profile`">
                             <v-btn
                                 class="link"
                                 color="white"
                                 rounded
                                 block
+                                @click="logoutCurrentUser(user.id)"
                             >
                                 Logout
                             </v-btn>
-                        </router-link>
                     </div>
 
                     <div
@@ -213,6 +212,22 @@
                     } else {
                         console.error(`Error fetching current user: ${error}`);
                     }
+                });
+            },
+            logoutCurrentUser(userId) {
+
+                axios.post(`http://localhost:8000/shop/api/users/logout/${userId}`)
+                .then(response => {
+                    
+                    if (response.data.success) {
+                        this.$router.push(`/welcome`);
+                    } else {
+                        
+                    }
+                    
+                })
+                .catch(error => {
+                    console.error('Error logging out user:', error);
                 });
             },
             performSearch(phrase) {

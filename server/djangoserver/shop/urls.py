@@ -36,6 +36,7 @@ urlpatterns = [
     # User-focused
     path("api/users/register/data", auth.sign_up, name='register'),
     path("api/users/login/data", auth.login_custom_user),
+    path("api/users/logout/<int:pk>", auth.logout_custom_user),
     path("api/users/current-user", auth.get_current_user, name='current_user'),
     path("api/users/<int:pk>", UserDetailsView.as_view()),
     path("api/users/<int:pk>/edit/data", auth.edit_custom_user),

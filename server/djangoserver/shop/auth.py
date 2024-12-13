@@ -1,7 +1,7 @@
 from datetime import date
 
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import AnonymousUser
 from django.views.decorators.csrf import csrf_exempt
@@ -80,6 +80,22 @@ def login_custom_user(request):
     return JsonResponse({
         'success': False,
         'message': 'Oops, an error occured while logging in!'
+    })
+
+@csrf_exempt
+def logout_custom_user(request, pk):
+    if request.method == 'POST':
+        user = CustomUser.objects.get(id=pk)
+        logout(request)
+
+        return JsonResponse({
+            'success': True,
+            'message': 'User loogged out successfully'
+        })
+    
+    return JsonResponse({
+        'success': False,
+        'message': 'Oops, an error occured while logging out!'
     })
 
 @csrf_exempt

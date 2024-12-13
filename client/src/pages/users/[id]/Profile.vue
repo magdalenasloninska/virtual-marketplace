@@ -26,11 +26,19 @@
 						</h1>
 					</v-card-title>
 					<v-card-subtitle>
-						<v-icon>mdi-star</v-icon>
-						<v-icon>mdi-star</v-icon>
-						<v-icon>mdi-star</v-icon>
-						<v-icon>mdi-star-half-full</v-icon>
-						<v-icon>mdi-star-outline</v-icon>
+						<v-btn
+							size="large"
+							elevation="0"
+							@click="this.$router.push(`/users/${userId}/reviews/all`);"
+						>
+							<p class="mr-2">3,6</p>
+							<v-icon>mdi-star</v-icon>
+							<v-icon>mdi-star</v-icon>
+							<v-icon>mdi-star</v-icon>
+							<v-icon>mdi-star-half-full</v-icon>
+							<v-icon>mdi-star-outline</v-icon>
+							<p class="ml-2">(56 reviews)</p>
+						</v-btn>
 					</v-card-subtitle>
 					<v-spacer class="mb-4"></v-spacer>
 					<v-card-subtitle>
@@ -59,25 +67,11 @@
 						<v-card-title>Go to your published listings</v-card-title>
 
 						<v-icon class="mr-4">mdi-arrow-right-bold</v-icon>
-
 					</v-card>
 
 					<v-card
 						height="120"
 						class="d-flex align-center justify-space-between mb-4"
-						@click=""
-						variant="outlined"
-						color="ternary"
-					>
-						<v-card-title>Go to your drafts</v-card-title>
-
-						<v-icon class="mr-4">mdi-arrow-right-bold</v-icon>
-
-					</v-card>
-
-					<v-card
-						height="120"
-						class="d-flex align-center justify-space-between"
 						variant="outlined"
 						color="ternary"
 						@click="goToWishlists(userDetails.id)"
@@ -85,7 +79,19 @@
 						<v-card-title>Go to your wishlists</v-card-title>
 
 						<v-icon class="mr-4">mdi-arrow-right-bold</v-icon>
+					</v-card>
 
+					<v-card
+						height="120"
+						class="d-flex align-center justify-space-between mb-4"
+						@click="this.$router.push(`/users/${userDetails.id}/orders`)"
+						variant="outlined"
+						color="ternary"
+						
+					>
+						<v-card-title>Go to your orders</v-card-title>
+
+						<v-icon class="mr-4">mdi-arrow-right-bold</v-icon>
 					</v-card>
 				</v-col>
 			</v-row>

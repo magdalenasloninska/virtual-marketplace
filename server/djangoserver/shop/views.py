@@ -4,9 +4,14 @@ from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from .models import Listing, CustomUser, Request, Wishlist, Transaction
+from .models import Listing, CustomUser, Request, Wishlist, Transaction, Review
 from .form import ListingForm, RequestForm, WishlistForm, TransactionForm
-from .serializers import ListingSerializer, CustomUserSerializer, RequestSerializer, WishlistSerializer
+from .serializers import \
+    ListingSerializer, \
+    CustomUserSerializer, \
+    RequestSerializer, \
+    WishlistSerializer, \
+    ReviewSerializer
 
 
 def get_all_item_categories(request):
@@ -201,3 +206,12 @@ def create_transaction(request):
 def add_review(request):
     if request.method == 'POST':
         pass
+
+class ReviewListOfUser(generics.ListAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        user_id = int(self.kwargs['pk'])
+        return Review.objects.filter(recipient=user_id)

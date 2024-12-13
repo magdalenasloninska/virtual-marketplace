@@ -112,16 +112,6 @@ class Transaction(models.Model):
 
 class Review(models.Model):
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
-    receiver = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     stars = models.FloatField()
     comment = models.TextField(max_length=400)
-
-# class Chat(models.Model):
-#     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
-
-# class Message(models.Model):
-#     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
-#     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-#     content = models.TextField(max_length=400)
-#     time_sent = models.DateTimeField(auto_now_add=True)
-#     time_seen = models.DateTimeField()

@@ -1,7 +1,15 @@
+from statistics import mean
+
 from rest_framework import serializers
 from django.db.models import Count
 
-from .models import Listing, CustomUser, Request, Wishlist, Transaction
+from .models import \
+    Listing, \
+    CustomUser, \
+    Request, \
+    Wishlist, \
+    Transaction, \
+    Review
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -70,8 +78,31 @@ class WishlistSerializer(serializers.ModelSerializer):
                   'content']
         
 class TransactionSerializer(serializers.ModelSerializer):
+    listing = ListingSerializer()
+
     class Meta:
         model = Transaction
         fields = ['id',
                   'listing',
                   'status']
+        
+class ReviewSerializer(serializers.ModelSerializer):
+    transaction = TransactionSerializer()
+    recipient = CustomUserSerializer()
+
+    class Meta:
+        model = Review
+        fields = ['id',
+                  'transaction',
+                  'recipient',
+                  'stars',
+                  'comment',
+                  'reviews_avg'
+                  'reviews_count']
+        
+    def get_reviews_avg(self, obj):
+        scores = [r.stars for r in obj]
+        return round(mean(scores), 1)
+
+    def get_reviews_count(self, obj):
+        return obj.reviews_count()

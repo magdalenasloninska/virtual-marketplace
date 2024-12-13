@@ -200,11 +200,14 @@
 					}
 				})
 				.then(_ => {
-					
+					this.redirectToReview(this.listingDetails.user.id);
 				})
 				.catch(error => {
 					console.error('Error initializing transaction:', error);
 				});
+            },
+            redirectToReview(userId) {
+                this.$router.push(`/users/${userId}/reviews/new`);
             }
         }
     }
