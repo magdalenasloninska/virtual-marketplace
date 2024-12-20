@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from .models import Listing, CustomUser, Request, Wishlist, Transaction, Review
-from .form import ListingForm, RequestForm, WishlistForm, TransactionForm
+from .form import ListingForm, RequestForm, WishlistForm, TransactionForm, ReviewForm
 from .serializers import \
     ListingSerializer, \
     CustomUserSerializer, \
@@ -204,10 +204,6 @@ def create_transaction(request):
         'message': 'Error while creating a new transaction'
     })
 
-def add_review(request):
-    if request.method == 'POST':
-        pass
-
 class OrderListOfUser(generics.ListAPIView):
     authentication_classes = []
     permission_classes = (AllowAny,)
@@ -216,6 +212,36 @@ class OrderListOfUser(generics.ListAPIView):
     def get_queryset(self):
         user_id = int(self.kwargs['pk'])
         return Transaction.objects.filter(buyer=user_id)
+
+def add_review(request):
+    # if request.method == 'POST':
+    #     form = ReviewForm(request.POST)
+
+    #     if form.is_valid():
+    #         review = form.save(commit=False)
+    #         user_id = int(form.data.get('id'))
+    #         user = CustomUser.objects.get(id=user_id)
+    #         listing.user = user
+    #         listing.save()
+    #         return JsonResponse({
+    #             'success': True,
+    #             'message': f'New review has been published successfully!'
+    #         })
+    #     else:
+    #         print(form.errors)
+        
+    # return JsonResponse({
+    #     'success': False,
+    #     'message': 'OOPS!'
+    # })
+
+    pass
+
+class ReviewDetailsView(generics.RetrieveAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
 
 class ReviewListOfUser(generics.ListAPIView):
     authentication_classes = []

@@ -114,5 +114,5 @@ class Transaction(models.Model):
 class Review(models.Model):
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
     recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    stars = models.FloatField()
+    stars = models.IntegerField()
     comment = models.TextField(max_length=400)

@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Listing, CustomUser, Request, Wishlist, Transaction
+from .models import Listing, CustomUser, Request, Wishlist, Transaction, Review
 
 
 class ListingForm(forms.ModelForm):
@@ -36,3 +36,9 @@ class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
         fields = ()
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ('stars',
+                  'comment')

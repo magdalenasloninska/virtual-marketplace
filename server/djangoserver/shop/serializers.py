@@ -1,7 +1,7 @@
 from statistics import mean
 
 from rest_framework import serializers
-from django.db.models import Count
+from django.db.models import Avg
 
 from .models import \
     Listing, \
@@ -13,18 +13,29 @@ from .models import \
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    avg_score = serializers.SerializerMethodField()
+    no_of_reviews = serializers.SerializerMethodField()
+
     class Meta:
         model = CustomUser
         fields = ['id',
                   'username',
                   'date_joined',
                   'about',
-                  'profile_picture']
+                  'profile_picture',
+                  'avg_score',
+                  'no_of_reviews']
 
     def get_profile_picture(self, obj):
         request = self.context.get('request')
         profile_picture_url = obj.profile_picture.url
         return request.build_absolute_uri(profile_picture_url)
+    
+    def get_avg_score(self, obj):
+        return Review.objects.filter(recipient=obj).aggregate(Avg('stars'))['stars__avg'] or 0
+
+    def get_no_of_reviews(self, obj):
+        return Review.objects.filter(recipient=obj).count()
 
 class ListingSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer()
@@ -97,12 +108,3 @@ class ReviewSerializer(serializers.ModelSerializer):
                   'recipient',
                   'stars',
                   'comment']
-                #   'reviews_avg'
-                #   'reviews_count']
-        
-    # def get_reviews_avg(self, obj):
-    #     scores = [r.stars for r in obj]
-    #     return round(mean(scores), 1)
-
-    # def get_reviews_count(self, obj):
-    #     return obj.reviews_count()

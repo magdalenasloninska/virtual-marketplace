@@ -31,13 +31,13 @@
 							elevation="0"
 							@click="this.$router.push(`/users/${userId}/reviews/all`);"
 						>
-							<p class="mr-2">3,6</p>
+							<p class="mr-2">{{ userDetails.avg_score }}</p>
 							<v-icon>mdi-star</v-icon>
 							<v-icon>mdi-star</v-icon>
 							<v-icon>mdi-star</v-icon>
 							<v-icon>mdi-star-half-full</v-icon>
 							<v-icon>mdi-star-outline</v-icon>
-							<p class="ml-2">(56 reviews)</p>
+							<p class="ml-2">({{ userDetails.no_of_reviews }} reviews)</p>
 						</v-btn>
 					</v-card-subtitle>
 					<v-spacer class="mb-4"></v-spacer>
@@ -184,7 +184,8 @@
 				isCurrentProfile: false,
 				userId: this.$route.params.id,
 				userDetails: [],
-				dateJoined: null,
+				score: 0,
+				dateJoined: null
 			};
 		},
 		created() {

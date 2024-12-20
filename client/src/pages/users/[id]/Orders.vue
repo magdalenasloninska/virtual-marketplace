@@ -17,7 +17,7 @@
                         >
                             <v-card
                                 class="order_card"
-                                @click="redirectToReview(order.listing.user.id)"
+                                @click="redirectToReview(order.id)"
                             >
                                 <v-card-title>
                                     Item: {{ order.listing.title }}
@@ -79,8 +79,8 @@
                     console.error(`Error fetching current user: ${error}`);
                 });
             },
-            redirectToReview(userId) {
-                this.$router.push(`/users/${userId}/reviews/new`);
+            redirectToReview(orderId) {
+                this.$router.push(`/orders/${orderId}/review`);
             }
         }
     }
