@@ -13,8 +13,9 @@ from .views import \
     WishlistList, \
     WishlistDetailsView, \
     ReviewListOfUser, \
+    OrderDetailsView, \
     OrderListOfUser, \
-    ReviewDetailsView
+    ReviewDetailsFromOrderView
 
 urlpatterns = [
     # JWT authentication
@@ -49,8 +50,9 @@ urlpatterns = [
     path("api/users/<int:pk>/orders", OrderListOfUser.as_view()),
     path("api/users/<int:pk>/reviews", ReviewListOfUser.as_view()),
     
-    path("api/orders/<int:pk>/review/new/data", views.add_review),
-    path("api/orders/<int:pk>/review", ReviewDetailsView.as_view()),
+    path("api/orders/<int:pk>", OrderDetailsView.as_view()),
+    path("api/orders/<int:pk>/review/new/data", views.edit_review),
+    path("api/orders/<int:pk>/review", ReviewDetailsFromOrderView.as_view()),
     
     path("api/wishlists/delete/<int:pk>", views.delete_wishlist, name='delete_wishlist'),
     path("api/wishlists/<int:pk>", WishlistDetailsView.as_view()),

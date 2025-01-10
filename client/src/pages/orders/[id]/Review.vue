@@ -54,6 +54,7 @@
 
                 <v-btn
                     color="secondary"
+                    @click="addReview(orderId)"
                 >
                     Submit review
                 </v-btn>
@@ -76,6 +77,7 @@
             return {
                 loading: true,
                 orderId: this.$route.params.id,
+                orderDetails: null,
                 stars: 0,
                 comment: '',
                 successAlert: false,
@@ -83,19 +85,43 @@
                 errorMessage: ''
             }
         },
+        mounted() {
+            this.fetchOrderDetails(this.orderId);
+            this.fetchMatchingReview(this.orderId);
+        },
         methods: {
+            fetchOrderDetails(orderId) {
+                axios.get(`http://localhost:8000/shop/api/orders/${orderId}`)
+                    .then(response => {
+                        this.orderDetails = response.data;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching order details:', error);
+                    })
+            },
+            fetchMatchingReview(orderId) {
+                axios.get(`http://localhost:8000/shop/api/orders/${orderId}/review`)
+                    .then(reviewResponse => {
+                        this.stars = reviewResponse.data.stars;
+                        this.comment = reviewResponse.data.comment;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching matching review:', error);
+                    })
+
+                this.loading = false;
+            },
             displayReview() {
                 // Here we should check if there's already a review
                 // If there is, we want to display the number of stars and old comment
                 // Add some "save changes" button to let the user know they're editing
             },
-            async addReview() {
+            async addReview(orderId) {
                 let formData = new FormData();
-                // FormData.append('recipient', this.userId);
                 formData.append('stars', this.stars);
                 formData.append('comment', this.comment);
 
-                let _ = await axios.post(`http://localhost:8000/shop/api/reviews/new/data`, formData, {
+                let _ = await axios.post(`http://localhost:8000/shop/api/orders/${orderId}/review/new/data`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -110,10 +136,12 @@
                         this.successAlert = false;
                         this.errorAlert = true;
                     }
-                    
                 })
                 .catch(error => {
-                    console.error('Error publishing new listing:', error);
+                    if (error.response.status != 404) {
+                        console.error('Error updating review:', error);
+                    }
+
                     this.successAlert = false;
                     this.errorAlert = true;
                 });

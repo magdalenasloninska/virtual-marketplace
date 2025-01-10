@@ -204,6 +204,12 @@ def create_transaction(request):
         'message': 'Error while creating a new transaction'
     })
 
+class OrderDetailsView(generics.RetrieveAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
+
 class OrderListOfUser(generics.ListAPIView):
     authentication_classes = []
     permission_classes = (AllowAny,)
@@ -213,35 +219,44 @@ class OrderListOfUser(generics.ListAPIView):
         user_id = int(self.kwargs['pk'])
         return Transaction.objects.filter(buyer=user_id)
 
-def add_review(request):
-    # if request.method == 'POST':
-    #     form = ReviewForm(request.POST)
+@csrf_exempt
+def edit_review(request, pk):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
 
-    #     if form.is_valid():
-    #         review = form.save(commit=False)
-    #         user_id = int(form.data.get('id'))
-    #         user = CustomUser.objects.get(id=user_id)
-    #         listing.user = user
-    #         listing.save()
-    #         return JsonResponse({
-    #             'success': True,
-    #             'message': f'New review has been published successfully!'
-    #         })
-    #     else:
-    #         print(form.errors)
+        try:
+            review = Review.objects.get(transaction_id=pk)
+            review.stars = request.POST.get('stars')
+            review.comment = request.POST.get('comment')
+            review.save()
+
+        except Review.DoesNotExist:
+            if form.is_valid():
+                new_review = form.save(commit=False)
+                transaction = Transaction.objects.get(id=pk)
+                new_review.transaction = transaction
+                new_review.recipient = transaction.listing.user
+                new_review.save()
+
+        return JsonResponse({
+            'success': True,
+            'message': f'New review has been published successfully!'
+        })
         
-    # return JsonResponse({
-    #     'success': False,
-    #     'message': 'OOPS!'
-    # })
+    return JsonResponse({
+        'success': False,
+        'message': 'OOPS!'
+    })
 
-    pass
 
-class ReviewDetailsView(generics.RetrieveAPIView):
+class ReviewDetailsFromOrderView(generics.RetrieveAPIView):
     authentication_classes = []
     permission_classes = (AllowAny,)
-    queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        order_id = int(self.kwargs['pk'])
+        return Review.objects.filter(transaction=order_id)
 
 class ReviewListOfUser(generics.ListAPIView):
     authentication_classes = []
