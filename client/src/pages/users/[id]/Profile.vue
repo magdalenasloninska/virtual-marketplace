@@ -31,13 +31,13 @@
 							elevation="0"
 							@click="this.$router.push(`/users/${userId}/reviews/all`);"
 						>
-							<p class="mr-2">{{ userDetails.avg_score }}</p>
+							<p class="mr-2">{{ score }}</p>
 							<v-icon>mdi-star</v-icon>
 							<v-icon>mdi-star</v-icon>
 							<v-icon>mdi-star</v-icon>
 							<v-icon>mdi-star-half-full</v-icon>
 							<v-icon>mdi-star-outline</v-icon>
-							<p class="ml-2">({{ userDetails.no_of_reviews }} reviews)</p>
+							<p class="ml-2">({{ reviewsCount }} reviews)</p>
 						</v-btn>
 					</v-card-subtitle>
 					<v-spacer class="mb-4"></v-spacer>
@@ -116,12 +116,14 @@
 			</v-row>
 			<v-row>
 				<v-col
-					v-for="x in [1, 2, 3]"
+					v-for="listing in featured"
 					:cols=4
 				>
-					<v-hover v-slot="{ isHovering, props }">
+					<v-hover
+						v-slot="{ isHovering, props }"
+					>
 						<v-img
-							src="@/assets/architecture.jpeg"
+							:src="listing.photo"
 							aspect-ratio="1"
 							cover
 							v-bind="props"
@@ -132,15 +134,23 @@
 									class="d-flex featured-transition"
 								>
 									<v-col>
-										<v-row class="justify-center text-h3 handwritten">
+										<v-row class="justify-center text-h4 handwritten">
 											<p
 												class="wrap-text text-center"
 											>
-												Dresden
+												{{ listing.title }}
 											</p>
 										</v-row>
 										<v-row class="justify-center text-h5">
-											<p>42 €</p>
+											<p>{{ listing.price }} €</p>
+										</v-row>
+										<v-row class="justify-center pa-4">
+											<v-btn
+												variant="outlined"
+												@click="goToListingDetails(listing.id)"
+											>
+												View details
+											</v-btn>
 										</v-row>
 									</v-col>
 								</div>
@@ -184,13 +194,16 @@
 				isCurrentProfile: false,
 				userId: this.$route.params.id,
 				userDetails: [],
+				dateJoined: null,
 				score: 0,
-				dateJoined: null
+				reviewsCount: 0,
+				featured: []
 			};
 		},
 		created() {
 			this.getCurrentUser();
 			this.fetchUserDetails(this.userId);
+			this.fetchFeaturedListings(this.userId);
 		},
 		methods: {
 			fetchUserDetails(userId) {
@@ -199,6 +212,9 @@
 						this.userDetails = response.data;
 						let options = { year: 'numeric', month: 'long' };
 						this.dateJoined = new Date(this.userDetails.date_joined).toLocaleDateString('en-US', options);
+						this.score = this.userDetails.avg_score.toFixed(1);
+						this.reviewsCount = this.userDetails.no_of_reviews;
+						
 						this.isCurrentProfile = (this.userDetails.username == this.currentUser.username);
 					})
 					.catch(error => {
@@ -213,15 +229,29 @@
 						}
 					})
 					.catch(error => {
-						console.error(`Error fetching current user: ${error}`);
+						if (error.response.status != 401) {
+							console.error(`Error fetching current user: ${error}`);
+						}
 					});
 			},
+			fetchFeaturedListings(userId) {
+				axios.get(`http://localhost:8000/shop/api/users/${userId}/featured`)
+					.then(response => {
+						this.featured = response.data;
+					})
+					.catch(error => {
+
+					})
+			},
 			goToEditingView(userId) {
-				this.$router.push(`/users/${userId}/edit`);
+				this.$router.push(`/users/${userId}/edit/profile`);
 			},
 			goToWishlists(userId) {
 				this.$router.push(`/users/${userId}/wishlists/all`);
-			}
+			},
+			goToListingDetails(listingId) {
+                this.$router.push(`/listings/${listingId}`);
+            }
 		}
 	};
 </script>

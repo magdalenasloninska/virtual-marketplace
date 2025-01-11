@@ -69,12 +69,12 @@
 			</v-row>
 			<v-row>
 				<v-col
-					v-for="x in [1, 2, 3]"
+					v-for="pos in [1, 2, 3]"
 					:cols=4
 				>
 					<v-hover v-slot="{ isHovering, props }">
 						<v-img
-							src="@/assets/architecture.jpeg"
+							:src="getFeaturedThumbnail(pos)"
 							aspect-ratio="1"
 							cover
 							v-bind="props"
@@ -85,19 +85,25 @@
 									class="d-flex featured-transition"
 								>
 									<v-col>
-										<v-row class="justify-center text-h3 handwritten">
+										<v-row class="justify-center text-h4 handwritten">
 											<p
+												v-if="pos <= featured.length"
 												class="wrap-text text-center"
 											>
-												Zwinger
+												{{ featured[pos - 1].title }}
 											</p>
 										</v-row>
 										<v-row class="justify-center text-h5">
-											<p>42 €</p>
+											<p
+												v-if="pos <= featured.length"
+											>
+												{{ featured[pos - 1].price }} €
+											</p>
 										</v-row>
 										<v-row class="justify-center pa-4">
 											<v-btn
 												variant="outlined"
+												@click="goToSelection(pos)"
 											>
 												Choose featured listing
 											</v-btn>
@@ -136,6 +142,8 @@
   
 <script>
     import axios from 'axios';
+
+	import defaultImage from '@/assets/architecture.jpeg';
   
     export default {
 		data() {
@@ -146,11 +154,13 @@
 				userDetails: [],
 				newAbout: "",
 				dateJoined: null,
+				featured: []
 			};
 		},
 		created() {
 			this.getCurrentUser();
 			this.fetchUserDetails(this.userId);
+			this.fetchFeaturedListings(this.userId);
 		},
 		methods: {
 			fetchUserDetails(userId) {
@@ -176,6 +186,28 @@
 				.catch(error => {
 					console.error(`Error fetching current user: ${error}`);
 				});
+			},
+			fetchFeaturedListings(userId) {
+				axios.get(`http://localhost:8000/shop/api/users/${userId}/featured`)
+					.then(response => {
+						this.featured = response.data;
+					})
+					.catch(error => {
+
+					})
+			},
+			getFeaturedThumbnail(position) {
+				let result = defaultImage;
+				let matchingFeaturedListing = this.featured.filter(listing => listing.featured == position);
+				
+				if (matchingFeaturedListing.length) {
+					result = matchingFeaturedListing[0].photo;
+				}
+
+                return result;
+            },
+			goToSelection(pos) {
+				this.$router.push(`/users/${this.userId}/edit/${pos}/select`);
 			},
 			async saveChanges() {
 				let formData = new FormData();

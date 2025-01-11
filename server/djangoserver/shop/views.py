@@ -45,7 +45,7 @@ def publish_listing(request):
 class ListingList(generics.ListAPIView):
     authentication_classes = []
     permission_classes = (AllowAny,)
-    queryset = Listing.objects.all()
+    queryset = Listing.objects.all().order_by('-pub_date')
     serializer_class = ListingSerializer
 
 class ListingListCategory(generics.ListAPIView):
@@ -55,7 +55,7 @@ class ListingListCategory(generics.ListAPIView):
 
     def get_queryset(self):
         category = self.kwargs['category'].upper()
-        return Listing.objects.filter(category=category)
+        return Listing.objects.filter(category=category).order_by('-pub_date')
 
 class ListingListOfUser(generics.ListAPIView):
     authentication_classes = []
@@ -64,7 +64,7 @@ class ListingListOfUser(generics.ListAPIView):
 
     def get_queryset(self):
         user_id = int(self.kwargs['pk'])
-        return Listing.objects.filter(user=user_id)
+        return Listing.objects.filter(user=user_id).order_by('-pub_date')
 
 class ListingDetailsView(generics.RetrieveAPIView):
     authentication_classes = []
@@ -78,6 +78,41 @@ class UserDetailsView(generics.RetrieveAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
+class FeaturedListingsOfUser(generics.ListAPIView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
+    serializer_class = ListingSerializer
+
+    def get_queryset(self):
+        user_id = int(self.kwargs['pk'])
+        return Listing.objects.filter(user=user_id).exclude(featured=0).order_by('featured')
+
+@csrf_exempt
+def choose_featured(request, pk):
+    if request.method == 'POST':
+        listing_id = request.POST.get('listing_id')
+        position = request.POST.get('position')
+
+        old_featured = Listing.objects.filter(featured=position).first()
+        
+        if old_featured:
+            old_featured.featured = 0
+            old_featured.save()
+
+        listing = Listing.objects.get(id=listing_id)
+        listing.featured = position
+        listing.save()
+
+        return JsonResponse({
+            'success': True,
+            'message': f'New featured listing at {position} set!'
+        })
+        
+    return JsonResponse({
+        'success': False,
+        'message': 'Error while setting a new featured listing'
+    })
+
 @csrf_exempt
 def publish_request(request):
     if request.method == 'POST':
@@ -89,14 +124,14 @@ def publish_request(request):
             user = CustomUser.objects.get(id=user_id)
             new_request.user = user
             new_request.save()
-            print(new_request.description)
+
             return JsonResponse({
                 'success': True,
                 'message': f'New request {new_request.id} published successfully!'
             })
         else:
             print(form.errors)
-        
+         
     return JsonResponse({
         'success': False,
         'message': 'OOPS!'

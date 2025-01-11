@@ -72,7 +72,7 @@ class Listing(models.Model):
     description = models.TextField(max_length=1000)
     price = models.IntegerField(default=13)
     sold = models.BooleanField(default=False)
-    featured = models.BooleanField(default=False)
+    featured = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
