@@ -32,12 +32,21 @@
 							@click="this.$router.push(`/users/${userId}/reviews/all`);"
 						>
 							<p class="mr-2">{{ score }}</p>
-							<v-icon>mdi-star</v-icon>
-							<v-icon>mdi-star</v-icon>
-							<v-icon>mdi-star</v-icon>
-							<v-icon>mdi-star-half-full</v-icon>
-							<v-icon>mdi-star-outline</v-icon>
-							<p class="ml-2">({{ reviewsCount }} reviews)</p>
+
+							<p v-for="x in [1, 2, 3, 4, 5]">
+								<v-icon v-if="score >= x">
+									mdi-star
+								</v-icon>
+								<v-icon v-else-if="score <= x + 0.5">
+									mdi-star-half-full
+								</v-icon>
+								<v-icon v-else>
+									mdi-star-outline
+								</v-icon>
+							</p>
+							
+							<p v-if="reviewsCount == 1" class="ml-2">(1 review)</p>
+							<p v-else class="ml-2">({{ reviewsCount }} reviews)</p>
 						</v-btn>
 					</v-card-subtitle>
 					<v-spacer class="mb-4"></v-spacer>

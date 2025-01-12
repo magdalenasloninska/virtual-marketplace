@@ -109,13 +109,20 @@
 							</v-col>
 							<v-col>
 								<h1>{{ seller.username }}</h1>
-								<div>
-									<v-icon>mdi-star</v-icon>
-									<v-icon>mdi-star</v-icon>
-									<v-icon>mdi-star</v-icon>
-									<v-icon>mdi-star-half-full</v-icon>
-									<v-icon>mdi-star-outline</v-icon>
-								</div>
+
+								<span style="display: flex; align-items: center;">
+									<v-icon v-for="x in [1, 2, 3, 4, 5]">
+										<template v-if="seller.avg_score >= x">
+											mdi-star
+										</template>
+										<template v-else-if="seller.avg_score <= x + 0.5">
+											mdi-star-half-full
+										</template>
+										<template v-else>
+											mdi-star-outline
+										</template>
+									</v-icon>	
+								</span>
 							</v-col>
 						</v-row>
 					</v-card-text>
