@@ -124,15 +124,6 @@
                             >
                                 Publish
                             </v-btn>
-
-                            <v-btn
-                                class="me-4"
-                                color="secondary"
-                                variant="outlined"
-                                @click="this.$router.push('/listings/fabric')"
-                            >
-                                Save to drafts
-                            </v-btn>
                         </form>
 
                     </v-col>

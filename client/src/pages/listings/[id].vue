@@ -143,18 +143,6 @@
 					>
 						Buy now
 					</v-btn>
-
-					<v-spacer class="my-4"></v-spacer>
-
-					<v-btn
-						block
-						variant="outlined"
-						color="secondary"
-						rounded
-						class="pa-4"
-					>
-						Ask a question
-					</v-btn>
 				</v-container>
 			</v-col>
 		</v-row>

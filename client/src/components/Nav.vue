@@ -67,7 +67,7 @@
             theme="light"
             variant="outlined"
             rounded
-
+            @keyup.enter="performSearch(searchVal)"
             v-model="searchVal"
         ></v-text-field>
 
@@ -231,6 +231,7 @@
                 });
             },
             performSearch(phrase) {
+                console.log('Going to search!');
                 this.$router.push(`/search/${phrase}`);
             }
         }
