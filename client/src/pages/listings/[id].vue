@@ -115,7 +115,7 @@
 										<template v-if="seller.avg_score >= x">
 											mdi-star
 										</template>
-										<template v-else-if="seller.avg_score <= x + 0.5">
+										<template v-else-if="seller.avg_score >= x - 0.5">
 											mdi-star-half-full
 										</template>
 										<template v-else>
@@ -217,7 +217,7 @@
 				this.$router.push(`/users/${userId}/profile`);
 			},
 			createOrder(listingId) {
-				this.$router.push(`/order/${listingId}/create`);
+				this.$router.push(`/orders/${listingId}/create`);
 			},
 			getCurrentUser() {
 				axios.get('http://localhost:8000/shop/api/users/current-user')

@@ -102,8 +102,10 @@
             fetchMatchingReview(orderId) {
                 axios.get(`http://localhost:8000/shop/api/orders/${orderId}/review`)
                     .then(reviewResponse => {
-                        this.stars = reviewResponse.data.stars;
-                        this.comment = reviewResponse.data.comment;
+                        let data = reviewResponse.data[0];
+
+                        this.stars = data.stars;
+                        this.comment = data.comment;
                     })
                     .catch(error => {
                         console.error('Error fetching matching review:', error);

@@ -93,7 +93,7 @@ def choose_featured(request, pk):
         listing_id = request.POST.get('listing_id')
         position = request.POST.get('position')
 
-        old_featured = Listing.objects.filter(featured=position).first()
+        old_featured = Listing.objects.filter(featured=position).filter(user=pk).first()
         
         if old_featured:
             old_featured.featured = 0
@@ -225,7 +225,10 @@ def create_transaction(request):
             listing.sold = True
             listing.save()
 
+            buyer = CustomUser.objects.get(id=request.POST.get('buyer_id'))
+
             transaction.listing = listing
+            transaction.buyer = buyer
             transaction.status = Transaction.TransactionStatus.COMPLETED
             transaction.save()
 
@@ -284,14 +287,14 @@ def edit_review(request, pk):
     })
 
 
-class ReviewDetailsFromOrderView(generics.RetrieveAPIView):
+class ReviewDetailsFromOrderView(generics.ListAPIView):
     authentication_classes = []
     permission_classes = (AllowAny,)
     serializer_class = ReviewSerializer
 
     def get_queryset(self):
         order_id = int(self.kwargs['pk'])
-        return Review.objects.filter(transaction=order_id)
+        return Review.objects.filter(transaction__listing__id=order_id)
 
 class ReviewListOfUser(generics.ListAPIView):
     authentication_classes = []

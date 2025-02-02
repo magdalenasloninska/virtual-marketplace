@@ -36,30 +36,24 @@
                     <template v-slot:item.2>
                         <v-card>
                             <v-card-title>Delivery</v-card-title>
-                            <v-card-text>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non urna orci. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non urna orci. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non urna orci. Nulla facilisi.</p>
-                                <br>
-                                <p>Suspendisse potenti. Duis vehicula orci nec dolor fermentum, ut feugiat turpis congue.</p>
-
-                                <v-spacer class="pa-4"></v-spacer>
-
+                            <v-card-text class="mt-4">
                                 <v-btn-toggle
                                     v-model="deliveryOption"
                                     color="primary"
                                     rounded="0"
                                     group
                                 >
-                                    <v-btn value=0>
+                                    <v-btn value=10>
                                         Delivery option 1<br>
                                         10 €
                                     </v-btn>
 
-                                    <v-btn value=1>
+                                    <v-btn value=12>
                                         Delivery option 2<br>
                                         12 €
                                     </v-btn>
 
-                                    <v-btn value=2>
+                                    <v-btn value=13>
                                         Delivery option 3<br>
                                         13 €
                                     </v-btn>
@@ -101,7 +95,7 @@
                         <v-card>
                             <v-card-title>Payment methods</v-card-title>
                             <v-card-text>
-                                <p>Amount to pay: <b>45 €</b></p>
+                                <p>Amount to pay: <b>{{ parseInt(listingDetails.price, 10) + parseInt(deliveryOption, 10) }} €</b></p>
 
                                 <v-spacer class="pa-4"></v-spacer>
 
@@ -126,6 +120,8 @@
                                                 label="Expiration date"
                                                 required
                                                 prepend-icon="mdi-calendar-blank"
+                                                hint="Format: MM/YY"
+                                                persistent-hint=""
                                             ></v-text-field>
                                         </form>
                                     </v-col>
@@ -171,15 +167,30 @@
                 loading: true,
                 listingDetails: null,
                 listingId: this.$route.params.id,
+                user: null,
                 stepperItems: ["Item details", "Delivery", "Payment methods"],
                 isLastStep: false,
-                deliveryOption: 0
+                deliveryOption: 10
             }
         },
         mounted() {
             this.fetchListingDetails(this.listingId);
+            this.getCurrentUser();
         },
         methods: {
+            getCurrentUser() {
+                axios.get('http://localhost:8000/shop/api/users/current-user')
+                .then(response => {
+                    this.user = response.data;
+                })
+                .catch(error => {
+                    if (error.response.status == 401) {
+                        this.user = { active_login: false };
+                    } else {
+                        console.error(`Error fetching current user: ${error}`);
+                    }
+                });
+            },
             fetchListingDetails(listingId) {
 				axios.get(`http://localhost:8000/shop/api/listings/${listingId}`)
 					.then(response => {
@@ -193,6 +204,7 @@
             async initTransaction(listingId) {
                 let formData = new FormData();
 				formData.append('listing_id', listingId);
+                formData.append('buyer_id', this.user.id);
 
 				let _ = await axios.post(`http://localhost:8000/shop/api/transactions/new/data`, formData, {
 					headers: {
@@ -200,14 +212,14 @@
 					}
 				})
 				.then(_ => {
-					this.redirectToReview(this.listingDetails.user.id);
+					this.redirectToReview(this.listingDetails.id);
 				})
 				.catch(error => {
 					console.error('Error initializing transaction:', error);
 				});
             },
-            redirectToReview(userId) {
-                this.$router.push(`/users/${userId}/reviews/new`);
+            redirectToReview(listingId) {
+                this.$router.push(`/orders/${listingId}/review`);
             }
         }
     }

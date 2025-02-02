@@ -49,7 +49,7 @@
             </router-link>
 
             <router-link to="/listings/new" class="nav-link">
-                <v-tab>
+                <v-tab v-if="!loading && user.active_login">
                     Add new listing
                 </v-tab>
             </router-link>

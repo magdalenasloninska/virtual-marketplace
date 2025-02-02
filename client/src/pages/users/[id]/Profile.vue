@@ -37,7 +37,7 @@
 								<v-icon v-if="score >= x">
 									mdi-star
 								</v-icon>
-								<v-icon v-else-if="score <= x + 0.5">
+								<v-icon v-else-if="score >= x - 0.5">
 									mdi-star-half-full
 								</v-icon>
 								<v-icon v-else>
