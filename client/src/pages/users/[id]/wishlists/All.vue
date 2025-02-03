@@ -61,7 +61,7 @@
                                 </v-card-title>
 
                                 <v-card-subtitle>
-                                    Last updated in October 2024
+                                    Last updated: ...
                                 </v-card-subtitle>
 
                                 <v-card-text>

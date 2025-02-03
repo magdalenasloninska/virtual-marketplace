@@ -17,24 +17,19 @@
                         >
                             <v-card
                                 class="order_card"
-                                @click="redirectToReview(order.id)"
+                                @click="redirectToReview(order.listing.id)"
                             >
                                 <v-card-title>
                                     Item: {{ order.listing.title }}
                                 </v-card-title>
 
-                                <v-card-subtitle>
+                                <v-card-subtitle class="mb-4">
                                     Seller: {{ order.listing.user.username }}
                                 </v-card-subtitle>
-
-                                <v-card-text class="text-truncate">
-                                    {{ order.id }}
-                                </v-card-text>
                             </v-card>
                         </v-col>
                     </v-row>
                 </v-container>
-
             </v-col>
         </v-row>
     </v-container>
@@ -79,8 +74,8 @@
                     console.error(`Error fetching current user: ${error}`);
                 });
             },
-            redirectToReview(orderId) {
-                this.$router.push(`/orders/${orderId}/review`);
+            redirectToReview(listingId) {
+                this.$router.push(`/orders/${listingId}/review`);
             }
         }
     }

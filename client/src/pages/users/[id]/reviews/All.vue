@@ -25,7 +25,7 @@
                                             <template v-if="review.stars >= x">
                                                 mdi-star
                                             </template>
-                                            <template v-else-if="review.stars <= x + 0.5">
+                                            <template v-else-if="review.stars >= x - 0.5">
                                                 mdi-star-half-full
                                             </template>
                                             <template v-else>

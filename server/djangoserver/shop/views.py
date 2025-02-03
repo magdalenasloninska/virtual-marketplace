@@ -242,11 +242,14 @@ def create_transaction(request):
         'message': 'Error while creating a new transaction'
     })
 
-class OrderDetailsView(generics.RetrieveAPIView):
+class OrderDetailsView(generics.ListAPIView):
     authentication_classes = []
     permission_classes = (AllowAny,)
-    queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
+
+    def get_queryset(self):
+        listing_id = int(self.kwargs['pk'])
+        return Transaction.objects.filter(listing__id=listing_id)
 
 class OrderListOfUser(generics.ListAPIView):
     authentication_classes = []
@@ -263,7 +266,7 @@ def edit_review(request, pk):
         form = ReviewForm(request.POST)
 
         try:
-            review = Review.objects.get(transaction_id=pk)
+            review = Review.objects.get(transaction__listing__id=pk)
             review.stars = request.POST.get('stars')
             review.comment = request.POST.get('comment')
             review.save()
@@ -271,7 +274,7 @@ def edit_review(request, pk):
         except Review.DoesNotExist:
             if form.is_valid():
                 new_review = form.save(commit=False)
-                transaction = Transaction.objects.get(id=pk)
+                transaction = Transaction.objects.filter(listing__id=pk).first()
                 new_review.transaction = transaction
                 new_review.recipient = transaction.listing.user
                 new_review.save()

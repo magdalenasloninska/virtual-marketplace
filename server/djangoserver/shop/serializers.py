@@ -95,6 +95,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = ['id',
                   'listing',
+                  'buyer',
                   'status']
         
 class ReviewSerializer(serializers.ModelSerializer):

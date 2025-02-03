@@ -54,7 +54,7 @@
 
                 <v-btn
                     color="secondary"
-                    @click="addReview(orderId)"
+                    @click="addReview(listingId)"
                 >
                     Submit review
                 </v-btn>
@@ -76,7 +76,7 @@
         data() {
             return {
                 loading: true,
-                orderId: this.$route.params.id,
+                listingId: this.$route.params.id,
                 orderDetails: null,
                 stars: 0,
                 comment: '',
@@ -86,24 +86,23 @@
             }
         },
         mounted() {
-            this.fetchOrderDetails(this.orderId);
-            this.fetchMatchingReview(this.orderId);
+            this.fetchOrderDetails(this.listingId);
         },
         methods: {
-            fetchOrderDetails(orderId) {
-                axios.get(`http://localhost:8000/shop/api/orders/${orderId}`)
+            fetchOrderDetails(listingId) {
+                axios.get(`http://localhost:8000/shop/api/orders/${listingId}`)
                     .then(response => {
                         this.orderDetails = response.data;
+                        this.fetchMatchingReview(listingId);
                     })
                     .catch(error => {
                         console.error('Error fetching order details:', error);
                     })
             },
-            fetchMatchingReview(orderId) {
-                axios.get(`http://localhost:8000/shop/api/orders/${orderId}/review`)
+            fetchMatchingReview(listingId) {
+                axios.get(`http://localhost:8000/shop/api/orders/${listingId}/review`)
                     .then(reviewResponse => {
                         let data = reviewResponse.data[0];
-
                         this.stars = data.stars;
                         this.comment = data.comment;
                     })
@@ -118,12 +117,12 @@
                 // If there is, we want to display the number of stars and old comment
                 // Add some "save changes" button to let the user know they're editing
             },
-            async addReview(orderId) {
+            async addReview(listingId) {
                 let formData = new FormData();
                 formData.append('stars', this.stars);
                 formData.append('comment', this.comment);
 
-                let _ = await axios.post(`http://localhost:8000/shop/api/orders/${orderId}/review/new/data`, formData, {
+                let _ = await axios.post(`http://localhost:8000/shop/api/orders/${listingId}/review/new/data`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

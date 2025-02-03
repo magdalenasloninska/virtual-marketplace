@@ -33,10 +33,19 @@
                                 <v-img
                                     :src="listing.photo"
                                     class="align-end"
-                                    gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
+                                    :gradient="getThumbnailGradient(listing.sold)"
                                     aspect-ratio="1"
                                     cover
                                 >
+                                    <v-chip
+                                        v-if="listing.sold"
+                                        size="x-large"
+                                        variant="flat"
+                                        color="success"
+                                    >
+                                        Item sold
+                                    </v-chip>
+
                                     <v-card-title class="text-white">
                                         {{listing.title}}
                                     </v-card-title>
@@ -130,6 +139,11 @@
                 .catch(error => {
                     console.error(`Error fetching current user: ${error}`);
                 });
+            },
+            getThumbnailGradient(isSold) {
+                return isSold
+                    ? 'to bottom, rgba(0,0,0,0.55), rgba(0,0,0,.55)'
+                    : 'to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)';
             }
         },
     };
