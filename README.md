@@ -1,6 +1,6 @@
 # Virtual marketplace for second-hand items :tulip:
 
-Feel free to look around!
+Feel free to look around the platform I've designed for trading preloved items online!
 
 ### Screenshots
 
